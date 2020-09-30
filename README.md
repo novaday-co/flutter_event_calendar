@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/flutter_event_calendar_header.png" height="600" alt="flutter Event Calendar Package" />
+<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/flutter_event_calendar_header.png" height="400" alt="flutter Event Calendar Package" />
 </p>
 
 <p align="center">
@@ -60,9 +60,9 @@ You can load a full calendar with events .
 
 ## Options :
 
-<p align="center">
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/event_calendar_options.png" height="600" alt="flutter Event Calendar Package" />
-</p>
+
+<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/event_calendar_options.png" height="400" alt="flutter Event Calendar Package" />
+
 
 
 You have many option for changes in : style , locale and structure.

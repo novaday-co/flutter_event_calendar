@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/flutter_event_calendar_header.png" height="400" alt="flutter Event Calendar Package" />
+<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/flutter_event_calendar.png" height="400" alt="flutter Event Calendar Package" />
 </p>
 
 <p align="center">
@@ -19,7 +19,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  flutter_event_calendar: ^0.0.3
+  flutter_event_calendar: ^0.0.4
 ```
 
 Then You can install packages from the command line:
@@ -74,8 +74,8 @@ You have many option for changes in : style , locale and structure.
 | dateTime 	| String ( yy-mm-dd H:i:s )	|
 | events	 	| List<Event> 	|
 | font	 	| String 	|
-| headerMonthStringType	 	| String 	|
-| headerWeekDayStringType	 	| String 	|
+| headerMonthStringType	 	| String ( full or short ) 	|
+| headerWeekDayStringType	 	| String ( full or short ) 	|
 | weekDaySelectedColor	 	| Color 	|
 | weekDayUnselectedColor	 	| Color 	|
 | dayIndexSelectedBackgroundColor	 	| Color 	|

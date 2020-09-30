@@ -1,1 +1,1 @@
-## [0.0.5] - Better Readme
+## [0.0.6] - Better Readme

@@ -43,7 +43,7 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 ## Basic Usage :
 
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/event_calendar_options.png" height="400" alt="flutter Event Calendar Package" />
+<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/event_calendar_options.png" height="600" alt="flutter Event Calendar Package" />
 
 You can load a full calendar with events .
 
@@ -62,7 +62,7 @@ You can load a full calendar with events .
 
 ## Options :
 
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/eventCalendar.gif" height="400" alt="flutter Event Calendar Package" />
+<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/eventCalendar.gif" height="600" alt="flutter Event Calendar Package" />
 
 You have many option for changes in : style , locale and structure.
 

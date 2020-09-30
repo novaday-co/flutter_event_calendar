@@ -40,10 +40,11 @@ Now in your Dart code, you can use:
 ```dart
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 ```
+<p align="center">
+<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/event_calendar_options.png" height="600" alt="flutter Event Calendar Package" />
+<br></p>
 
 ## Basic Usage :
-
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/event_calendar_options.png" height="600" alt="flutter Event Calendar Package" />
 
 You can load a full calendar with events .
 
@@ -60,9 +61,11 @@ You can load a full calendar with events .
 ```
 
 
-## Options :
-
+<p align="center">
 <img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/eventCalendar.gif" height="600" alt="flutter Event Calendar Package" />
+<br></p>
+
+## Options :
 
 You have many option for changes in : style , locale and structure.
 

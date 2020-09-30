@@ -19,7 +19,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  flutter_event_calendar: ^0.0.4
+  flutter_event_calendar: ^0.0.5
 ```
 
 Then You can install packages from the command line:
@@ -60,10 +60,7 @@ You can load a full calendar with events .
 
 ## Options :
 
-<p align="center">
 <img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/event_calendar_options.png" height="400" alt="flutter Event Calendar Package" />
-</p>
-
 
 You have many option for changes in : style , locale and structure.
 

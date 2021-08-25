@@ -4,9 +4,9 @@ import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
 import 'package:flutter_event_calendar/src/widgets/Day.dart';
 
 class Calendar extends StatelessWidget {
-  Function onCalendarChanged;
+  Function? onCalendarChanged;
   var dayIndex;
-  ScrollController animatedTo;
+  late ScrollController animatedTo;
 
   Calendar({this.onCalendarChanged}) : super() {
     dayIndex = CalendarSelector().getPart(format: 'day', responseType: 'int');
@@ -18,7 +18,7 @@ class Calendar extends StatelessWidget {
         initialScrollOffset:
             (EventCalendar.headerWeekDayStringType == 'full' ? 100.0 : 52.0) *
                 (dayIndex - 1));
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
           (EventCalendar.headerWeekDayStringType == 'full' ? 100.0 : 52.0) *
               (dayIndex - 1),

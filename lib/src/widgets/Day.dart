@@ -6,15 +6,12 @@ class Day extends StatelessWidget {
   int index;
   String weekDay;
   bool selected;
-  Function onCalendarChanged;
+  Function? onCalendarChanged;
 
-  Day({index, weekDay, selected, this.onCalendarChanged}) : super() {
-    this.index = index;
-    this.weekDay = weekDay;
-    this.selected = selected;
-  }
+  Day({required this.index, required this.weekDay,required this.selected, this.onCalendarChanged})
+      : super();
 
-  List<Widget> child;
+  late List<Widget> child;
   double childWidth =
       EventCalendar.headerWeekDayStringType == 'full' ? 100 : 60;
 
@@ -32,7 +29,7 @@ class Day extends StatelessWidget {
         InkWell(
           onTap: (() {
             CalendarSelector().goToDay(index);
-            onCalendarChanged.call();
+            onCalendarChanged?.call();
           }),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

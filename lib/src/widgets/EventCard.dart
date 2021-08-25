@@ -5,7 +5,7 @@ import 'package:flutter_event_calendar/src/handlers/Event.dart';
 class EventCard extends StatelessWidget {
   Event fullCalendarEvent;
 
-  EventCard({this.fullCalendarEvent});
+  EventCard({required this.fullCalendarEvent});
 
   @override
   Widget build(BuildContext context) {

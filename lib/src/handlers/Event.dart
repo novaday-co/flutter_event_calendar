@@ -1,16 +1,16 @@
 class Event {
-  int listIndex;
-  String title;
-  String description;
-  String dateTime;
-  Function onTap;
-  Function onLongPress;
+  late int listIndex;
+  late String title;
+  late String description;
+  late String dateTime;
+  late Function onTap;
+  late Function onLongPress;
 
   Event({
     title,
     description,
     dateTime,
-    onTap(int listIndex),
+    onTap(int listIndex)?,
     onLongPress,
   }) {
     this.title = title ?? '';

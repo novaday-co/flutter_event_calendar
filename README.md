@@ -19,7 +19,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  flutter_event_calendar: ^0.0.6
+  flutter_event_calendar: ^0.0.7
 ```
 
 Then You can install packages from the command line:

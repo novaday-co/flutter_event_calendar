@@ -4,11 +4,11 @@ import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 import 'package:flutter_event_calendar/src/handlers/Translator.dart';
 
 class SelectYear extends StatelessWidget {
-  List years;
+  late List years;
 
   Function onHeaderChanged;
 
-  SelectYear({this.onHeaderChanged});
+  SelectYear({required this.onHeaderChanged});
 
   @override
   Widget build(BuildContext context) {

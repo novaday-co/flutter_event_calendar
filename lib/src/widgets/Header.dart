@@ -8,7 +8,7 @@ import 'package:flutter_event_calendar/src/widgets/SelectYear.dart';
 class Header extends StatelessWidget {
   Function onHeaderChanged;
 
-  Header({this.onHeaderChanged});
+  Header({required this.onHeaderChanged});
 
   @override
   Widget build(BuildContext context) {

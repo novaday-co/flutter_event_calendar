@@ -9,7 +9,7 @@ import 'package:flutter_event_calendar/src/widgets/EventCard.dart';
 class Events extends StatelessWidget {
   Function onEventsChanged;
 
-  Events({this.onEventsChanged});
+  Events({required this.onEventsChanged});
 
   @override
   Widget build(BuildContext context) {

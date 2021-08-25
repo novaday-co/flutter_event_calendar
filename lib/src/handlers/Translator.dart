@@ -24,6 +24,7 @@ class Translator {
       case 'short':
         return shortDayNames[EventCalendar.type][index];
     }
+    return '';
   }
 
   String getMonthNameWithIndex(index) {
@@ -34,6 +35,7 @@ class Translator {
       case 'short':
         return shortMonthNames[EventCalendar.type][index];
     }
+    return '';
   }
 
   String trans(word) {
@@ -43,5 +45,6 @@ class Translator {
       case 'en':
         return en[word];
     }
+    return '';
   }
 }

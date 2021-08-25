@@ -202,7 +202,7 @@ class CalendarSelector {
     return DateTime.parse(EventCalendar.dateTime);
   }
 
-  getPart({String format, String responseType}) {
+  getPart({required String format,required String responseType}) {
     switch (EventCalendar.type) {
       case 'jalali':
         return responseType == 'int'

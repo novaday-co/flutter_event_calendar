@@ -8,32 +8,32 @@ import 'package:shamsi_date/shamsi_date.dart';
 
 class EventCalendar extends StatefulWidget {
   static String type = 'gregorian';
-  static String dateTime;
-  static List<Event> events;
+  static late String dateTime;
+  static late List<Event> events;
   static List<Event> selectedEvents = [];
-  static String font;
-  static String headerMonthStringType;
-  static String headerWeekDayStringType;
-  static Color weekDaySelectedColor;
-  static Color weekDayUnselectedColor;
-  static Color dayIndexSelectedBackgroundColor;
-  static Color dayIndexUnselectedBackgroundColor;
-  static Color dayIndexSelectedForegroundColor;
-  static Color dayIndexUnelectedForegroundColor;
-  static String emptyText;
-  static Color emptyTextColor;
-  static IconData emptyIcon;
-  static Color emptyIconColor;
-  static Color eventBackgroundColor;
-  static Color eventTitleColor;
-  static Color eventDescriptionColor;
-  static Color eventDateTimeColor;
-  static bool isRTL;
-  static String locale;
+  static late String font;
+  static late String headerMonthStringType;
+  static late String headerWeekDayStringType;
+  static late Color weekDaySelectedColor;
+  static late Color weekDayUnselectedColor;
+  static late Color dayIndexSelectedBackgroundColor;
+  static late Color dayIndexUnselectedBackgroundColor;
+  static late Color dayIndexSelectedForegroundColor;
+  static late Color dayIndexUnelectedForegroundColor;
+  static late String emptyText;
+  static late Color emptyTextColor;
+  static late IconData emptyIcon;
+  static late Color emptyIconColor;
+  static late Color eventBackgroundColor;
+  static late Color eventTitleColor;
+  static late Color eventDescriptionColor;
+  static late Color eventDateTimeColor;
+  static late bool isRTL;
+  static late String locale;
 
   EventCalendar({
-    type,
-    events,
+    String? type,
+    List<Event>? events,
     dateTime,
     font,
     headerMonthStringType,

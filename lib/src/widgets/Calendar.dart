@@ -10,18 +10,24 @@ class Calendar extends StatelessWidget {
   late ScrollController animatedTo;
 
   Calendar({this.onCalendarChanged}) : super() {
-    dayIndex = CalendarSelector().getPart(format: PartFormat.day, responseType: 'int');
+    dayIndex =
+        CalendarSelector().getPart(format: PartFormat.day, responseType: 'int');
   }
 
   @override
   Widget build(BuildContext context) {
     animatedTo = ScrollController(
-        initialScrollOffset:
-            (EventCalendar.headerWeekDayStringType == 'full' ? 100.0 : 52.0) *
-                (dayIndex - 1));
+        initialScrollOffset: (EventCalendar.headerWeekDayStringType ==
+                    HeaderWeekDayStringTypes.Full
+                ? 100.0
+                : 52.0) *
+            (dayIndex - 1));
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
-          (EventCalendar.headerWeekDayStringType == 'full' ? 100.0 : 52.0) *
+          (EventCalendar.headerWeekDayStringType ==
+                      HeaderWeekDayStringTypes.Full
+                  ? 100.0
+                  : 52.0) *
               (dayIndex - 1),
           duration: Duration(milliseconds: 700),
           curve: Curves.decelerate);

@@ -89,8 +89,7 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.eventDescriptionColor = eventDescriptionColor ?? Colors.grey;
     EventCalendar.eventDateTimeColor = eventDateTimeColor ?? Colors.grey;
     EventCalendar.font = font ?? '';
-
-    final f = Jalali.now().formatter;
+    EventCalendar.locale = locale;
     EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
   }
 

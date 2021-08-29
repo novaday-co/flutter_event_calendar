@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 
@@ -13,7 +14,7 @@ class Day extends StatelessWidget {
 
   late List<Widget> child;
   double childWidth =
-      EventCalendar.headerWeekDayStringType == 'full' ? 100 : 60;
+      EventCalendar.headerWeekDayStringType == HeaderWeekDayStringTypes.Full ? 100 : 60;
 
   @override
   Widget build(BuildContext context) {

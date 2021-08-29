@@ -11,7 +11,7 @@ class Translator {
 
   String getPartTranslate(format, index) {
     switch (format) {
-      case 'month':
+      case PartFormat.month:
         return EventCalendar.calendarProvider.getMonthName(index);
       default:
         return '';

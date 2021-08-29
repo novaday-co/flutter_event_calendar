@@ -25,7 +25,7 @@ class Events extends StatelessWidget {
             clearVc = clearVc.toString().replaceAll('Velocity', '');
             if (double.parse(clearVc.toString().split(',')[0]) > 0) {
               // left
-              switch (EventCalendar.isRTL) {
+              switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
                   CalendarSelector().nextDay();
                   break;
@@ -36,7 +36,7 @@ class Events extends StatelessWidget {
               onEventsChanged.call();
             } else {
               // right
-              switch (EventCalendar.isRTL) {
+              switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
                   CalendarSelector().previousDay();
                   break;

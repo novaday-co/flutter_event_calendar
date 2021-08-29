@@ -23,13 +23,13 @@ class EventCard extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(20),
             child: Column(
-              crossAxisAlignment: EventCalendar.isRTL
+              crossAxisAlignment: EventCalendar.calendarProvider.isRTL()
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
               children: [
                 Text(
                   '${fullCalendarEvent.title}',
-                  textDirection: EventCalendar.isRTL
+                  textDirection: EventCalendar.calendarProvider.isRTL()
                       ? TextDirection.rtl
                       : TextDirection.ltr,
                   style: TextStyle(
@@ -44,7 +44,7 @@ class EventCard extends StatelessWidget {
                 ),
                 Text(
                   '${fullCalendarEvent.description}',
-                  textDirection: EventCalendar.isRTL
+                  textDirection: EventCalendar.calendarProvider.isRTL()
                       ? TextDirection.rtl
                       : TextDirection.ltr,
                   style: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 import 'package:flutter_event_calendar/src/widgets/SelectMonth.dart';
@@ -37,7 +38,7 @@ class Header extends StatelessWidget {
             ),
             Row(
               textDirection:
-                  EventCalendar.isRTL ? TextDirection.rtl : TextDirection.ltr,
+                  EventCalendar.calendarProvider.isRTL() ? TextDirection.rtl : TextDirection.ltr,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -53,7 +54,7 @@ class Header extends StatelessWidget {
                   },
                   child: Container(
                     child: Text(
-                      '${CalendarSelector().getPart(format: 'month', responseType: 'string')}',
+                      '${CalendarSelector().getPart(format: PartFormat.month, responseType: 'string')}',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
@@ -76,7 +77,7 @@ class Header extends StatelessWidget {
                     );
                   },
                   child: Text(
-                    '${CalendarSelector().getPart(format: 'year', responseType: 'int')}',
+                    '${CalendarSelector().getPart(format: PartFormat.year, responseType: 'int')}',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 20,

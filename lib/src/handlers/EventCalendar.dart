@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/src/handlers/Event.dart';
+import 'package:flutter_event_calendar/src/providers/calendares/base_calendar_provider.dart';
+import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
+import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
 import 'package:flutter_event_calendar/src/widgets/Calendar.dart';
 import 'package:flutter_event_calendar/src/widgets/Events.dart';
 import 'package:flutter_event_calendar/src/widgets/Header.dart';
@@ -7,13 +10,15 @@ export 'package:flutter_event_calendar/src/handlers/Event.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class EventCalendar extends StatefulWidget {
-  static String type = 'gregorian';
+  // static CalendarType type = CalendarType.Gregorian;
+  static late BaseCalendarProvider calendarProvider;
+
   static late String dateTime;
   static late List<Event> events;
   static List<Event> selectedEvents = [];
   static late String font;
-  static late String headerMonthStringType;
-  static late String headerWeekDayStringType;
+  static late HeaderMonthStringTypes headerMonthStringType;
+  static late HeaderWeekDayStringTypes headerWeekDayStringType;
   static late Color weekDaySelectedColor;
   static late Color weekDayUnselectedColor;
   static late Color dayIndexSelectedBackgroundColor;
@@ -28,36 +33,41 @@ class EventCalendar extends StatefulWidget {
   static late Color eventTitleColor;
   static late Color eventDescriptionColor;
   static late Color eventDateTimeColor;
-  static late bool isRTL;
+
+  // static late bool isRTL;
   static late String locale;
 
-  EventCalendar({
-    String? type,
-    List<Event>? events,
-    dateTime,
-    font,
-    headerMonthStringType,
-    headerWeekDayStringType,
-    weekDaySelectedColor,
-    weekDayUnselectedColor,
-    dayIndexSelectedBackgroundColor,
-    dayIndexUnselectedBackgroundColor,
-    dayIndexSelectedForegroundColor,
-    dayIndexUnelectedForegroundColor,
-    emptyText,
-    emptyTextColor,
-    emptyIcon,
-    emptyIconColor,
-    eventBackgroundColor,
-    eventTitleColor,
-    eventDescriptionColor,
-    eventDateTimeColor,
-    isRTL,
-  }) {
-    EventCalendar.type = type ?? 'gregorian';
+  EventCalendar(
+      {CalendarType? type,
+      List<Event>? events,
+      dateTime,
+      font,
+      HeaderMonthStringTypes? headerMonthStringType,
+      HeaderWeekDayStringTypes? headerWeekDayStringType,
+      weekDaySelectedColor,
+      weekDayUnselectedColor,
+      dayIndexSelectedBackgroundColor,
+      dayIndexUnselectedBackgroundColor,
+      dayIndexSelectedForegroundColor,
+      dayIndexUnelectedForegroundColor,
+      emptyText,
+      emptyTextColor,
+      emptyIcon,
+      emptyIconColor,
+      eventBackgroundColor,
+      eventTitleColor,
+      eventDescriptionColor,
+      eventDateTimeColor,
+      // isRTL,
+      required String locale}) {
+    calendarProvider = createInstance(locale);
+
+    // EventCalendar.type = calendarProvider.typ;
     EventCalendar.events = events ?? [];
-    EventCalendar.headerMonthStringType = headerMonthStringType ?? 'full';
-    EventCalendar.headerWeekDayStringType = headerWeekDayStringType ?? 'short';
+    EventCalendar.headerMonthStringType =
+        headerMonthStringType ?? HeaderMonthStringTypes.Full;
+    EventCalendar.headerWeekDayStringType =
+        headerWeekDayStringType ?? HeaderWeekDayStringTypes.Short;
     EventCalendar.weekDaySelectedColor =
         weekDaySelectedColor ?? Color(0xff3AC3E2);
     EventCalendar.weekDayUnselectedColor =
@@ -81,17 +91,7 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.font = font ?? '';
 
     final f = Jalali.now().formatter;
-    EventCalendar.dateTime = dateTime ??
-        (EventCalendar.type == 'jalali'
-            ? '${f.y}-${f.mm}-${f.dd}'
-            : DateTime.now().toString());
-
-    if (isRTL != null)
-      EventCalendar.isRTL = isRTL;
-    else
-      EventCalendar.isRTL = EventCalendar.type == 'jalali' ? true : false;
-
-    EventCalendar.locale = EventCalendar.type == 'jalali' ? 'fa' : 'en';
+    EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
   }
 
   @override

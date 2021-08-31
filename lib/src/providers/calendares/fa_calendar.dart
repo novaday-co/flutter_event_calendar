@@ -46,9 +46,6 @@ class FaCalendar extends BaseCalendarProvider {
       ];
 
   @override
-  Locale getLocale() => Locale('fa');
-
-  @override
   String getDateTime() {
     final f = Jalali.now().formatter;
     return '${f.y}-${f.mm}-${f.dd}';

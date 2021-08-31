@@ -54,9 +54,6 @@ class EnCalendar extends BaseCalendarProvider {
       ];
 
   @override
-  Locale getLocale() => Locale('en');
-
-  @override
   String getDateTime() {
     return DateTime.now().toString();
   }

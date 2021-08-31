@@ -5,7 +5,7 @@ import 'Translator.dart';
 
 class CalendarSelector {
   goToYear(index) {
-    EventCalendar.dateTime = EventCalendar.calendarProvider.goToMonth(index);
+    EventCalendar.dateTime = EventCalendar.calendarProvider.goToYear(index);
     // dynamic date = getSelectedDate();
     // switch (EventCalendar.type) {
     //   case CalendarType.Jalali:
@@ -164,7 +164,7 @@ class CalendarSelector {
       return EventCalendar.calendarProvider.getDateTimePart(format);
     } else {
       return Translator().getPartTranslate(
-          format, EventCalendar.calendarProvider.getDateTimePart(format));
+          format, EventCalendar.calendarProvider.getDateTimePart(format) - 1);
     }
     // switch (EventCalendar.type) {
     //   case CalendarType.Jalali:

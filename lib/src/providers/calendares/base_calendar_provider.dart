@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
 
 abstract class BaseCalendarProvider {
-  Locale getLocale();
-
   bool isRTL();
 
   //// month direction configs ////

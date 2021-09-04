@@ -7,10 +7,8 @@ import 'package:flutter_event_calendar/src/widgets/Calendar.dart';
 import 'package:flutter_event_calendar/src/widgets/Events.dart';
 import 'package:flutter_event_calendar/src/widgets/Header.dart';
 export 'package:flutter_event_calendar/src/handlers/Event.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 class EventCalendar extends StatefulWidget {
-  // static CalendarType type = CalendarType.Gregorian;
   static late BaseCalendarProvider calendarProvider;
 
   static late String dateTime;
@@ -19,12 +17,15 @@ class EventCalendar extends StatefulWidget {
   static late String font;
   static late HeaderMonthStringTypes headerMonthStringType;
   static late HeaderWeekDayStringTypes headerWeekDayStringType;
+  static late DayEventCountViewType dayEventCountViewType;
   static late Color weekDaySelectedColor;
   static late Color weekDayUnselectedColor;
   static late Color dayIndexSelectedBackgroundColor;
   static late Color dayIndexUnselectedBackgroundColor;
   static late Color dayIndexSelectedForegroundColor;
   static late Color dayIndexUnelectedForegroundColor;
+  static late Color dayEventCountColor;
+  static late Color dayEventCountTextColor;
   static late String emptyText;
   static late Color emptyTextColor;
   static late IconData emptyIcon;
@@ -50,6 +51,9 @@ class EventCalendar extends StatefulWidget {
       dayIndexUnselectedBackgroundColor,
       dayIndexSelectedForegroundColor,
       dayIndexUnelectedForegroundColor,
+      dayEventCountColor,
+      dayEventCountViewType,
+      dayEventCountTextColor,
       emptyText,
       emptyTextColor,
       emptyIcon,
@@ -88,6 +92,11 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.eventTitleColor = eventTitleColor ?? Colors.black;
     EventCalendar.eventDescriptionColor = eventDescriptionColor ?? Colors.grey;
     EventCalendar.eventDateTimeColor = eventDateTimeColor ?? Colors.grey;
+    EventCalendar.dayEventCountColor = dayEventCountColor ?? Colors.orange;
+    EventCalendar.dayEventCountTextColor =
+        dayEventCountTextColor ?? Colors.white;
+    EventCalendar.dayEventCountViewType =
+        dayEventCountViewType ?? DayEventCountViewType.NUM;
     EventCalendar.font = font ?? '';
     EventCalendar.locale = locale;
     EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();

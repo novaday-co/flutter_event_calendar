@@ -1,3 +1,4 @@
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -43,6 +44,8 @@ class CalendarSelector {
   List getYears() => EventCalendar.calendarProvider.getYears();
 
   Map getDays() => EventCalendar.calendarProvider.getMonthDays();
+
+  String getCurrentDateTime() => EventCalendar.calendarProvider.getDateTime();
 
   getSelectedGregorianDate() {
     return DateTime.parse(EventCalendar.dateTime);

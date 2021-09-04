@@ -26,7 +26,7 @@ class Calendar extends StatelessWidget {
       animatedTo.animateTo(
           (EventCalendar.headerWeekDayStringType ==
                       HeaderWeekDayStringTypes.Full
-                  ? 100.0
+                  ? 80.0
                   : 52.0) *
               (dayIndex - 1),
           duration: Duration(milliseconds: 700),

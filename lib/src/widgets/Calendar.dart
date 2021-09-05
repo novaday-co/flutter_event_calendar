@@ -19,15 +19,15 @@ class Calendar extends StatelessWidget {
     animatedTo = ScrollController(
         initialScrollOffset: (EventCalendar.headerWeekDayStringType ==
                     HeaderWeekDayStringTypes.Full
-                ? 100.0
-                : 52.0) *
+                ? 80.0
+                : 60.0) *
             (dayIndex - 1));
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
           (EventCalendar.headerWeekDayStringType ==
                       HeaderWeekDayStringTypes.Full
                   ? 80.0
-                  : 52.0) *
+                  : 60.0) *
               (dayIndex - 1),
           duration: Duration(milliseconds: 700),
           curve: Curves.decelerate);

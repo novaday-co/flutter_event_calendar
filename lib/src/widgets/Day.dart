@@ -51,7 +51,7 @@ class Day extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                '${weekDay}',
+                '$weekDay',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -124,6 +124,11 @@ class Day extends StatelessWidget {
     for (int i = 0; i < maxDot; i++) {
       widgets.add(
         Container(
+          margin: EdgeInsets.only(
+              bottom: EventCalendar.headerWeekDayStringType ==
+                      HeaderWeekDayStringTypes.Short
+                  ? 4
+                  : 0),
           width: 5,
           height: 5,
           decoration: BoxDecoration(
@@ -144,7 +149,7 @@ class Day extends StatelessWidget {
     if (todayEvents.isEmpty) return [Container()];
     return [
       Container(
-        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: EdgeInsets.all(4),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: EventCalendar.dayEventCountColor,

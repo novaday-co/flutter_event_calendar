@@ -67,7 +67,7 @@ class Day extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(EventCalendar.headerWeekDayStringType ==
                         HeaderWeekDayStringTypes.Full
-                    ? 4
+                    ? 6
                     : 0),
                 decoration: BoxDecoration(
                     color: selected
@@ -127,7 +127,7 @@ class Day extends StatelessWidget {
           margin: EdgeInsets.only(
               bottom: EventCalendar.headerWeekDayStringType ==
                       HeaderWeekDayStringTypes.Short
-                  ? 4
+                  ? 6
                   : 0),
           width: 5,
           height: 5,

@@ -47,6 +47,8 @@ class CalendarSelector {
 
   String getCurrentDateTime() => EventCalendar.calendarProvider.getDateTime();
 
+  List<String> getDayNames() => EventCalendar.calendarProvider.getShortNameOfDays();
+
   getSelectedGregorianDate() {
     return DateTime.parse(EventCalendar.dateTime);
   }

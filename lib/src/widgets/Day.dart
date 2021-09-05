@@ -65,7 +65,10 @@ class Day extends StatelessWidget {
                 height: 8,
               ),
               Container(
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(EventCalendar.headerWeekDayStringType ==
+                        HeaderWeekDayStringTypes.Full
+                    ? 4
+                    : 0),
                 decoration: BoxDecoration(
                     color: selected
                         ? EventCalendar.dayIndexSelectedBackgroundColor

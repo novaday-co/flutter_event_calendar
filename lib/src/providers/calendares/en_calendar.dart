@@ -86,11 +86,11 @@ class EnCalendar extends BaseCalendarProvider {
   bool isRTL() => false;
 
   @override
-  Map getMonthDays() {
+  Map getMonthDays(int index) {
     Map days = {};
     DateTime now = _getSelectedDate();
-    int monthLength = DateTime(now.year, now.month + 1, 0).day;
-    DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
+    int monthLength = DateTime(now.year, index + 1, 0).day;
+    DateTime firstDayOfMonth = DateTime(now.year, index, 1);
     int dayIndex = firstDayOfMonth.weekday;
 
     switch (EventCalendar.headerWeekDayStringType) {

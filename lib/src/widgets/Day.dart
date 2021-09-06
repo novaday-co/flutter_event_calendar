@@ -7,15 +7,23 @@ import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 import 'package:flutter_event_calendar/src/handlers/EventSelector.dart';
 
 class Day extends StatelessWidget {
-  int index;
+  int dayIndex;
+  int month;
+  int year;
   String weekDay;
   bool selected;
   Function? onCalendarChanged;
+  bool mini;
+  bool useUnselectedEffect;
 
   Day(
-      {required this.index,
+      {required this.month,
+      required this.dayIndex,
+      required this.year,
       required this.weekDay,
       required this.selected,
+      this.useUnselectedEffect = false,
+      this.mini = true,
       this.onCalendarChanged})
       : super();
 
@@ -25,31 +33,34 @@ class Day extends StatelessWidget {
           ? 80
           : 60;
 
-  late List<Event> todayEvents = EventSelector().getEventsForDayIndex(index);
+  late List<Event> todayEvents =
+      EventSelector().getEventsByDayMonthYear(year, month, dayIndex);
   late Color textColor = selected
       ? EventCalendar.dayIndexSelectedForegroundColor
-      : EventCalendar.dayIndexUnelectedForegroundColor;
+      : (useUnselectedEffect
+          ? EventCalendar.dayIndexUnelectedForegroundColor.withOpacity(0.5)
+          : EventCalendar.dayIndexUnelectedForegroundColor);
 
   @override
   Widget build(BuildContext context) {
-    if (index == 0) {
-      childWidth = 35;
-      child = [
-        SizedBox(
-          height: 15,
-        ),
-      ];
-    } else {
-      child = [
-        InkWell(
-          onTap: (() {
-            CalendarSelector().goToDay(index);
-            onCalendarChanged?.call();
-          }),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
+    // if (index == 0) {
+    //   childWidth = 35;
+    //   child = [
+    //     SizedBox(
+    //       height: 15,
+    //     ),
+    //   ];
+    // } else {
+    child = [
+      InkWell(
+        onTap: (() {
+          onCalendarChanged?.call();
+        }),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            if (!mini)
               Text(
                 '$weekDay',
                 maxLines: 1,
@@ -61,58 +72,63 @@ class Day extends StatelessWidget {
                   fontFamily: EventCalendar.font,
                 ),
               ),
+            if (!mini)
               SizedBox(
                 height: 8,
               ),
-              Container(
-                padding: EdgeInsets.all(EventCalendar.headerWeekDayStringType ==
-                        HeaderWeekDayStringTypes.Full
-                    ? 6
-                    : 0),
-                decoration: BoxDecoration(
-                    color: selected
-                        ? EventCalendar.dayIndexSelectedBackgroundColor
-                        : EventCalendar.dayIndexUnselectedBackgroundColor,
-                    shape: BoxShape.circle),
-                constraints:
-                    BoxConstraints(minWidth: double.infinity, minHeight: 45),
-                child: Stack(
-                  fit: StackFit.passthrough,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        '$index',
-                        style: TextStyle(
-                          color: textColor,
-                          fontFamily: EventCalendar.font,
-                        ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              curve: Curves.ease,
+              padding: mini
+                  ? EdgeInsets.all(0)
+                  : (EdgeInsets.all(EventCalendar.headerWeekDayStringType ==
+                          HeaderWeekDayStringTypes.Full
+                      ? 6
+                      : 0)),
+              decoration: BoxDecoration(
+                  color: selected
+                      ? EventCalendar.dayIndexSelectedBackgroundColor
+                      : EventCalendar.dayIndexUnselectedBackgroundColor,
+                  shape: BoxShape.circle),
+              constraints: BoxConstraints(
+                  minWidth: double.infinity, minHeight: mini ? 35 : 45),
+              child: Stack(
+                fit: StackFit.passthrough,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$dayIndex',
+                      style: TextStyle(
+                        color: textColor,
+                        fontFamily: EventCalendar.font,
                       ),
                     ),
-                    Align(
-                      alignment: EventCalendar.dayEventCountViewType ==
+                  ),
+                  Align(
+                    alignment: EventCalendar.dayEventCountViewType ==
+                            DayEventCountViewType.DOT
+                        ? Alignment.bottomCenter
+                        : Alignment.bottomRight,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: EventCalendar.dayEventCountViewType ==
                               DayEventCountViewType.DOT
-                          ? Alignment.bottomCenter
-                          : Alignment.bottomRight,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: EventCalendar.dayEventCountViewType ==
-                                DayEventCountViewType.DOT
-                            ? dotMaker()
-                            : labelMaker(),
-                      ),
-                    )
-                  ],
-                ),
+                          ? dotMaker()
+                          : labelMaker(),
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
-        )
-      ];
-    }
+            ),
+          ],
+        ),
+      )
+    ];
+    // }
 
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(!mini ? 10 : 0),
       width: childWidth,
       child: Column(children: child),
     );
@@ -127,7 +143,7 @@ class Day extends StatelessWidget {
           margin: EdgeInsets.only(
               bottom: EventCalendar.headerWeekDayStringType ==
                       HeaderWeekDayStringTypes.Short
-                  ? 6
+                  ? (mini ? 4 : 8)
                   : 0),
           width: 5,
           height: 5,
@@ -138,9 +154,11 @@ class Day extends StatelessWidget {
         ),
       );
       if (i != maxDot - 1)
-        widgets.add(SizedBox(
-          width: 2,
-        ));
+        widgets.add(
+          SizedBox(
+            width: 2,
+          ),
+        );
     }
     return widgets;
   }

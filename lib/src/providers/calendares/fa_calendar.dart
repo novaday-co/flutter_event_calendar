@@ -87,10 +87,11 @@ class FaCalendar extends BaseCalendarProvider {
   bool isRTL() => true;
 
   @override
-  Map getMonthDays() {
+  Map getMonthDays(int index) {
     Map days = {};
-    Jalali firstDayOfMonth = _getSelectedDate().withDay(1);
+    Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     int dayIndex = firstDayOfMonth.weekDay - 1;
+
     switch (EventCalendar.headerWeekDayStringType) {
       case HeaderWeekDayStringTypes.Full:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {

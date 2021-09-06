@@ -97,33 +97,49 @@ class Calendar extends StatelessWidget {
   }
 
   List<Widget> daysMaker() {
+    final currentMonth = CalendarSelector()
+        .getPart(format: PartFormat.month, responseType: 'int');
+    final currentYear = CalendarSelector()
+        .getPart(format: PartFormat.year, responseType: 'int');
     List<Widget> days = [
       Day(
-        index: 0,
+        dayIndex: 0,
+        month: currentMonth,
+        year: currentYear,
         weekDay: '',
         selected: false,
-        onCalendarChanged: onCalendarChanged,
+        onCalendarChanged: () {},
       )
     ];
 
     int day = dayIndex;
 
-    CalendarSelector().getDays().forEach((index, weekDay) {
+    CalendarSelector().getDays(currentMonth).forEach((index, weekDay) {
       var selected = index == day ? true : false;
       days.add(Day(
-        index: index,
+        dayIndex: index,
+        year: currentYear,
+        month: currentMonth,
         weekDay: weekDay,
         selected: selected,
-        onCalendarChanged: onCalendarChanged,
+        onCalendarChanged: () {
+          CalendarSelector().goToDay(index);
+          onCalendarChanged?.call();
+        },
       ));
     });
 
     days.add(
       Day(
-        index: 0,
+        month: currentMonth,
+        dayIndex: 0,
+        year: currentYear,
         weekDay: '',
         selected: false,
-        onCalendarChanged: onCalendarChanged,
+        onCalendarChanged: () {
+          CalendarSelector().goToDay(0);
+          onCalendarChanged?.call();
+        },
       ),
     );
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
 
-abstract class BaseCalendarProvider {
+abstract class CalendarProvider {
   bool isRTL();
 
   //// month direction configs ////

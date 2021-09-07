@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/Event.dart';
-import 'package:flutter_event_calendar/src/providers/calendares/base_calendar_provider.dart';
+import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
 import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
-import 'package:flutter_event_calendar/src/widgets/Calendar.dart';
+import 'package:flutter_event_calendar/src/widgets/CalendarDaily.dart';
+import 'package:flutter_event_calendar/src/widgets/CalendarMonthly.dart';
 import 'package:flutter_event_calendar/src/widgets/Events.dart';
 import 'package:flutter_event_calendar/src/widgets/Header.dart';
 export 'package:flutter_event_calendar/src/handlers/Event.dart';
 
 class EventCalendar extends StatefulWidget {
-  static late BaseCalendarProvider calendarProvider;
+  static late CalendarProvider calendarProvider;
 
   static late String dateTime;
   static late List<Event> events;
@@ -34,8 +36,8 @@ class EventCalendar extends StatefulWidget {
   static late Color eventTitleColor;
   static late Color eventDescriptionColor;
   static late Color eventDateTimeColor;
+  static late CalendarViewType viewType;
 
-  // static late bool isRTL;
   static late String locale;
 
   EventCalendar(
@@ -62,6 +64,7 @@ class EventCalendar extends StatefulWidget {
       eventTitleColor,
       eventDescriptionColor,
       eventDateTimeColor,
+      viewType,
       // isRTL,
       required String locale}) {
     calendarProvider = createInstance(locale);
@@ -100,6 +103,7 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.font = font ?? '';
     EventCalendar.locale = locale;
     EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
+    EventCalendar.viewType = viewType ?? CalendarViewType.Monthly;
   }
 
   @override
@@ -119,9 +123,15 @@ class _EventCalendarState extends State<EventCalendar> {
                 setState(() {});
               },
             ),
-            Calendar(onCalendarChanged: () {
-              setState(() {});
-            }),
+            isMonthlyView()
+                ? CalendarMonthly(onCalendarChanged: () {
+                    setState(() {});
+                  })
+                : CalendarDaily(
+                    onCalendarChanged: () {
+                      setState(() {});
+                    },
+                  ),
             Events(onEventsChanged: () {
               setState(() {});
             }),
@@ -129,5 +139,9 @@ class _EventCalendarState extends State<EventCalendar> {
         ),
       ),
     );
+  }
+
+  isMonthlyView() {
+    return EventCalendar.viewType == CalendarViewType.Monthly;
   }
 }

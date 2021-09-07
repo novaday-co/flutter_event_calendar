@@ -43,12 +43,12 @@ class Header extends StatelessWidget {
                       ),
                     ),
                   ),
-                  buildRefreshView(),
                 ],
               ),
               Expanded(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     GestureDetector(
                       onTap: () {
@@ -63,6 +63,7 @@ class Header extends StatelessWidget {
                         );
                       },
                       child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Text(
                           '${CalendarSelector().getPart(format: PartFormat.month, responseType: 'string')}',
                           style: TextStyle(
@@ -101,7 +102,8 @@ class Header extends StatelessWidget {
               // if (!isInTodayIndex()) buildRefreshView(),
               Row(
                 children: [
-                  SizedBox(width: 24),
+                  buildRefreshView(),
+                  buildSelectViewType(),
                   InkWell(
                     customBorder: CircleBorder(),
                     onTap: () {
@@ -126,8 +128,6 @@ class Header extends StatelessWidget {
   }
 
   isInTodayIndex() {
-    print(
-        "${EventCalendar.dateTime.split(' ')[0]} == ${CalendarSelector().getCurrentDateTime().split(' ')[0]}");
     return EventCalendar.dateTime.split(' ')[0] ==
         CalendarSelector().getCurrentDateTime().split(' ')[0];
   }
@@ -136,24 +136,45 @@ class Header extends StatelessWidget {
     return AnimatedOpacity(
       duration: Duration(milliseconds: 300),
       opacity: !isInTodayIndex() ? 1 : 0,
-      child: Material(
-        shape: CircleBorder(),
-        child: InkWell(
-          customBorder: CircleBorder(),
-          onTap: () {
-            EventCalendar.dateTime =
-                EventCalendar.calendarProvider.getDateTime();
-            onHeaderChanged.call();
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Icon(
-              Icons.restore,
-              size: 24,
-            ),
+      child: InkWell(
+        customBorder: CircleBorder(),
+        onTap: () {
+          EventCalendar.dateTime = EventCalendar.calendarProvider.getDateTime();
+          onHeaderChanged.call();
+        },
+        child: Padding(
+          padding: EdgeInsets.all(5),
+          child: Icon(
+            Icons.restore,
+            size: 24,
           ),
         ),
       ),
     );
+  }
+
+  buildSelectViewType() {
+    if (EventCalendar.canSelectViewType)
+      return InkWell(
+        customBorder: CircleBorder(),
+        onTap: () {
+          // EventCalendar.dateTime = EventCalendar.calendarProvider.getDateTime();
+          if (EventCalendar.viewType == CalendarViewType.Monthly)
+            EventCalendar.viewType = CalendarViewType.Daily;
+          else
+            EventCalendar.viewType = CalendarViewType.Monthly;
+          onHeaderChanged.call();
+        },
+        child: Padding(
+          padding: EdgeInsets.all(5),
+          child: Icon(
+            EventCalendar.viewType == CalendarViewType.Monthly
+                ? Icons.calendar_view_month_outlined
+                : Icons.calendar_view_day_outlined,
+            size: 24,
+          ),
+        ),
+      );
+    return SizedBox();
   }
 }

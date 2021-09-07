@@ -111,6 +111,20 @@ class EnCalendar extends CalendarProvider {
   }
 
   @override
+  Map getMonthDaysShort(int index) {
+    Map days = {};
+    DateTime now = _getSelectedDate();
+    int monthLength = DateTime(now.year, index + 1, 0).day;
+    DateTime firstDayOfMonth = DateTime(now.year, index, 1);
+    int dayIndex = firstDayOfMonth.weekday;
+    for (var i = 1; i <= monthLength; i++) {
+      days[i] = getShortNameOfDays()[dayIndex % 7];
+      dayIndex++;
+    }
+    return days;
+  }
+
+  @override
   List<int> getYears() {
     int year = _getSelectedDate().year;
     List<int> years = [];

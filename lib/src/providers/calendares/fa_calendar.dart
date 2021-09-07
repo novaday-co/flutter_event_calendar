@@ -91,7 +91,6 @@ class FaCalendar extends CalendarProvider {
     Map days = {};
     Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     int dayIndex = firstDayOfMonth.weekDay - 1;
-
     switch (EventCalendar.headerWeekDayStringType) {
       case HeaderWeekDayStringTypes.Full:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
@@ -107,6 +106,16 @@ class FaCalendar extends CalendarProvider {
         break;
     }
     return days;
+  }
+
+  @override
+  List<String> getNameOfDays() {
+    switch (EventCalendar.headerWeekDayStringType) {
+      case HeaderWeekDayStringTypes.Full:
+        return getFullNameOfDays();
+      case HeaderWeekDayStringTypes.Short:
+        return getShortNameOfDays();
+    }
   }
 
   @override
@@ -171,5 +180,17 @@ class FaCalendar extends CalendarProvider {
       case HeaderMonthStringTypes.Full:
         return getFullMonthNames()[index];
     }
+  }
+
+  @override
+  Map getMonthDaysShort(int index) {
+    Map days = {};
+    Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
+    int dayIndex = firstDayOfMonth.weekDay - 1;
+    for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
+      days[i] = getShortNameOfDays()[dayIndex % 7];
+      dayIndex++;
+    }
+    return days;
   }
 }

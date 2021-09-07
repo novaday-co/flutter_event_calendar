@@ -17,11 +17,12 @@ class CalendarMonthly extends StatefulWidget {
 }
 
 class _CalendarMonthlyState extends State<CalendarMonthly> {
-  List<String> dayNames = Translator().getDayNames();
+  List<String> dayNames = Translator().getShortDayNames();
+  CalendarSelector calendarSelector = CalendarSelector();
 
   @override
   void didUpdateWidget(covariant CalendarMonthly oldWidget) {
-    dayNames = Translator().getDayNames();
+    dayNames = Translator().getShortDayNames();
     super.didUpdateWidget(oldWidget);
   }
   @override
@@ -59,14 +60,14 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
   _buildMonthView() {
-    final currentMonth = CalendarSelector()
+    final currentMonth = calendarSelector
         .getPart(format: PartFormat.month, responseType: 'int');
 
     final int firstDayIndex = getFirstDayOfMonth();
     final int lastDayIndex = firstDayIndex + getLastDayOfMonth();
     final lastMonthLastDay = getLastMonthLastDay();
     final int cDayIndex =
-        CalendarSelector().getPart(format: PartFormat.day, responseType: 'int');
+    calendarSelector.getPart(format: PartFormat.day, responseType: 'int');
 
     return SizedBox(
       height: 260,
@@ -91,6 +92,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       int lastMonthLastDay, int currentMonth, int cDayIndex) {
     int dayIndex = -1;
 
+    print("$firstDayIndex");
     final isCurrentMonthDays = index >= firstDayIndex && index < lastDayIndex;
     final isNextMonthDays = index >= lastDayIndex;
 
@@ -110,7 +112,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
           weekDay: '',
           selected: dayIndex == cDayIndex,
           onCalendarChanged: () {
-            CalendarSelector().goToDay(dayIndex);
+            calendarSelector.goToDay(dayIndex);
             widget.onCalendarChanged.call();
           },
           mini: true,
@@ -125,8 +127,8 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
               month: getMonth(currentMonth + 1),
               year: getYear(currentMonth + 1),
               onCalendarChanged: () {
-                CalendarSelector().nextMonth();
-                CalendarSelector().goToDay(dayIndex);
+                calendarSelector.nextMonth();
+                calendarSelector.goToDay(dayIndex);
                 widget.onCalendarChanged.call();
               },
               selected: false,
@@ -140,8 +142,8 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
               year: getYear(currentMonth - 1),
               weekDay: '',
               onCalendarChanged: () {
-                CalendarSelector().previousMonth();
-                CalendarSelector().goToDay(dayIndex);
+                calendarSelector.previousMonth();
+                calendarSelector.goToDay(dayIndex);
                 widget.onCalendarChanged.call();
               },
               selected: false,
@@ -151,27 +153,25 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
   int getFirstDayOfMonth() {
-    final currentMonth = CalendarSelector()
+    final currentMonth = calendarSelector
         .getPart(format: PartFormat.month, responseType: 'int');
-    final monthDays = CalendarSelector().getDays(currentMonth);
-    print("${monthDays[1]}");
-    print("${dayNames}");
+    final monthDays = calendarSelector.getMonthDaysShort(currentMonth);
     return dayNames.indexOf(monthDays[1]);
   }
 
   int getLastDayOfMonth() {
-    final currentMonth = CalendarSelector()
+    final currentMonth = calendarSelector
         .getPart(format: PartFormat.month, responseType: 'int');
-    return CalendarSelector().getDays(currentMonth).keys.last;
+    return calendarSelector.getDays(currentMonth).keys.last;
   }
 
   int getLastMonthLastDay() {
-    final cMonth = CalendarSelector()
+    final cMonth = calendarSelector
         .getPart(format: PartFormat.month, responseType: 'int');
     if (cMonth - 1 < 1) {
       return -1;
     }
-    return CalendarSelector().getDays(cMonth - 1).keys.last;
+    return calendarSelector.getDays(cMonth - 1).keys.last;
   }
 
   getMonth(int month) {
@@ -182,7 +182,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
   getYear(int month) {
-    final year = CalendarSelector()
+    final year = calendarSelector
         .getPart(format: PartFormat.year, responseType: 'int');
     if (month > 12)
       return year + 1;

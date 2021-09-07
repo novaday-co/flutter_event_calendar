@@ -38,7 +38,7 @@ class Day extends StatelessWidget {
   late Color textColor = selected
       ? EventCalendar.dayIndexSelectedForegroundColor
       : (useUnselectedEffect
-          ? EventCalendar.dayIndexUnelectedForegroundColor.withOpacity(0.5)
+          ? EventCalendar.dayIndexUnelectedForegroundColor.withOpacity(0.2)
           : EventCalendar.dayIndexUnelectedForegroundColor);
 
   @override
@@ -149,7 +149,7 @@ class Day extends StatelessWidget {
           height: 5,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: EventCalendar.dayEventCountColor,
+            color: useUnselectedEffect ? EventCalendar.dayEventCountColor.withOpacity(0.4) : EventCalendar.dayEventCountColor,
           ),
         ),
       );

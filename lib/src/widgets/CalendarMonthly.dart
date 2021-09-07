@@ -4,26 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/handlers/EventSelector.dart';
+import 'package:flutter_event_calendar/src/handlers/Translator.dart';
 import 'package:flutter_event_calendar/src/widgets/Day.dart';
 
-class CalendarMonth extends StatefulWidget {
+class CalendarMonthly extends StatefulWidget {
   Function onCalendarChanged;
 
-  CalendarMonth({required this.onCalendarChanged, Key? key}) : super();
+  CalendarMonthly({required this.onCalendarChanged, Key? key}) : super();
 
   @override
-  State<CalendarMonth> createState() => _CalendarMonthState();
+  State<CalendarMonthly> createState() => _CalendarMonthlyState();
 }
 
-class _CalendarMonthState extends State<CalendarMonth> {
-  List<String> dayNames = CalendarSelector().getDayNames();
+class _CalendarMonthlyState extends State<CalendarMonthly> {
+  List<String> dayNames = Translator().getDayNames();
 
   @override
+  void didUpdateWidget(covariant CalendarMonthly oldWidget) {
+    dayNames = Translator().getDayNames();
+    super.didUpdateWidget(oldWidget);
+  }
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [_buildDayName(), _buildMonthView()],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [_buildDayName(), _buildMonthView()],
+      ),
     );
   }
 
@@ -54,7 +62,6 @@ class _CalendarMonthState extends State<CalendarMonth> {
     final currentMonth = CalendarSelector()
         .getPart(format: PartFormat.month, responseType: 'int');
 
-    // final monthDays = CalendarSelector().getDays(currentMonth);
     final int firstDayIndex = getFirstDayOfMonth();
     final int lastDayIndex = firstDayIndex + getLastDayOfMonth();
     final lastMonthLastDay = getLastMonthLastDay();
@@ -72,7 +79,7 @@ class _CalendarMonthState extends State<CalendarMonth> {
             itemCount: 42,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
-              childAspectRatio: 1.4,
+              childAspectRatio: 1.2,
             ),
             itemBuilder: (context, index) => _buildItem(index, firstDayIndex,
                 lastDayIndex, lastMonthLastDay, currentMonth, cDayIndex)),

@@ -40,9 +40,12 @@ class EventCalendar extends StatefulWidget {
 
   static late String locale;
 
+  static bool canSelectViewType = false;
+
   EventCalendar(
       {CalendarType? type,
       List<Event>? events,
+      required bool canSelectViewType,
       dateTime,
       font,
       HeaderMonthStringTypes? headerMonthStringType,
@@ -99,11 +102,12 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.dayEventCountTextColor =
         dayEventCountTextColor ?? Colors.white;
     EventCalendar.dayEventCountViewType =
-        dayEventCountViewType ?? DayEventCountViewType.NUM;
+        dayEventCountViewType ?? DayEventCountViewType.LABEL;
     EventCalendar.font = font ?? '';
     EventCalendar.locale = locale;
     EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
     EventCalendar.viewType = viewType ?? CalendarViewType.Monthly;
+    EventCalendar.canSelectViewType = canSelectViewType;
   }
 
   @override

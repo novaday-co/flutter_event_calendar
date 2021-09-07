@@ -29,6 +29,9 @@ abstract class CalendarProvider {
   List<int> getYears();
 
   Map getMonthDays(int index);
+
+  Map getMonthDaysShort(int index);
+
   String getMonthName(index);
 
   /// goto methods ///

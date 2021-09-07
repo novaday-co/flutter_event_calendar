@@ -1,5 +1,3 @@
-import 'package:flutter_event_calendar/src/dictionaries/days.dart';
-import 'package:flutter_event_calendar/src/dictionaries/months.dart';
 import 'package:flutter_event_calendar/src/dictionaries/locales.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
@@ -7,6 +5,10 @@ import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
 class Translator {
   List getMonthNames() {
     return EventCalendar.calendarProvider.getFullMonthNames();
+  }
+
+  List<String> getShortDayNames(){
+    return EventCalendar.calendarProvider.getShortNameOfDays();
   }
 
   String getPartTranslate(format, index) {
@@ -17,24 +19,6 @@ class Translator {
         return '';
     }
   }
-
-  // String getWeekDayNameWithIndex(index) {
-  //   switch (EventCalendar.headerWeekDayStringType) {
-  //     case HeaderWeekDayStringTypes.Full:
-  //       return fullDayNames[EventCalendar.type][index];
-  //     case HeaderWeekDayStringTypes.Short:
-  //       return shortDayNames[EventCalendar.type][index];
-  //   }
-  // }
-  //
-  // String getMonthNameWithIndex(index) {
-  //   switch (EventCalendar.headerMonthStringType) {
-  //     case HeaderMonthStringTypes.Full:
-  //       return fullMonthNames[EventCalendar.type][index];
-  //     case HeaderMonthStringTypes.Short:
-  //       return shortMonthNames[EventCalendar.type][index];
-  //   }
-  // }
 
   String trans(word) {
     switch (EventCalendar.locale) {

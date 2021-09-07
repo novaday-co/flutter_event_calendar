@@ -1,11 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/providers/calendares/base_calendar_provider.dart';
+import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-class EnCalendar extends BaseCalendarProvider {
+class EnCalendar extends CalendarProvider {
   @override
   List<String> getShortNameOfDays() =>
       ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];

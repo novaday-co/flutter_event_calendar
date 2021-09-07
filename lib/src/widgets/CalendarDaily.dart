@@ -4,12 +4,12 @@ import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
 import 'package:flutter_event_calendar/src/widgets/Day.dart';
 
-class Calendar extends StatelessWidget {
+class CalendarDaily extends StatelessWidget {
   Function? onCalendarChanged;
   var dayIndex;
   late ScrollController animatedTo;
 
-  Calendar({this.onCalendarChanged}) : super() {
+  CalendarDaily({this.onCalendarChanged}) : super() {
     dayIndex =
         CalendarSelector().getPart(format: PartFormat.day, responseType: 'int');
   }
@@ -37,7 +37,7 @@ class Calendar extends StatelessWidget {
     return Container(
       height: 130,
       child: Padding(
-        padding: EdgeInsets.only(top: 20, bottom: 10),
+        padding: EdgeInsets.only(top: 10, bottom: 10),
         child: Stack(
           children: [
             Row(
@@ -101,15 +101,13 @@ class Calendar extends StatelessWidget {
         .getPart(format: PartFormat.month, responseType: 'int');
     final currentYear = CalendarSelector()
         .getPart(format: PartFormat.year, responseType: 'int');
+
     List<Widget> days = [
-      Day(
-        dayIndex: 0,
-        month: currentMonth,
-        year: currentYear,
-        weekDay: '',
-        selected: false,
-        onCalendarChanged: () {},
-      )
+      SizedBox(
+          width: EventCalendar.headerWeekDayStringType ==
+                  HeaderWeekDayStringTypes.Full
+              ? 80
+              : 60)
     ];
 
     int day = dayIndex;
@@ -119,6 +117,7 @@ class Calendar extends StatelessWidget {
       days.add(Day(
         dayIndex: index,
         year: currentYear,
+        mini: false,
         month: currentMonth,
         weekDay: weekDay,
         selected: selected,
@@ -129,19 +128,11 @@ class Calendar extends StatelessWidget {
       ));
     });
 
-    days.add(
-      Day(
-        month: currentMonth,
-        dayIndex: 0,
-        year: currentYear,
-        weekDay: '',
-        selected: false,
-        onCalendarChanged: () {
-          CalendarSelector().goToDay(0);
-          onCalendarChanged?.call();
-        },
-      ),
-    );
+    days.add(SizedBox(
+        width: EventCalendar.headerWeekDayStringType ==
+                HeaderWeekDayStringTypes.Full
+            ? 80
+            : 60));
 
     return days;
   }

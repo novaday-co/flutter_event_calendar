@@ -60,7 +60,7 @@ class SelectMonth extends StatelessWidget {
   }
 
   List<TableRow> monthsWidgetMaker(context) {
-    months = CalendarSelector().getMonths();
+    months = Translator().getMonthNames();
     List<TableRow> monthsWidget = [];
     for (var i = 0; i < months.length; i++) {
       monthsWidget.add(TableRow(children: [

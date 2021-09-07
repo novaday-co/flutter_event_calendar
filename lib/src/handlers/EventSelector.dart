@@ -26,8 +26,6 @@ class EventSelector {
     final dayString = dayIndex < 10 ? "0$dayIndex" : "$dayIndex";
     for (var item in EventCalendar.events) {
       var eventDateTimeParts = item.dateTime.split(' ');
-      var calendarDateTimeParts =
-          EventCalendar.dateTime.split(' ')[0].split('-');
       if (eventDateTimeParts[0] == "$year-$monthString-$dayString") {
         item.listIndex = i;
         EventCalendar.selectedEvents.add(item);

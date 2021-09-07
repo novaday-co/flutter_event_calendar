@@ -37,18 +37,12 @@ class CalendarSelector {
         EventCalendar.calendarProvider.getPreviousMonthDateTime();
   }
 
-  List getMonths() {
-    return Translator().getMonthNames();
-  }
-
   List getYears() => EventCalendar.calendarProvider.getYears();
 
   Map getDays(int index) => EventCalendar.calendarProvider.getMonthDays(index);
 
   String getCurrentDateTime() => EventCalendar.calendarProvider.getDateTime();
 
-  List<String> getDayNames() =>
-      EventCalendar.calendarProvider.getShortNameOfDays();
 
   getSelectedGregorianDate() {
     return DateTime.parse(EventCalendar.dateTime);

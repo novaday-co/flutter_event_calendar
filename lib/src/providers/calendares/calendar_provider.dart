@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 abstract class CalendarProvider {
+
   bool isRTL();
 
   //// month direction configs ////
@@ -40,6 +41,9 @@ abstract class CalendarProvider {
   String goToDay(index);
 
   String goToYear(int index);
+
+  /// getting header and titles translation
+  String getTranslation(String word);
 
   /// part methods ///
   int getDateTimePart(PartFormat format);

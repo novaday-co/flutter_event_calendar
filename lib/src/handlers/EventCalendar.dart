@@ -3,7 +3,7 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/Event.dart';
 import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:flutter_event_calendar/src/widgets/CalendarDaily.dart';
 import 'package:flutter_event_calendar/src/widgets/CalendarMonthly.dart';
 import 'package:flutter_event_calendar/src/widgets/Events.dart';
@@ -12,7 +12,7 @@ export 'package:flutter_event_calendar/src/handlers/Event.dart';
 
 class EventCalendar extends StatefulWidget {
   static late CalendarProvider calendarProvider;
-
+  static late String language;
   static late String dateTime;
   static late List<Event> events;
   static List<Event> selectedEvents = [];
@@ -68,6 +68,7 @@ class EventCalendar extends StatefulWidget {
       eventDescriptionColor,
       eventDateTimeColor,
       viewType,
+      language,
       // isRTL,
       required String locale}) {
     calendarProvider = createInstance(locale);
@@ -108,6 +109,7 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
     EventCalendar.viewType = viewType ?? CalendarViewType.Monthly;
     EventCalendar.canSelectViewType = canSelectViewType;
+    EventCalendar.language = language ?? locale;
   }
 
   @override

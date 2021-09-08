@@ -61,30 +61,46 @@ class SelectMonth extends StatelessWidget {
 
   List<TableRow> monthsWidgetMaker(context) {
     months = Translator().getMonthNames();
-    List<TableRow> monthsWidget = [];
-    for (var i = 0; i < months.length; i++) {
-      monthsWidget.add(TableRow(children: [
-        TableCell(
-          child: InkWell(
-            onTap: (() {
-              Navigator.pop(context);
-              CalendarSelector().goToMonth(i + 1);
-              onHeaderChanged.call();
-            }),
-            child: Padding(
-              padding: EdgeInsets.all(15),
-              child: Center(
-                  child: Text(
-                '${months[i].toString()}',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: EventCalendar.font,
+
+    List<Widget> _buildRowCells(int rowIndex) {
+      List<TableCell> widgets = [];
+      for (var j = 0; j < 3; j++) {
+        widgets.add(
+          TableCell(
+            verticalAlignment: TableCellVerticalAlignment.middle,
+            child: Material(
+              child: InkWell(
+                onTap: (() {
+                  Navigator.pop(context);
+                  CalendarSelector().goToMonth((rowIndex * 3) + j + 1);
+                  onHeaderChanged.call();
+                }),
+                child: Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Center(
+                      child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      '${months[(rowIndex * 3) + j].toString()}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: EventCalendar.font,
+                      ),
+                      maxLines: 1,
+                    ),
+                  )),
                 ),
-              )),
+              ),
             ),
           ),
-        ),
-      ]));
+        );
+      }
+      return widgets;
+    }
+
+    List<TableRow> monthsWidget = [];
+    for (var i = 0; i < 4; i++) {
+      monthsWidget.add(TableRow(children: _buildRowCells(i)));
     }
 
     return monthsWidget;

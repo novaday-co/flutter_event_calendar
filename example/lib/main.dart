@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 void main() {
-  runApp(DevicePreview(
-    builder: (context) => MyApp(),
-    enabled: !kReleaseMode,
-  ));
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,10 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      locale: DevicePreview.locale(context),
-      // Add the locale here
-      builder: DevicePreview.appBuilder,
-      // Add the builder here
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,

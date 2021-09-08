@@ -25,6 +25,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     dayNames = Translator().getShortDayNames();
     super.didUpdateWidget(oldWidget);
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -60,17 +61,17 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
   _buildMonthView() {
-    final currentMonth = calendarSelector
-        .getPart(format: PartFormat.month, responseType: 'int');
+    final currentMonth =
+        calendarSelector.getPart(format: PartFormat.month, responseType: 'int');
 
     final int firstDayIndex = getFirstDayOfMonth();
     final int lastDayIndex = firstDayIndex + getLastDayOfMonth();
     final lastMonthLastDay = getLastMonthLastDay();
     final int cDayIndex =
-    calendarSelector.getPart(format: PartFormat.day, responseType: 'int');
+        calendarSelector.getPart(format: PartFormat.day, responseType: 'int');
 
     return SizedBox(
-      height: 260,
+      height: 7 * 40,
       child: Directionality(
         textDirection: EventCalendar.calendarProvider.isRTL()
             ? TextDirection.rtl
@@ -79,9 +80,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             physics: NeverScrollableScrollPhysics(),
             itemCount: 42,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
-              childAspectRatio: 1.2,
-            ),
+                crossAxisCount: 7, mainAxisExtent: 45),
             itemBuilder: (context, index) => _buildItem(index, firstDayIndex,
                 lastDayIndex, lastMonthLastDay, currentMonth, cDayIndex)),
       ),
@@ -127,6 +126,8 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
               month: getMonth(currentMonth + 1),
               year: getYear(currentMonth + 1),
               onCalendarChanged: () {
+                // reset to first to fix switching between 31/30/29 month lengths
+                calendarSelector.goToDay(1);
                 calendarSelector.nextMonth();
                 calendarSelector.goToDay(dayIndex);
                 widget.onCalendarChanged.call();
@@ -142,6 +143,8 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
               year: getYear(currentMonth - 1),
               weekDay: '',
               onCalendarChanged: () {
+                // reset to first to fix switching between 31/30/29 month lengths
+                calendarSelector.goToDay(1);
                 calendarSelector.previousMonth();
                 calendarSelector.goToDay(dayIndex);
                 widget.onCalendarChanged.call();
@@ -153,21 +156,21 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
   int getFirstDayOfMonth() {
-    final currentMonth = calendarSelector
-        .getPart(format: PartFormat.month, responseType: 'int');
+    final currentMonth =
+        calendarSelector.getPart(format: PartFormat.month, responseType: 'int');
     final monthDays = calendarSelector.getMonthDaysShort(currentMonth);
     return dayNames.indexOf(monthDays[1]);
   }
 
   int getLastDayOfMonth() {
-    final currentMonth = calendarSelector
-        .getPart(format: PartFormat.month, responseType: 'int');
+    final currentMonth =
+        calendarSelector.getPart(format: PartFormat.month, responseType: 'int');
     return calendarSelector.getDays(currentMonth).keys.last;
   }
 
   int getLastMonthLastDay() {
-    final cMonth = calendarSelector
-        .getPart(format: PartFormat.month, responseType: 'int');
+    final cMonth =
+        calendarSelector.getPart(format: PartFormat.month, responseType: 'int');
     if (cMonth - 1 < 1) {
       return -1;
     }
@@ -182,8 +185,8 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
   getYear(int month) {
-    final year = calendarSelector
-        .getPart(format: PartFormat.year, responseType: 'int');
+    final year =
+        calendarSelector.getPart(format: PartFormat.year, responseType: 'int');
     if (month > 12)
       return year + 1;
     else if (month < 1) return year - 1;

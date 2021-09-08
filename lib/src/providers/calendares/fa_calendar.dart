@@ -14,17 +14,17 @@ class FaCalendar extends CalendarProvider {
   };
 
   @override
-  List<String> getShortNameOfDays() => Fa.shortDayNames[EventCalendar.language];
+  List<String> getShortNameOfDays() => Fa.shortDayNames[EventCalendar.calendarLanguage];
 
   @override
-  List<String> getFullNameOfDays() => Fa.fullDayNames[EventCalendar.language];
+  List<String> getFullNameOfDays() => Fa.fullDayNames[EventCalendar.calendarLanguage];
 
   @override
-  List<String> getFullMonthNames() => Fa.fullMonthNames[EventCalendar.language];
+  List<String> getFullMonthNames() => Fa.fullMonthNames[EventCalendar.calendarLanguage];
 
   @override
   List<String> getShortMonthNames() =>
-      Fa.shortMonthNames[EventCalendar.language];
+      Fa.shortMonthNames[EventCalendar.calendarLanguage];
 
   @override
   String getDateTime() {
@@ -177,6 +177,6 @@ class FaCalendar extends CalendarProvider {
   }
 
   @override
-  String getTranslation(String word) => Fa.titles[EventCalendar.language][word];
+  String getTranslation(String word) => Fa.titles[EventCalendar.calendarLanguage][word];
 
 }

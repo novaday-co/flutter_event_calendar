@@ -9,17 +9,17 @@ class EnCalendar extends CalendarProvider {
 
 
   @override
-  List<String> getShortNameOfDays() => En.shortDayNames[EventCalendar.language];
+  List<String> getShortNameOfDays() => En.shortDayNames[EventCalendar.calendarLanguage];
 
   @override
-  List<String> getFullNameOfDays() => En.fullDayNames[EventCalendar.language];
+  List<String> getFullNameOfDays() => En.fullDayNames[EventCalendar.calendarLanguage];
 
   @override
-  List<String> getFullMonthNames() => En.fullMonthNames[EventCalendar.language];
+  List<String> getFullMonthNames() => En.fullMonthNames[EventCalendar.calendarLanguage];
 
   @override
   List<String> getShortMonthNames() =>
-      En.shortMonthNames[EventCalendar.language];
+      En.shortMonthNames[EventCalendar.calendarLanguage];
 
   @override
   String getDateTime() {
@@ -149,5 +149,5 @@ class EnCalendar extends CalendarProvider {
   }
 
   @override
-  String getTranslation(String word) => En.titles[EventCalendar.language][word];
+  String getTranslation(String word) => En.titles[EventCalendar.calendarLanguage][word];
 }

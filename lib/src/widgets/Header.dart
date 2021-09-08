@@ -46,26 +46,53 @@ class Header extends StatelessWidget {
                 ],
               ),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SelectMonth(
-                              onHeaderChanged: onHeaderChanged,
-                            );
-                          },
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: EventCalendar.calendarProvider.isRTL()
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SelectMonth(
+                                onHeaderChanged: onHeaderChanged,
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: Text(
+                            '${CalendarSelector().getPart(format: PartFormat.month, responseType: 'string')}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              fontFamily: EventCalendar.font,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(' , '),
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SelectYear(
+                                onHeaderChanged: onHeaderChanged,
+                              );
+                            },
+                          );
+                        },
                         child: Text(
-                          '${CalendarSelector().getPart(format: PartFormat.month, responseType: 'string')}',
+                          '${CalendarSelector().getPart(format: PartFormat.year, responseType: 'int')}',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 20,
@@ -73,30 +100,8 @@ class Header extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    Text(' , '),
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SelectYear(
-                              onHeaderChanged: onHeaderChanged,
-                            );
-                          },
-                        );
-                      },
-                      child: Text(
-                        '${CalendarSelector().getPart(format: PartFormat.year, responseType: 'int')}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
-                          fontFamily: EventCalendar.font,
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               // if (!isInTodayIndex()) buildRefreshView(),

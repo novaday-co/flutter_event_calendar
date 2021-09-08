@@ -1,7 +1,6 @@
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'Translator.dart';
 
 class CalendarSelector {

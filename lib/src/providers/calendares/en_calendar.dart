@@ -1,57 +1,25 @@
 import 'dart:ui';
 
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/src/dictionaries/en.dart';
 import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 class EnCalendar extends CalendarProvider {
-  @override
-  List<String> getShortNameOfDays() =>
-      ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
 
   @override
-  List<String> getFullNameOfDays() => [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ];
+  List<String> getShortNameOfDays() => En.shortDayNames[EventCalendar.language];
 
   @override
-  List<String> getFullMonthNames() => [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ];
+  List<String> getFullNameOfDays() => En.fullDayNames[EventCalendar.language];
 
   @override
-  List<String> getShortMonthNames() => [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
-      ];
+  List<String> getFullMonthNames() => En.fullMonthNames[EventCalendar.language];
+
+  @override
+  List<String> getShortMonthNames() =>
+      En.shortMonthNames[EventCalendar.language];
 
   @override
   String getDateTime() {
@@ -179,4 +147,7 @@ class EnCalendar extends CalendarProvider {
         return getFullMonthNames()[index];
     }
   }
+
+  @override
+  String getTranslation(String word) => En.titles[EventCalendar.language][word];
 }

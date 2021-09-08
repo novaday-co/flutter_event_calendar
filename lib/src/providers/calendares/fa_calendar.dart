@@ -1,49 +1,30 @@
 import 'dart:ui';
 
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar/src/dictionaries/fa.dart';
 import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class FaCalendar extends CalendarProvider {
-  @override
-  List<String> getShortNameOfDays() => ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
+  Map _fa = {
+    'empty': 'خالی',
+    'month_selector': 'یک ماه را انتخاب کنید',
+    'year_selector': 'یک سال را انتخاب کنید',
+  };
 
   @override
-  List<String> getFullNameOfDays() =>
-      ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه'];
+  List<String> getShortNameOfDays() => Fa.shortDayNames[EventCalendar.language];
 
   @override
-  List<String> getFullMonthNames() => [
-        'فروردین',
-        'اردیبهشت',
-        'خرداد',
-        'تیر',
-        'مرداد',
-        'شهریور',
-        'مهر',
-        'آبان',
-        'آذر',
-        'دی',
-        'بهمن',
-        'اسفند'
-      ];
+  List<String> getFullNameOfDays() => Fa.fullDayNames[EventCalendar.language];
 
   @override
-  List<String> getShortMonthNames() => [
-        'فرو',
-        'ارد',
-        'خرد',
-        'تیر',
-        'مرد',
-        'شهر',
-        'مهر',
-        'آبا',
-        'آذر',
-        'دی',
-        'بهم',
-        'اسف'
-      ];
+  List<String> getFullMonthNames() => Fa.fullMonthNames[EventCalendar.language];
+
+  @override
+  List<String> getShortMonthNames() =>
+      Fa.shortMonthNames[EventCalendar.language];
 
   @override
   String getDateTime() {
@@ -54,6 +35,7 @@ class FaCalendar extends CalendarProvider {
   @override
   String getNextMonthDateTime() {
     final date = _getSelectedDate();
+    print("date $date");
     final newDate = date.addMonths(1);
     final f = newDate.formatter;
     return '${f.y}-${f.mm}-01';
@@ -193,4 +175,8 @@ class FaCalendar extends CalendarProvider {
     }
     return days;
   }
+
+  @override
+  String getTranslation(String word) => Fa.titles[EventCalendar.language][word];
+
 }

@@ -31,11 +31,11 @@ class MyHomePage extends StatelessWidget {
       body: EventCalendar(
         headerMonthStringType: HeaderMonthStringTypes.Full,
         headerWeekDayStringType: HeaderWeekDayStringTypes.Short,
-        locale: 'fa',
-        language: 'en',
         dayEventCountViewType: DayEventCountViewType.LABEL,
         dayEventCountTextColor: Colors.white,
         dayEventCountColor: Colors.blue,
+        calendarType: CalendarType.Jalali,
+        calendarLanguage: 'en',
         viewType: CalendarViewType.Monthly,
         canSelectViewType: true,
         events: [

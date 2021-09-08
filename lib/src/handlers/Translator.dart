@@ -1,13 +1,13 @@
-import 'package:flutter_event_calendar/src/dictionaries/locales.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 class Translator {
+
   List getMonthNames() {
     return EventCalendar.calendarProvider.getFullMonthNames();
   }
 
-  List<String> getShortDayNames(){
+  List<String> getShortDayNames() {
     return EventCalendar.calendarProvider.getShortNameOfDays();
   }
 
@@ -21,12 +21,6 @@ class Translator {
   }
 
   String trans(word) {
-    switch (EventCalendar.locale) {
-      case 'fa':
-        return fa[word];
-      case 'en':
-        return en[word];
-    }
-    return '';
+    return EventCalendar.calendarProvider.getTranslation(word);
   }
 }

@@ -14,8 +14,8 @@ class SelectYear extends StatelessWidget {
 
   late VoidCallback scrollToPositionCallback;
 
-  final selectedYear =
-      CalendarSelector().getPart(format: PartFormat.year, responseType: 'int');
+  final int selectedYear =
+        CalendarSelector().getPart(format: PartFormat.month, responseType: 'int');
 
   final selectedDecoration = BoxDecoration(
     color: EventCalendar.dayIndexSelectedBackgroundColor,

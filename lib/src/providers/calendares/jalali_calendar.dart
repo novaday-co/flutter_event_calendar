@@ -1,30 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/dictionaries/fa.dart';
+import 'package:flutter_event_calendar/src/handlers/Translator.dart';
 import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class JalaliCalendar extends CalendarProvider {
-  Map _fa = {
-    'empty': 'خالی',
-    'month_selector': 'یک ماه را انتخاب کنید',
-    'year_selector': 'یک سال را انتخاب کنید',
-  };
-
-  @override
-  List<String> getShortNameOfDays() => Fa.shortDayNames[EventCalendar.calendarLanguage];
-
-  @override
-  List<String> getFullNameOfDays() => Fa.fullDayNames[EventCalendar.calendarLanguage];
-
-  @override
-  List<String> getFullMonthNames() => Fa.fullMonthNames[EventCalendar.calendarLanguage];
-
-  @override
-  List<String> getShortMonthNames() =>
-      Fa.shortMonthNames[EventCalendar.calendarLanguage];
 
   @override
   String getDateTime() {
@@ -66,7 +48,7 @@ class JalaliCalendar extends CalendarProvider {
   }
 
   @override
-  bool isRTL() => true;
+  bool isRTL() => Translator().isRTL();
 
   @override
   Map getMonthDays(int index) {
@@ -76,13 +58,13 @@ class JalaliCalendar extends CalendarProvider {
     switch (EventCalendar.headerWeekDayStringType) {
       case HeaderWeekDayStringTypes.Full:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
-          days[i] = getFullNameOfDays()[dayIndex % 7];
+          days[i] = Translator().getFullNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
       case HeaderWeekDayStringTypes.Short:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
-          days[i] = getShortNameOfDays()[dayIndex % 7];
+          days[i] = Translator().getShortNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
@@ -94,9 +76,9 @@ class JalaliCalendar extends CalendarProvider {
   List<String> getNameOfDays() {
     switch (EventCalendar.headerWeekDayStringType) {
       case HeaderWeekDayStringTypes.Full:
-        return getFullNameOfDays();
+        return Translator().getFullNameOfDays();
       case HeaderWeekDayStringTypes.Short:
-        return getShortNameOfDays();
+        return Translator().getShortNameOfDays();
     }
   }
 
@@ -158,9 +140,9 @@ class JalaliCalendar extends CalendarProvider {
   String getMonthName(index) {
     switch (EventCalendar.headerMonthStringType) {
       case HeaderMonthStringTypes.Short:
-        return getShortMonthNames()[index];
+        return Translator().getShortMonthNames()[index];
       case HeaderMonthStringTypes.Full:
-        return getFullMonthNames()[index];
+        return Translator().getFullMonthNames()[index];
     }
   }
 
@@ -170,13 +152,10 @@ class JalaliCalendar extends CalendarProvider {
     Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     int dayIndex = firstDayOfMonth.weekDay - 1;
     for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
-      days[i] = getShortNameOfDays()[dayIndex % 7];
+      days[i] = Translator().getShortNameOfDays()[dayIndex % 7];
       dayIndex++;
     }
     return days;
   }
-
-  @override
-  String getTranslation(String word) => Fa.titles[EventCalendar.calendarLanguage][word];
 
 }

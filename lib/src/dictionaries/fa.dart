@@ -1,98 +1,105 @@
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+
 class Fa {
   static Map fullMonthNames = const {
-    'fa': [
-      'فروردین',
-      'اردیبهشت',
-      'خرداد',
-      'تیر',
-      'مرداد',
-      'شهریور',
-      'مهر',
-      'آبان',
-      'آذر',
-      'دی',
-      'بهمن',
-      'اسفند'
-    ],
-    'en': [
-      'Farvardin',
-      'Ordibehesht',
-      'Khordad',
-      'Tir',
-      'Mordad',
-      'Shahrivar',
-      'Mehr',
-      'Aban',
-      'Azar',
-      'Dey',
-      'Bahman',
-      'Esfand'
+    'fa': {
+      CalendarType.Jalali :[
+          'فروردین',
+          'اردیبهشت',
+          'خرداد',
+          'تیر',
+          'مرداد',
+          'شهریور',
+          'مهر',
+          'آبان',
+          'آذر',
+          'دی',
+          'بهمن',
+          'اسفند'
+      ],
+    CalendarType.Gregorian: [
+        'ژانویه',
+        'فوریه',
+        'مارس',
+        'آوریل',
+        'مه',
+        'ژوئن',
+        'ژوئیه',
+        'اوت',
+        'سپتامبر',
+        'اکتبر',
+        'نوامبر',
+        'دسامبر'
     ]
-  };
+  }
+};
   static Map shortMonthNames = const {
-    'fa': [
-      'فرو',
-      'ارد',
-      'خرد',
-      'تیر',
-      'مرد',
-      'شهر',
-      'مهر',
-      'آبا',
-      'آذر',
-      'دی',
-      'بهم',
-      'اسف'
+    'fa': { 
+      CalendarType.Jalali : [
+        'فرو',
+        'ارد',
+        'خرد',
+        'تیر',
+        'مرد',
+        'شهر',
+        'مهر',
+        'آبا',
+        'آذر',
+        'دی',
+        'بهم',
+        'اسف'
     ],
-    'en': [
-      'Far',
-      'Ord',
-      'Kho',
-      'Tir',
-      'Mor',
-      'Sha',
-      'Mehr',
-      'Aban',
-      'Azar',
-      'Dey',
-      'Bah',
-      'Esf'
-    ]
-  };
+      CalendarType.Gregorian: [
+        'ژان',
+        'قور',
+        'مار',
+        'آور',
+        'مه',
+        'ژوئ',
+        'ژوئی',
+        'اوت',
+        'سپت',
+        'اکت',
+        'نوا',
+        'دسا'
+    ],
+  } 
+};
   static Map fullDayNames = const {
-    'fa': [
-      'شنبه',
-      'یکشنبه',
-      'دوشنبه',
-      'سه شنبه',
-      'چهارشنبه',
-      'پنج شنبه',
-      'جمعه'
+    'fa': {
+      CalendarType.Jalali  : [
+        'شنبه',
+        'یکشنبه',
+        'دوشنبه',
+        'سه شنبه',
+        'چهارشنبه',
+        'پنج شنبه',
+        'جمعه'
     ],
-    'en': [
-      'Saturday',
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-    ]
-  };
+      CalendarType.Gregorian: [
+        'یکشنبه',
+        'دوشنبه',
+        'سه شنبه',
+        'چهارشنبه',
+        'پنجشنبه',
+        'جمعه',
+        'شنبه'
+    ],
+  }
+};
   static Map shortDayNames = const {
-    'fa': ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'],
-    'en': ['Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr']
+    'fa': { 
+      CalendarType.Jalali : ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'], 
+      CalendarType.Gregorian: ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش'] 
+    }
   };
   static Map titles = const {
     'fa': {
       'empty': 'خالی',
       'month_selector': 'یک ماه را انتخاب کنید',
       'year_selector': 'یک سال را انتخاب کنید',
-    },
-    'en': {
-      'empty': 'Empty',
-      'month_selector': 'Select a month',
-      'year_selector': 'Select a year',
     }
   };
+
+  static Map directionIsRTL = {'fa': true};
 }

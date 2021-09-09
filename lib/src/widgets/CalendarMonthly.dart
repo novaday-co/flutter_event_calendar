@@ -17,12 +17,12 @@ class CalendarMonthly extends StatefulWidget {
 }
 
 class _CalendarMonthlyState extends State<CalendarMonthly> {
-  List<String> dayNames = Translator().getShortDayNames();
+  List<String> dayNames = Translator().getShortNameOfDays();
   CalendarSelector calendarSelector = CalendarSelector();
 
   @override
   void didUpdateWidget(covariant CalendarMonthly oldWidget) {
-    dayNames = Translator().getShortDayNames();
+    dayNames = Translator().getShortNameOfDays();
     super.didUpdateWidget(oldWidget);
   }
 

@@ -13,6 +13,7 @@ export 'package:flutter_event_calendar/src/handlers/Event.dart';
 class EventCalendar extends StatefulWidget {
   static late CalendarProvider calendarProvider;
   static late String calendarLanguage;
+  static late CalendarType calendarType;
   static late String dateTime;
   static late List<Event> events;
   static List<Event> selectedEvents = [];
@@ -37,12 +38,11 @@ class EventCalendar extends StatefulWidget {
   static late Color eventDescriptionColor;
   static late Color eventDateTimeColor;
   static late CalendarViewType viewType;
-
   static bool canSelectViewType = false;
 
   EventCalendar(
       {List<Event>? events,
-      required bool canSelectViewType,
+      canSelectViewType,
       dateTime,
       font,
       HeaderMonthStringTypes? headerMonthStringType,
@@ -66,7 +66,7 @@ class EventCalendar extends StatefulWidget {
       eventDateTimeColor,
       viewType,
       calendarLanguage,
-      required CalendarType calendarType}) {
+      calendarType}) {
 
     calendarProvider = createInstance(calendarType);
 
@@ -103,8 +103,9 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.font = font ?? '';
     EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
     EventCalendar.viewType = viewType ?? CalendarViewType.Monthly;
-    EventCalendar.canSelectViewType = canSelectViewType;
-    EventCalendar.calendarLanguage = calendarLanguage ?? calendarType;
+    EventCalendar.canSelectViewType = canSelectViewType ?? false;
+    EventCalendar.calendarLanguage = calendarLanguage ?? 'en';
+    EventCalendar.calendarType = calendarType ?? CalendarType.Gregorian;
   }
 
   @override

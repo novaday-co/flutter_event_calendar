@@ -35,7 +35,7 @@ class MyHomePage extends StatelessWidget {
         dayEventCountTextColor: Colors.white,
         dayEventCountColor: Colors.blue,
         calendarType: CalendarType.Jalali,
-        calendarLanguage: 'en',
+        calendarLanguage: 'fa',
         viewType: CalendarViewType.Monthly,
         canSelectViewType: true,
         events: [

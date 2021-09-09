@@ -1,25 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/dictionaries/en.dart';
+import 'package:flutter_event_calendar/src/handlers/Translator.dart';
 import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 class GregorianCalendar extends CalendarProvider {
-
-
-  @override
-  List<String> getShortNameOfDays() => En.shortDayNames[EventCalendar.calendarLanguage];
-
-  @override
-  List<String> getFullNameOfDays() => En.fullDayNames[EventCalendar.calendarLanguage];
-
-  @override
-  List<String> getFullMonthNames() => En.fullMonthNames[EventCalendar.calendarLanguage];
-
-  @override
-  List<String> getShortMonthNames() =>
-      En.shortMonthNames[EventCalendar.calendarLanguage];
 
   @override
   String getDateTime() {
@@ -51,7 +37,7 @@ class GregorianCalendar extends CalendarProvider {
   }
 
   @override
-  bool isRTL() => false;
+  bool isRTL() => Translator().isRTL();
 
   @override
   Map getMonthDays(int index) {
@@ -64,13 +50,13 @@ class GregorianCalendar extends CalendarProvider {
     switch (EventCalendar.headerWeekDayStringType) {
       case HeaderWeekDayStringTypes.Full:
         for (var i = 1; i <= monthLength; i++) {
-          days[i] = getFullNameOfDays()[dayIndex % 7];
+          days[i] = Translator().getFullNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
       case HeaderWeekDayStringTypes.Short:
         for (var i = 1; i <= monthLength; i++) {
-          days[i] = getShortNameOfDays()[dayIndex % 7];
+          days[i] = Translator().getShortNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
@@ -86,7 +72,7 @@ class GregorianCalendar extends CalendarProvider {
     DateTime firstDayOfMonth = DateTime(now.year, index, 1);
     int dayIndex = firstDayOfMonth.weekday;
     for (var i = 1; i <= monthLength; i++) {
-      days[i] = getShortNameOfDays()[dayIndex % 7];
+      days[i] = Translator().getShortNameOfDays()[dayIndex % 7];
       dayIndex++;
     }
     return days;
@@ -142,12 +128,10 @@ class GregorianCalendar extends CalendarProvider {
   String getMonthName(index) {
     switch (EventCalendar.headerMonthStringType) {
       case HeaderMonthStringTypes.Short:
-        return getShortMonthNames()[index];
+        return Translator().getShortMonthNames()[index];
       case HeaderMonthStringTypes.Full:
-        return getFullMonthNames()[index];
+        return Translator().getFullMonthNames()[index];
     }
   }
 
-  @override
-  String getTranslation(String word) => En.titles[EventCalendar.calendarLanguage][word];
 }

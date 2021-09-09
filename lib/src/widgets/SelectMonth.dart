@@ -25,7 +25,7 @@ class SelectMonth extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              '${Translator().trans('month_selector')}',
+              '${Translator().getTranslation('month_selector')}',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,
@@ -60,7 +60,7 @@ class SelectMonth extends StatelessWidget {
   }
 
   List<TableRow> monthsWidgetMaker(context) {
-    months = Translator().getMonthNames();
+    months = Translator().getFullMonthNames();
 
     List<Widget> _buildRowCells(int rowIndex) {
       List<TableCell> widgets = [];

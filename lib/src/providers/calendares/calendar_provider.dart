@@ -17,16 +17,7 @@ abstract class CalendarProvider {
 
   String getDateTime();
 
-  /// Day configs
-  List<String> getShortNameOfDays();
-
-  List<String> getFullNameOfDays();
-
   /// Month configs
-  List<String> getFullMonthNames();
-
-  List<String> getShortMonthNames();
-
   List<int> getYears();
 
   Map getMonthDays(int index);
@@ -41,9 +32,6 @@ abstract class CalendarProvider {
   String goToDay(index);
 
   String goToYear(int index);
-
-  /// getting header and titles translation
-  String getTranslation(String word);
 
   /// part methods
   int getDateTimePart(PartFormat format);

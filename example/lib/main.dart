@@ -26,7 +26,8 @@ class MyHomePage extends StatelessWidget {
     // than having to individually change instances of widgets.
     return Scaffold(
       body: EventCalendar(
-        headerWeekDayStringType: 'full',
+        headerWeekDayStringType: HeaderWeekDayStringTypes.Full,
+        locale: 'fa',
         events: [
           Event(
             title: 'Laravel Event',

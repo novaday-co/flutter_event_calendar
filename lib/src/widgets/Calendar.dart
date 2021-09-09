@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
 import 'package:flutter_event_calendar/src/widgets/Day.dart';
@@ -9,18 +10,24 @@ class Calendar extends StatelessWidget {
   late ScrollController animatedTo;
 
   Calendar({this.onCalendarChanged}) : super() {
-    dayIndex = CalendarSelector().getPart(format: 'day', responseType: 'int');
+    dayIndex =
+        CalendarSelector().getPart(format: PartFormat.day, responseType: 'int');
   }
 
   @override
   Widget build(BuildContext context) {
     animatedTo = ScrollController(
-        initialScrollOffset:
-            (EventCalendar.headerWeekDayStringType == 'full' ? 100.0 : 52.0) *
-                (dayIndex - 1));
+        initialScrollOffset: (EventCalendar.headerWeekDayStringType ==
+                    HeaderWeekDayStringTypes.Full
+                ? 100.0
+                : 52.0) *
+            (dayIndex - 1));
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
-          (EventCalendar.headerWeekDayStringType == 'full' ? 100.0 : 52.0) *
+          (EventCalendar.headerWeekDayStringType ==
+                      HeaderWeekDayStringTypes.Full
+                  ? 100.0
+                  : 52.0) *
               (dayIndex - 1),
           duration: Duration(milliseconds: 700),
           curve: Curves.decelerate);
@@ -37,7 +44,7 @@ class Calendar extends StatelessWidget {
               children: [
                 Expanded(
                   child: ListView(
-                    reverse: EventCalendar.isRTL,
+                    reverse: EventCalendar.calendarProvider.isRTL(),
                     controller: animatedTo,
                     scrollDirection: Axis.horizontal,
                     children: daysMaker(),
@@ -111,12 +118,14 @@ class Calendar extends StatelessWidget {
       ));
     });
 
-    days.add(Day(
-      index: 0,
-      weekDay: '',
-      selected: false,
-      onCalendarChanged: onCalendarChanged,
-    ));
+    days.add(
+      Day(
+        index: 0,
+        weekDay: '',
+        selected: false,
+        onCalendarChanged: onCalendarChanged,
+      ),
+    );
 
     return days;
   }

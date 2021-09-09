@@ -17,7 +17,6 @@ class JalaliCalendar extends CalendarProvider {
   @override
   String getNextMonthDateTime() {
     final date = _getSelectedDate();
-    print("date $date");
     final newDate = date.addMonths(1);
     final f = newDate.formatter;
     return '${f.y}-${f.mm}-01';

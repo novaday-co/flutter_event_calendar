@@ -1,7 +1,7 @@
 name: flutter_event_calendar
 description: Gregorian and Jalali Event calendar for flutter with options for change style
-version: 0.0.7
-homepage: https://github.com/faridfr/flutter_event_calendar
+version: 0.0.8
+homepage: https://github.com/novaday-co/flutter_event_calendar
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

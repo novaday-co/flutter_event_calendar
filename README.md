@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/flutter_event_calendar.png" height="400" alt="flutter Event Calendar Package" />
+<img src="https://raw.githubusercontent.com/novaday-co/flutter_event_calendar/master/assets/flutter_event_calendar.png" height="400" alt="flutter Event Calendar Package" />
 </p>
 
 <p align="center">
@@ -19,7 +19,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  flutter_event_calendar: ^0.0.7
+  flutter_event_calendar: ^0.0.8
 ```
 
 Then You can install packages from the command line:
@@ -41,7 +41,7 @@ Now in your Dart code, you can use:
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 ```
 <p align="center">
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/event_calendar_options.png" height="600" alt="flutter Event Calendar Package" />
+<img src="https://raw.githubusercontent.com/novaday-co/flutter_event_calendar/master/assets/event_calendar_options.png" height="600" alt="flutter Event Calendar Package" />
 <br></p>
 
 ## Basic Usage :
@@ -62,7 +62,7 @@ You can load a full calendar with events .
 
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/faridfr/flutter_event_calendar/master/assets/eventCalendar.gif" height="600" alt="flutter Event Calendar Package" />
+<img src="https://raw.githubusercontent.com/novaday-co/flutter_event_calendar/master/assets/eventCalendar.gif" height="600" alt="flutter Event Calendar Package" />
 <br></p>
 
 ## Options :

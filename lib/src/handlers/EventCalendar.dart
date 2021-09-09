@@ -66,12 +66,10 @@ class EventCalendar extends StatefulWidget {
       eventDateTimeColor,
       viewType,
       calendarLanguage,
-      // isRTL,
       required CalendarType calendarType}) {
 
     calendarProvider = createInstance(calendarType);
 
-    // EventCalendar.type = calendarProvider.typ;
     EventCalendar.events = events ?? [];
     EventCalendar.headerMonthStringType =
         headerMonthStringType ?? HeaderMonthStringTypes.Full;

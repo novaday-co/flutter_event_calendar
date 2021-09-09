@@ -6,7 +6,7 @@ import 'package:flutter_event_calendar/src/providers/calendares/calendar_provide
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-class FaCalendar extends CalendarProvider {
+class JalaliCalendar extends CalendarProvider {
   Map _fa = {
     'empty': 'خالی',
     'month_selector': 'یک ماه را انتخاب کنید',

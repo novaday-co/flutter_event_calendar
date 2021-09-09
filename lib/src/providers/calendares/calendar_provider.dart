@@ -5,24 +5,24 @@ abstract class CalendarProvider {
 
   bool isRTL();
 
-  //// month direction configs ////
+  /// month direction configs
   String getNextMonthDateTime();
 
   String getPreviousMonthDateTime();
 
-  //// day direction config ////
+  /// day direction config
   String getNextDayDateTime();
 
   String getPreviousDayDateTime();
 
   String getDateTime();
 
-  //// Day configs ////
+  /// Day configs
   List<String> getShortNameOfDays();
 
   List<String> getFullNameOfDays();
 
-  //// Month configs ////
+  /// Month configs
   List<String> getFullMonthNames();
 
   List<String> getShortMonthNames();
@@ -35,7 +35,7 @@ abstract class CalendarProvider {
 
   String getMonthName(index);
 
-  /// goto methods ///
+  /// goto methods
   String goToMonth(index);
 
   String goToDay(index);
@@ -45,7 +45,7 @@ abstract class CalendarProvider {
   /// getting header and titles translation
   String getTranslation(String word);
 
-  /// part methods ///
+  /// part methods
   int getDateTimePart(PartFormat format);
 
 }

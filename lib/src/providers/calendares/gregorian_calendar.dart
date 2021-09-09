@@ -5,7 +5,7 @@ import 'package:flutter_event_calendar/src/dictionaries/en.dart';
 import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
-class EnCalendar extends CalendarProvider {
+class GregorianCalendar extends CalendarProvider {
 
 
   @override

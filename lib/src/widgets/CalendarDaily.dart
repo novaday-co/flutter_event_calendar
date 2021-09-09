@@ -4,12 +4,12 @@ import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
 import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
 import 'package:flutter_event_calendar/src/widgets/Day.dart';
 
-class Calendar extends StatelessWidget {
+class CalendarDaily extends StatelessWidget {
   Function? onCalendarChanged;
   var dayIndex;
   late ScrollController animatedTo;
 
-  Calendar({this.onCalendarChanged}) : super() {
+  CalendarDaily({this.onCalendarChanged}) : super() {
     dayIndex =
         CalendarSelector().getPart(format: PartFormat.day, responseType: 'int');
   }
@@ -19,15 +19,15 @@ class Calendar extends StatelessWidget {
     animatedTo = ScrollController(
         initialScrollOffset: (EventCalendar.headerWeekDayStringType ==
                     HeaderWeekDayStringTypes.Full
-                ? 100.0
-                : 52.0) *
+                ? 80.0
+                : 60.0) *
             (dayIndex - 1));
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
           (EventCalendar.headerWeekDayStringType ==
                       HeaderWeekDayStringTypes.Full
-                  ? 100.0
-                  : 52.0) *
+                  ? 80.0
+                  : 60.0) *
               (dayIndex - 1),
           duration: Duration(milliseconds: 700),
           curve: Curves.decelerate);
@@ -37,7 +37,7 @@ class Calendar extends StatelessWidget {
     return Container(
       height: 130,
       child: Padding(
-        padding: EdgeInsets.only(top: 20, bottom: 10),
+        padding: EdgeInsets.only(top: 10, bottom: 10),
         child: Stack(
           children: [
             Row(
@@ -97,35 +97,42 @@ class Calendar extends StatelessWidget {
   }
 
   List<Widget> daysMaker() {
+    final currentMonth = CalendarSelector()
+        .getPart(format: PartFormat.month, responseType: 'int');
+    final currentYear = CalendarSelector()
+        .getPart(format: PartFormat.year, responseType: 'int');
+
     List<Widget> days = [
-      Day(
-        index: 0,
-        weekDay: '',
-        selected: false,
-        onCalendarChanged: onCalendarChanged,
-      )
+      SizedBox(
+          width: EventCalendar.headerWeekDayStringType ==
+                  HeaderWeekDayStringTypes.Full
+              ? 80
+              : 60)
     ];
 
     int day = dayIndex;
 
-    CalendarSelector().getDays().forEach((index, weekDay) {
+    CalendarSelector().getDays(currentMonth).forEach((index, weekDay) {
       var selected = index == day ? true : false;
       days.add(Day(
-        index: index,
+        dayIndex: index,
+        year: currentYear,
+        mini: false,
+        month: currentMonth,
         weekDay: weekDay,
         selected: selected,
-        onCalendarChanged: onCalendarChanged,
+        onCalendarChanged: () {
+          CalendarSelector().goToDay(index);
+          onCalendarChanged?.call();
+        },
       ));
     });
 
-    days.add(
-      Day(
-        index: 0,
-        weekDay: '',
-        selected: false,
-        onCalendarChanged: onCalendarChanged,
-      ),
-    );
+    days.add(SizedBox(
+        width: EventCalendar.headerWeekDayStringType ==
+                HeaderWeekDayStringTypes.Full
+            ? 80
+            : 60));
 
     return days;
   }

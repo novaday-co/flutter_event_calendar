@@ -1,57 +1,25 @@
 import 'dart:ui';
 
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/providers/calendares/base_calendar_provider.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:flutter_event_calendar/src/dictionaries/en.dart';
+import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
-class EnCalendar extends BaseCalendarProvider {
-  @override
-  List<String> getShortNameOfDays() =>
-      ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+class EnCalendar extends CalendarProvider {
+
 
   @override
-  List<String> getFullNameOfDays() => [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ];
+  List<String> getShortNameOfDays() => En.shortDayNames[EventCalendar.calendarLanguage];
 
   @override
-  List<String> getFullMonthNames() => [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ];
+  List<String> getFullNameOfDays() => En.fullDayNames[EventCalendar.calendarLanguage];
 
   @override
-  List<String> getShortMonthNames() => [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
-      ];
+  List<String> getFullMonthNames() => En.fullMonthNames[EventCalendar.calendarLanguage];
+
+  @override
+  List<String> getShortMonthNames() =>
+      En.shortMonthNames[EventCalendar.calendarLanguage];
 
   @override
   String getDateTime() {
@@ -86,11 +54,11 @@ class EnCalendar extends BaseCalendarProvider {
   bool isRTL() => false;
 
   @override
-  Map getMonthDays() {
+  Map getMonthDays(int index) {
     Map days = {};
     DateTime now = _getSelectedDate();
-    int monthLength = DateTime(now.year, now.month + 1, 0).day;
-    DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
+    int monthLength = DateTime(now.year, index + 1, 0).day;
+    DateTime firstDayOfMonth = DateTime(now.year, index, 1);
     int dayIndex = firstDayOfMonth.weekday;
 
     switch (EventCalendar.headerWeekDayStringType) {
@@ -106,6 +74,20 @@ class EnCalendar extends BaseCalendarProvider {
           dayIndex++;
         }
         break;
+    }
+    return days;
+  }
+
+  @override
+  Map getMonthDaysShort(int index) {
+    Map days = {};
+    DateTime now = _getSelectedDate();
+    int monthLength = DateTime(now.year, index + 1, 0).day;
+    DateTime firstDayOfMonth = DateTime(now.year, index, 1);
+    int dayIndex = firstDayOfMonth.weekday;
+    for (var i = 1; i <= monthLength; i++) {
+      days[i] = getShortNameOfDays()[dayIndex % 7];
+      dayIndex++;
     }
     return days;
   }
@@ -165,4 +147,7 @@ class EnCalendar extends BaseCalendarProvider {
         return getFullMonthNames()[index];
     }
   }
+
+  @override
+  String getTranslation(String word) => En.titles[EventCalendar.calendarLanguage][word];
 }

@@ -1,6 +1,6 @@
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
-import 'package:shamsi_date/shamsi_date.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'Translator.dart';
 
 class CalendarSelector {
@@ -36,17 +36,13 @@ class CalendarSelector {
         EventCalendar.calendarProvider.getPreviousMonthDateTime();
   }
 
-  List getMonths() {
-    return Translator().getMonthNames();
-  }
-
   List getYears() => EventCalendar.calendarProvider.getYears();
 
-  Map getDays() => EventCalendar.calendarProvider.getMonthDays();
+  Map getDays(int monthIndex) => EventCalendar.calendarProvider.getMonthDays(monthIndex);
 
-  getSelectedGregorianDate() {
-    return DateTime.parse(EventCalendar.dateTime);
-  }
+  Map getMonthDaysShort(int monthIndex) => EventCalendar.calendarProvider.getMonthDaysShort(monthIndex);
+
+  String getCurrentDateTime() => EventCalendar.calendarProvider.getDateTime();
 
   getPart({required PartFormat format, required String responseType}) {
     if (responseType == 'int') {
@@ -56,5 +52,4 @@ class CalendarSelector {
           format, EventCalendar.calendarProvider.getDateTimePart(format) - 1);
     }
   }
-
 }

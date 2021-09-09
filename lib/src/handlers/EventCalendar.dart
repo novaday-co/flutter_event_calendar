@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/Event.dart';
-import 'package:flutter_event_calendar/src/providers/calendares/base_calendar_provider.dart';
+import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
-import 'package:flutter_event_calendar/src/widgets/Calendar.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
+import 'package:flutter_event_calendar/src/widgets/CalendarDaily.dart';
+import 'package:flutter_event_calendar/src/widgets/CalendarMonthly.dart';
 import 'package:flutter_event_calendar/src/widgets/Events.dart';
 import 'package:flutter_event_calendar/src/widgets/Header.dart';
 export 'package:flutter_event_calendar/src/handlers/Event.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
 class EventCalendar extends StatefulWidget {
-  // static CalendarType type = CalendarType.Gregorian;
-  static late BaseCalendarProvider calendarProvider;
-
+  static late CalendarProvider calendarProvider;
+  static late String calendarLanguage;
   static late String dateTime;
   static late List<Event> events;
   static List<Event> selectedEvents = [];
   static late String font;
   static late HeaderMonthStringTypes headerMonthStringType;
   static late HeaderWeekDayStringTypes headerWeekDayStringType;
+  static late DayEventCountViewType dayEventCountViewType;
   static late Color weekDaySelectedColor;
   static late Color weekDayUnselectedColor;
   static late Color dayIndexSelectedBackgroundColor;
   static late Color dayIndexUnselectedBackgroundColor;
   static late Color dayIndexSelectedForegroundColor;
   static late Color dayIndexUnelectedForegroundColor;
+  static late Color dayEventCountColor;
+  static late Color dayEventCountTextColor;
   static late String emptyText;
   static late Color emptyTextColor;
   static late IconData emptyIcon;
@@ -33,13 +36,13 @@ class EventCalendar extends StatefulWidget {
   static late Color eventTitleColor;
   static late Color eventDescriptionColor;
   static late Color eventDateTimeColor;
+  static late CalendarViewType viewType;
 
-  // static late bool isRTL;
-  static late String locale;
+  static bool canSelectViewType = false;
 
   EventCalendar(
-      {CalendarType? type,
-      List<Event>? events,
+      {List<Event>? events,
+      required bool canSelectViewType,
       dateTime,
       font,
       HeaderMonthStringTypes? headerMonthStringType,
@@ -50,6 +53,9 @@ class EventCalendar extends StatefulWidget {
       dayIndexUnselectedBackgroundColor,
       dayIndexSelectedForegroundColor,
       dayIndexUnelectedForegroundColor,
+      dayEventCountColor,
+      dayEventCountViewType,
+      dayEventCountTextColor,
       emptyText,
       emptyTextColor,
       emptyIcon,
@@ -58,9 +64,12 @@ class EventCalendar extends StatefulWidget {
       eventTitleColor,
       eventDescriptionColor,
       eventDateTimeColor,
+      viewType,
+      calendarLanguage,
       // isRTL,
-      required String locale}) {
-    calendarProvider = createInstance(locale);
+      required CalendarType calendarType}) {
+
+    calendarProvider = createInstance(calendarType);
 
     // EventCalendar.type = calendarProvider.typ;
     EventCalendar.events = events ?? [];
@@ -88,9 +97,16 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.eventTitleColor = eventTitleColor ?? Colors.black;
     EventCalendar.eventDescriptionColor = eventDescriptionColor ?? Colors.grey;
     EventCalendar.eventDateTimeColor = eventDateTimeColor ?? Colors.grey;
+    EventCalendar.dayEventCountColor = dayEventCountColor ?? Colors.orange;
+    EventCalendar.dayEventCountTextColor =
+        dayEventCountTextColor ?? Colors.white;
+    EventCalendar.dayEventCountViewType =
+        dayEventCountViewType ?? DayEventCountViewType.LABEL;
     EventCalendar.font = font ?? '';
-    EventCalendar.locale = locale;
     EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
+    EventCalendar.viewType = viewType ?? CalendarViewType.Monthly;
+    EventCalendar.canSelectViewType = canSelectViewType;
+    EventCalendar.calendarLanguage = calendarLanguage ?? calendarType;
   }
 
   @override
@@ -110,9 +126,15 @@ class _EventCalendarState extends State<EventCalendar> {
                 setState(() {});
               },
             ),
-            Calendar(onCalendarChanged: () {
-              setState(() {});
-            }),
+            isMonthlyView()
+                ? CalendarMonthly(onCalendarChanged: () {
+                    setState(() {});
+                  })
+                : CalendarDaily(
+                    onCalendarChanged: () {
+                      setState(() {});
+                    },
+                  ),
             Events(onEventsChanged: () {
               setState(() {});
             }),
@@ -120,5 +142,9 @@ class _EventCalendarState extends State<EventCalendar> {
         ),
       ),
     );
+  }
+
+  isMonthlyView() {
+    return EventCalendar.viewType == CalendarViewType.Monthly;
   }
 }

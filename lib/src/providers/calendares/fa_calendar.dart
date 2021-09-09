@@ -1,49 +1,30 @@
 import 'dart:ui';
 
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/providers/calendares/base_calendar_provider.dart';
-import 'package:flutter_event_calendar/src/utils/types/calendar_types.dart';
+import 'package:flutter_event_calendar/src/dictionaries/fa.dart';
+import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
-class FaCalendar extends BaseCalendarProvider {
-  @override
-  List<String> getShortNameOfDays() => ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
+class FaCalendar extends CalendarProvider {
+  Map _fa = {
+    'empty': 'خالی',
+    'month_selector': 'یک ماه را انتخاب کنید',
+    'year_selector': 'یک سال را انتخاب کنید',
+  };
 
   @override
-  List<String> getFullNameOfDays() =>
-      ['شنبه', 'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه'];
+  List<String> getShortNameOfDays() => Fa.shortDayNames[EventCalendar.calendarLanguage];
 
   @override
-  List<String> getFullMonthNames() => [
-        'فروردین',
-        'اردیبهشت',
-        'خرداد',
-        'تیر',
-        'مرداد',
-        'شهریور',
-        'مهر',
-        'آبان',
-        'آذر',
-        'دی',
-        'بهمن',
-        'اسفند'
-      ];
+  List<String> getFullNameOfDays() => Fa.fullDayNames[EventCalendar.calendarLanguage];
 
   @override
-  List<String> getShortMonthNames() => [
-        'فرو',
-        'ارد',
-        'خرد',
-        'تیر',
-        'مرد',
-        'شهر',
-        'مهر',
-        'آبا',
-        'آذر',
-        'دی',
-        'بهم',
-        'اسف'
-      ];
+  List<String> getFullMonthNames() => Fa.fullMonthNames[EventCalendar.calendarLanguage];
+
+  @override
+  List<String> getShortMonthNames() =>
+      Fa.shortMonthNames[EventCalendar.calendarLanguage];
 
   @override
   String getDateTime() {
@@ -54,6 +35,7 @@ class FaCalendar extends BaseCalendarProvider {
   @override
   String getNextMonthDateTime() {
     final date = _getSelectedDate();
+    print("date $date");
     final newDate = date.addMonths(1);
     final f = newDate.formatter;
     return '${f.y}-${f.mm}-01';
@@ -87,9 +69,9 @@ class FaCalendar extends BaseCalendarProvider {
   bool isRTL() => true;
 
   @override
-  Map getMonthDays() {
+  Map getMonthDays(int index) {
     Map days = {};
-    Jalali firstDayOfMonth = _getSelectedDate().withDay(1);
+    Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     int dayIndex = firstDayOfMonth.weekDay - 1;
     switch (EventCalendar.headerWeekDayStringType) {
       case HeaderWeekDayStringTypes.Full:
@@ -106,6 +88,16 @@ class FaCalendar extends BaseCalendarProvider {
         break;
     }
     return days;
+  }
+
+  @override
+  List<String> getNameOfDays() {
+    switch (EventCalendar.headerWeekDayStringType) {
+      case HeaderWeekDayStringTypes.Full:
+        return getFullNameOfDays();
+      case HeaderWeekDayStringTypes.Short:
+        return getShortNameOfDays();
+    }
   }
 
   @override
@@ -171,4 +163,20 @@ class FaCalendar extends BaseCalendarProvider {
         return getFullMonthNames()[index];
     }
   }
+
+  @override
+  Map getMonthDaysShort(int index) {
+    Map days = {};
+    Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
+    int dayIndex = firstDayOfMonth.weekDay - 1;
+    for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
+      days[i] = getShortNameOfDays()[dayIndex % 7];
+      dayIndex++;
+    }
+    return days;
+  }
+
+  @override
+  String getTranslation(String word) => Fa.titles[EventCalendar.calendarLanguage][word];
+
 }

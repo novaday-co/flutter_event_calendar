@@ -1,39 +1,36 @@
-import 'dart:ui';
-
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/Translator.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
 import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 class GregorianCalendar extends CalendarProvider {
-
   @override
-  String getDateTime() {
-    return DateTime.now().toString();
+  EDateTime getDateTime() {
+    return EDateTime.parse(DateTime.now().toString());
   }
 
   @override
-  String getNextMonthDateTime() {
+  EDateTime getNextMonthDateTime() {
     final date = _getSelectedDate();
-    return DateTime(date.year, date.month + 1, 1).toString();
+    return EDateTime(year: date.year, month: date.month + 1, day: 1);
   }
 
   @override
-  String getPreviousMonthDateTime() {
+  EDateTime getPreviousMonthDateTime() {
     final date = _getSelectedDate();
-    return DateTime(date.year, date.month - 1, 1).toString();
+    return EDateTime(year: date.year, month: date.month - 1, day: 1);
   }
 
   @override
-  String getPreviousDayDateTime() {
+  EDateTime getPreviousDayDateTime() {
     final date = _getSelectedDate();
-    return DateTime(date.year, date.month, date.day - 1).toString();
+    return EDateTime(year: date.year, month: date.month, day: date.day - 1);
   }
 
   @override
-  String getNextDayDateTime() {
+  EDateTime getNextDayDateTime() {
     final date = _getSelectedDate();
-    return DateTime(date.year, date.month, date.day + 1).toString();
+    return EDateTime(year: date.year, month: date.month, day: date.day + 1);
   }
 
   @override
@@ -42,7 +39,7 @@ class GregorianCalendar extends CalendarProvider {
   @override
   Map getMonthDays(int index) {
     Map days = {};
-    DateTime now = _getSelectedDate();
+    EDateTime now = _getSelectedDate();
     int monthLength = DateTime(now.year, index + 1, 0).day;
     DateTime firstDayOfMonth = DateTime(now.year, index, 1);
     int dayIndex = firstDayOfMonth.weekday;
@@ -67,7 +64,7 @@ class GregorianCalendar extends CalendarProvider {
   @override
   Map getMonthDaysShort(int index) {
     Map days = {};
-    DateTime now = _getSelectedDate();
+    EDateTime now = _getSelectedDate();
     int monthLength = DateTime(now.year, index + 1, 0).day;
     DateTime firstDayOfMonth = DateTime(now.year, index, 1);
     int dayIndex = firstDayOfMonth.weekday;
@@ -96,34 +93,31 @@ class GregorianCalendar extends CalendarProvider {
     return years;
   }
 
-  DateTime _getSelectedDate() {
-    return DateTime.parse(EventCalendar.dateTime);
+  EDateTime _getSelectedDate() {
+    return EventCalendar.dateTime;
   }
 
   @override
-  String goToDay(index) {
+  EDateTime goToDay(index) {
     dynamic date = _getSelectedDate();
-    dynamic newDate = DateTime(date.year, date.month, index);
-    return newDate.toString();
+    return EDateTime(year: date.year, month: date.month, day: index);
   }
 
   @override
-  String goToMonth(index) {
+  EDateTime goToMonth(index) {
     dynamic date = _getSelectedDate();
-    dynamic newDate = DateTime(date.year, index, 1);
-    return newDate.toString();
+    return EDateTime(year: date.year, month: index, day: 1);
   }
 
   @override
-  String goToYear(index) {
+  EDateTime goToYear(index) {
     dynamic date = _getSelectedDate();
-    dynamic newDate = DateTime(index, date.month, 1);
-    return newDate.toString();
+    return EDateTime(year: index, month: date.month, day: 1);
   }
 
   @override
   int getDateTimePart(PartFormat format) {
-    DateTime date = _getSelectedDate();
+    EDateTime date = _getSelectedDate();
     switch (format) {
       case PartFormat.year:
         return date.year;
@@ -143,5 +137,4 @@ class GregorianCalendar extends CalendarProvider {
         return Translator().getFullMonthNames()[index];
     }
   }
-
 }

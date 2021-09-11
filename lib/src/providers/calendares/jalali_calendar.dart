@@ -1,49 +1,52 @@
 import 'dart:ui';
 
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/Translator.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
 import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class JalaliCalendar extends CalendarProvider {
-
   @override
-  String getDateTime() {
+  EDateTime getDateTime() {
     final f = Jalali.now().formatter;
-    return '${f.y}-${f.mm}-${f.dd}';
+
+    return EDateTime(
+        year: int.parse(f.yyyy), month: int.parse(f.mm), day: int.parse(f.dd));
   }
 
   @override
-  String getNextMonthDateTime() {
+  EDateTime getNextMonthDateTime() {
     final date = _getSelectedDate();
     final newDate = date.addMonths(1);
     final f = newDate.formatter;
-    return '${f.y}-${f.mm}-01';
+    return EDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01);
   }
 
   @override
-  String getPreviousMonthDateTime() {
+  EDateTime getPreviousMonthDateTime() {
     final date = _getSelectedDate();
     dynamic newDate = date.addMonths(-1);
     final f = newDate.formatter;
-    return '${f.y}-${f.mm}-01';
+    return EDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01);
   }
 
   @override
-  String getPreviousDayDateTime() {
+  EDateTime getPreviousDayDateTime() {
     dynamic date = _getSelectedDate();
     dynamic newDate = date.addDays(-1);
     final f = newDate.formatter;
-    return '${f.y}-${f.mm}-${f.dd}';
+    return EDateTime(
+        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd));
   }
 
   @override
-  String getNextDayDateTime() {
+  EDateTime getNextDayDateTime() {
     dynamic date = _getSelectedDate();
     dynamic newDate = date.addDays(1);
     final f = newDate.formatter;
-    return '${f.y}-${f.mm}-${f.dd}';
+    return EDateTime(
+        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd));
   }
 
   @override
@@ -52,18 +55,19 @@ class JalaliCalendar extends CalendarProvider {
   @override
   Map getMonthDays(int index) {
     Map days = {};
+    final translator = Translator();
     Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     int dayIndex = firstDayOfMonth.weekDay - 1;
     switch (EventCalendar.headerWeekDayStringType) {
       case HeaderWeekDayStringTypes.Full:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
-          days[i] = Translator().getFullNameOfDays()[dayIndex % 7];
+          days[i] = translator.getFullNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
       case HeaderWeekDayStringTypes.Short:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
-          days[i] = Translator().getShortNameOfDays()[dayIndex % 7];
+          days[i] = translator.getShortNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
@@ -90,36 +94,33 @@ class JalaliCalendar extends CalendarProvider {
   }
 
   Jalali _getSelectedDate() {
-    List dateTimeParts = EventCalendar.dateTime.split(' ');
-    List dateParts = dateTimeParts[0].split('-');
     Jalali jv = Jalali(
-      int.parse(dateParts[0]),
-      int.parse(dateParts[1]),
-      int.parse(dateParts[2]),
+      EventCalendar.dateTime.year,
+      EventCalendar.dateTime.month,
+      EventCalendar.dateTime.day,
     );
     return jv;
   }
 
   @override
-  String goToDay(index) {
+  EDateTime goToDay(index) {
     dynamic date = _getSelectedDate();
-    index = index < 10 ? '0$index' : index;
     final f = date.formatter;
-    return '${f.y}-${f.mm}-$index';
+    return EDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: index);
   }
 
   @override
-  String goToMonth(index) {
+  EDateTime goToMonth(index) {
     dynamic date = _getSelectedDate();
     final f = date.formatter;
-    return '${f.y}-$index-01';
+    return EDateTime(year: int.parse(f.y), month: index, day: 01);
   }
 
   @override
-  String goToYear(index) {
+  EDateTime goToYear(index) {
     dynamic date = _getSelectedDate();
     final f = date.formatter;
-    return '$index-${f.mm}-01';
+    return EDateTime(year: index, month: int.parse(f.mm), day: 01);
   }
 
   @override
@@ -156,5 +157,4 @@ class JalaliCalendar extends CalendarProvider {
     }
     return days;
   }
-
 }

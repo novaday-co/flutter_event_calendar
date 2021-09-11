@@ -66,7 +66,7 @@ class EventCalendar extends StatefulWidget {
       eventDateTimeColor,
       viewType,
       calendarLanguage,
-      calendarType}) {
+      required calendarType}) {
 
     calendarProvider = createInstance(calendarType);
 

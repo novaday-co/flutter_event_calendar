@@ -28,7 +28,9 @@ class Header extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      CalendarSelector().previousMonth();
+                      final selector = CalendarSelector();
+                      selector.goToDay(1);
+                      selector.previousMonth();
                       onHeaderChanged.call();
                     },
                     customBorder: CircleBorder(),
@@ -112,7 +114,9 @@ class Header extends StatelessWidget {
                   InkWell(
                     customBorder: CircleBorder(),
                     onTap: () {
-                      CalendarSelector().nextMonth();
+                      final selector = CalendarSelector();
+                      selector.goToDay(1);
+                      selector.nextMonth();
                       onHeaderChanged.call();
                     },
                     child: Padding(

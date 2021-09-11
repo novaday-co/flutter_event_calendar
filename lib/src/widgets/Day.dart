@@ -2,26 +2,25 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/handlers/EventSelector.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar//handlers/event_selector.dart';
 
 class Day extends StatelessWidget {
-  int dayIndex;
-  int month;
-  int year;
   String weekDay;
   bool selected;
   Function? onCalendarChanged;
   bool mini;
   bool useUnselectedEffect;
-
+  bool enabled;
+  List<Event> dayEvents;
+  int day;
   Day(
-      {required this.month,
-      required this.dayIndex,
-      required this.year,
+      {
+      required this.day,
       required this.weekDay,
       required this.selected,
+      required this.dayEvents,
+      this.enabled = true,
       this.useUnselectedEffect = false,
       this.mini = true,
       this.onCalendarChanged})
@@ -29,11 +28,9 @@ class Day extends StatelessWidget {
 
   late Widget child;
 
-  late List<Event> todayEvents =
-      EventSelector().getEventsByDayMonthYear(year, month, dayIndex);
   late Color textColor = selected
       ? EventCalendar.dayIndexSelectedForegroundColor
-      : (useUnselectedEffect
+      : ((useUnselectedEffect || !enabled)
           ? EventCalendar.dayIndexUnelectedForegroundColor.withOpacity(0.2)
           : EventCalendar.dayIndexUnelectedForegroundColor);
 
@@ -41,7 +38,7 @@ class Day extends StatelessWidget {
   Widget build(BuildContext context) {
     child = InkWell(
       onTap: (() {
-        onCalendarChanged?.call();
+        if (enabled) onCalendarChanged?.call();
       }),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,7 +83,7 @@ class Day extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    '$dayIndex',
+                    '$day',
                     style: TextStyle(
                       color: textColor,
                       fontFamily: EventCalendar.font,
@@ -126,7 +123,7 @@ class Day extends StatelessWidget {
   dotMaker() {
     List<Widget> widgets = [];
 
-    final maxDot = min(todayEvents.length, 3);
+    final maxDot = min(dayEvents.length, 3);
     for (int i = 0; i < maxDot; i++) {
       widgets.add(
         Container(
@@ -139,7 +136,7 @@ class Day extends StatelessWidget {
           height: 5,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: useUnselectedEffect
+            color: (useUnselectedEffect || !enabled)
                 ? EventCalendar.dayEventCountColor.withOpacity(0.4)
                 : EventCalendar.dayEventCountColor,
           ),
@@ -156,20 +153,24 @@ class Day extends StatelessWidget {
   }
 
   labelMaker() {
-    if (todayEvents.isEmpty) return Container();
+    if (dayEvents.isEmpty) return Container();
     return Container(
-    margin: EdgeInsets.only(right: 2),
-      padding: EdgeInsets.symmetric(horizontal: 4,vertical: 2),
+      margin: EdgeInsets.only(right: 2),
+      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: useUnselectedEffect ? EventCalendar.dayEventCountColor.withOpacity(0.3) : EventCalendar.dayEventCountColor,
+        color: (useUnselectedEffect || !enabled)
+            ? EventCalendar.dayEventCountColor.withOpacity(0.3)
+            : EventCalendar.dayEventCountColor,
       ),
       child: Text(
-        "${todayEvents.length >= 10 ? '+9' : todayEvents.length}",
+        "${dayEvents.length >= 10 ? '+9' : dayEvents.length}",
         style: TextStyle(
             fontSize: 10,
             fontFamily: EventCalendar.font,
-            color: useUnselectedEffect ? EventCalendar.dayEventCountTextColor.withOpacity(0.3) : EventCalendar.dayEventCountTextColor),
+            color: useUnselectedEffect
+                ? EventCalendar.dayEventCountTextColor.withOpacity(0.3)
+                : EventCalendar.dayEventCountTextColor),
       ),
     );
   }

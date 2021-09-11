@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/handlers/Translator.dart';
+import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
 
 class SelectYear extends StatelessWidget {
   late List years;
@@ -15,7 +15,7 @@ class SelectYear extends StatelessWidget {
   late VoidCallback scrollToPositionCallback;
 
   final int selectedYear =
-        CalendarSelector().getPart(format: PartFormat.month, responseType: 'int');
+        CalendarUtils().getPart(format: PartFormat.month, responseType: 'int');
 
   final selectedDecoration = BoxDecoration(
     color: EventCalendar.dayIndexSelectedBackgroundColor,
@@ -26,7 +26,7 @@ class SelectYear extends StatelessWidget {
   Widget build(BuildContext context) {
     animateToCurrentYear();
 
-    years = CalendarSelector().getYears();
+    years = CalendarUtils().getYears();
 
     return Container(
       decoration: BoxDecoration(
@@ -73,7 +73,7 @@ class SelectYear extends StatelessWidget {
     return InkWell(
       onTap: (() {
         Navigator.pop(context);
-        CalendarSelector().goToYear(year);
+        CalendarUtils().goToYear(year);
         onHeaderChanged.call();
       }),
       child: Center(

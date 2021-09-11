@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/handlers/EventSelector.dart';
-import 'package:flutter_event_calendar/src/handlers/Translator.dart';
+import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
 import 'package:flutter_event_calendar/src/widgets/EventCard.dart';
 
 class Events extends StatelessWidget {
@@ -27,10 +27,10 @@ class Events extends StatelessWidget {
               // left
               switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
-                  CalendarSelector().nextDay();
+                  CalendarUtils().nextDay();
                   break;
                 case false:
-                  CalendarSelector().previousDay();
+                  CalendarUtils().previousDay();
                   break;
               }
               onEventsChanged.call();
@@ -38,10 +38,10 @@ class Events extends StatelessWidget {
               // right
               switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
-                  CalendarSelector().previousDay();
+                  CalendarUtils().previousDay();
                   break;
                 case false:
-                  CalendarSelector().nextDay();
+                  CalendarUtils().nextDay();
                   break;
               }
               onEventsChanged.call();

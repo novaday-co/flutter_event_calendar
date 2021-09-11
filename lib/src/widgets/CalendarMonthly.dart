@@ -2,15 +2,24 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/handlers/Translator.dart';
+import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
+import 'package:flutter_event_calendar/src/models/date.dart';
 import 'package:flutter_event_calendar/src/widgets/Day.dart';
 
 class CalendarMonthly extends StatefulWidget {
   Function onCalendarChanged;
+  List<Date> enabledDays;
+  List<Date> disabledDays;
 
-  CalendarMonthly({required this.onCalendarChanged, Key? key}) : super();
+  CalendarMonthly(
+      {required this.enabledDays,
+      required this.disabledDays,
+      required this.onCalendarChanged,
+      Key? key})
+      : super();
 
   @override
   State<CalendarMonthly> createState() => _CalendarMonthlyState();
@@ -18,11 +27,27 @@ class CalendarMonthly extends StatefulWidget {
 
 class _CalendarMonthlyState extends State<CalendarMonthly> {
   List<String> dayNames = Translator().getShortNameOfDays();
-  CalendarSelector calendarSelector = CalendarSelector();
+  CalendarUtils calendarSelector = CalendarUtils();
+  EventSelector eventSelector = EventSelector();
+  int currDay = -1;
+  int currMonth = -1;
+
+  @override
+  void didChangeDependencies() {
+    currDay =
+        calendarSelector.getPart(format: PartFormat.day, responseType: 'int');
+    currMonth =
+        calendarSelector.getPart(format: PartFormat.month, responseType: 'int');
+    super.didChangeDependencies();
+  }
 
   @override
   void didUpdateWidget(covariant CalendarMonthly oldWidget) {
     dayNames = Translator().getShortNameOfDays();
+    currDay =
+        calendarSelector.getPart(format: PartFormat.day, responseType: 'int');
+    currMonth =
+        calendarSelector.getPart(format: PartFormat.month, responseType: 'int');
     super.didUpdateWidget(oldWidget);
   }
 
@@ -61,14 +86,9 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
   _buildMonthView() {
-    final currentMonth =
-        calendarSelector.getPart(format: PartFormat.month, responseType: 'int');
-
     final int firstDayIndex = getFirstDayOfMonth();
     final int lastDayIndex = firstDayIndex + getLastDayOfMonth();
     final lastMonthLastDay = getLastMonthLastDay();
-    final int cDayIndex =
-        calendarSelector.getPart(format: PartFormat.day, responseType: 'int');
 
     return SizedBox(
       height: 7 * 40,
@@ -81,76 +101,32 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             itemCount: 42,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 7, mainAxisExtent: 45),
-            itemBuilder: (context, index) => _buildItem(index, firstDayIndex,
-                lastDayIndex, lastMonthLastDay, currentMonth, cDayIndex)),
+            itemBuilder: (context, index) => _buildItem(
+                index, firstDayIndex, lastDayIndex, lastMonthLastDay)),
       ),
     );
   }
 
-  _buildItem(int index, int firstDayIndex, int lastDayIndex,
-      int lastMonthLastDay, int currentMonth, int cDayIndex) {
-    int dayIndex = -1;
+  _buildItem(
+      int index, int firstDayIndex, int lastDayIndex, int lastMonthLastDay) {
+    int day = -1;
 
-    print("$firstDayIndex");
     final isCurrentMonthDays = index >= firstDayIndex && index < lastDayIndex;
     final isNextMonthDays = index >= lastDayIndex;
 
     if (isCurrentMonthDays)
-      dayIndex = index - firstDayIndex + 1;
+      day = index - firstDayIndex + 1;
     else if (isNextMonthDays)
-      dayIndex = index - lastDayIndex + 1;
+      day = index - lastDayIndex + 1;
     else
-      dayIndex = lastMonthLastDay - (firstDayIndex - index) + 1;
+      day = lastMonthLastDay - (firstDayIndex - index) + 1;
 
-    if (isCurrentMonthDays)
-      return Center(
-        child: Day(
-          month: getMonth(currentMonth),
-          year: getYear(currentMonth),
-          dayIndex: dayIndex,
-          weekDay: '',
-          selected: dayIndex == cDayIndex,
-          onCalendarChanged: () {
-            calendarSelector.goToDay(dayIndex);
-            widget.onCalendarChanged.call();
-          },
-          mini: true,
-        ),
-      );
-    else if (isNextMonthDays)
-      return Center(
-          child: Day(
-              dayIndex: dayIndex,
-              useUnselectedEffect: true,
-              weekDay: '',
-              month: getMonth(currentMonth + 1),
-              year: getYear(currentMonth + 1),
-              onCalendarChanged: () {
-                // reset to first to fix switching between 31/30/29 month lengths
-                calendarSelector.goToDay(1);
-                calendarSelector.nextMonth();
-                calendarSelector.goToDay(dayIndex);
-                widget.onCalendarChanged.call();
-              },
-              selected: false,
-              mini: true));
-    else if (dayIndex > 0) {
-      return Center(
-          child: Day(
-              dayIndex: dayIndex,
-              useUnselectedEffect: true,
-              month: getMonth(currentMonth - 1),
-              year: getYear(currentMonth - 1),
-              weekDay: '',
-              onCalendarChanged: () {
-                // reset to first to fix switching between 31/30/29 month lengths
-                calendarSelector.goToDay(1);
-                calendarSelector.previousMonth();
-                calendarSelector.goToDay(dayIndex);
-                widget.onCalendarChanged.call();
-              },
-              selected: false,
-              mini: true));
+    if (isCurrentMonthDays) {
+      return buildCurrentMonthDay(day);
+    } else if (isNextMonthDays) {
+      return buildNextMonthDay(day);
+    } else if (day > 0) {
+      return buildPrevMonthDay(day);
     }
     return SizedBox();
   }
@@ -191,5 +167,103 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       return year + 1;
     else if (month < 1) return year - 1;
     return year;
+  }
+
+  bool isEnabledDay(int cYear, int cMonth, int day) {
+    if (widget.enabledDays.isEmpty) return true;
+    return widget.enabledDays
+            .where(
+              (element) =>
+                  element.year == cYear &&
+                  element.month == cMonth &&
+                  element.day == day,
+            )
+            .length !=
+        0;
+  }
+
+  bool isDisabledDay(cYear, cMonth, int day) {
+    return widget.disabledDays
+            .where(
+              (element) =>
+                  element.year == cYear &&
+                  element.month == cMonth &&
+                  element.day == day,
+            )
+            .length !=
+        0;
+  }
+
+  buildCurrentMonthDay(day) {
+    final curYear = getYear(currMonth);
+    final isEnable = isEnabledDay(curYear, currMonth, day) &&
+        !isDisabledDay(curYear, currMonth, day);
+
+    return Center(
+      child: Day(
+        dayEvents: eventSelector.getEventsByDayMonthYear(
+          EDateTime(year: curYear, month: currMonth, day: day),
+        ),
+        day: day,
+        weekDay: '',
+        enabled: isEnable,
+        selected: day == currDay,
+        onCalendarChanged: () {
+          calendarSelector.goToDay(day);
+          widget.onCalendarChanged.call();
+        },
+        mini: true,
+      ),
+    );
+  }
+
+  buildNextMonthDay(int day) {
+    final year = getYear(currMonth + 1);
+    final month = getMonth(currMonth + 1);
+    final isEnable =
+        isEnabledDay(year, month, day) && !isDisabledDay(year, month, day);
+
+    return Center(
+        child: Day(
+            day: day,
+            useUnselectedEffect: true,
+            weekDay: '',
+            dayEvents: eventSelector.getEventsByDayMonthYear(EDateTime(
+                year: year, month: getMonth(currMonth + 1), day: day)),
+            enabled: isEnable,
+            onCalendarChanged: () {
+              // reset to first to fix switching between 31/30/29 month lengths
+              calendarSelector.goToDay(1);
+              calendarSelector.nextMonth();
+              calendarSelector.goToDay(day);
+              widget.onCalendarChanged.call();
+            },
+            selected: false,
+            mini: true));
+  }
+
+  buildPrevMonthDay(int day) {
+    final year = getYear(currMonth - 1);
+    final month = getMonth(currMonth - 1);
+    final isEnable =
+        isEnabledDay(year, month, day) && !isDisabledDay(year, month, day);
+
+    return Center(
+        child: Day(
+            day: day,
+            useUnselectedEffect: true,
+            dayEvents: eventSelector.getEventsByDayMonthYear(
+                EDateTime(year: year, month: month, day: day)),
+            weekDay: '',
+            enabled: isEnable,
+            onCalendarChanged: () {
+              // reset to first to fix switching between 31/30/29 month lengths
+              calendarSelector.goToDay(1);
+              calendarSelector.previousMonth();
+              calendarSelector.goToDay(day);
+              widget.onCalendarChanged.call();
+            },
+            selected: false,
+            mini: true));
   }
 }

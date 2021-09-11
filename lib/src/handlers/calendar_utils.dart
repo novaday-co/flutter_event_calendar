@@ -1,9 +1,9 @@
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
-import 'Translator.dart';
+import 'translator.dart';
 
-class CalendarSelector {
+class CalendarUtils {
   goToYear(index) {
     EventCalendar.dateTime = EventCalendar.calendarProvider.goToYear(index);
   }
@@ -42,7 +42,6 @@ class CalendarSelector {
 
   Map getMonthDaysShort(int monthIndex) => EventCalendar.calendarProvider.getMonthDaysShort(monthIndex);
 
-  String getCurrentDateTime() => EventCalendar.calendarProvider.getDateTime();
 
   getPart({required PartFormat format, required String responseType}) {
     if (responseType == 'int') {

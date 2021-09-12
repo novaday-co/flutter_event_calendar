@@ -26,7 +26,7 @@ class CalendarMonthly extends StatefulWidget {
 }
 
 class _CalendarMonthlyState extends State<CalendarMonthly> {
-  List<String> dayNames = Translator().getShortNameOfDays();
+  List<String> dayNames = Translator.getShortNameOfDays();
   CalendarUtils calendarSelector = CalendarUtils();
   EventSelector eventSelector = EventSelector();
   int currDay = -1;
@@ -43,7 +43,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
   @override
   void didUpdateWidget(covariant CalendarMonthly oldWidget) {
-    dayNames = Translator().getShortNameOfDays();
+    dayNames = Translator.getShortNameOfDays();
     currDay =
         calendarSelector.getPart(format: PartFormat.day, responseType: 'int');
     currMonth =
@@ -202,7 +202,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     return Center(
       child: Day(
         dayEvents: eventSelector.getEventsByDayMonthYear(
-          EDateTime(year: curYear, month: currMonth, day: day),
+          EventDateTime(year: curYear, month: currMonth, day: day),
         ),
         day: day,
         weekDay: '',
@@ -228,7 +228,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             day: day,
             useUnselectedEffect: true,
             weekDay: '',
-            dayEvents: eventSelector.getEventsByDayMonthYear(EDateTime(
+            dayEvents: eventSelector.getEventsByDayMonthYear(EventDateTime(
                 year: year, month: getMonth(currMonth + 1), day: day)),
             enabled: isEnable,
             onCalendarChanged: () {
@@ -253,7 +253,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             day: day,
             useUnselectedEffect: true,
             dayEvents: eventSelector.getEventsByDayMonthYear(
-                EDateTime(year: year, month: month, day: day)),
+                EventDateTime(year: year, month: month, day: day)),
             weekDay: '',
             enabled: isEnable,
             onCalendarChanged: () {

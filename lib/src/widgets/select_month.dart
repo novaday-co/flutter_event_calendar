@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/handlers/Translator.dart';
+import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/handlers/translator.dart';
 
 class SelectMonth extends StatelessWidget {
   late List months;
@@ -25,7 +25,7 @@ class SelectMonth extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              '${Translator().getTranslation('month_selector')}',
+              '${Translator.getTranslation('month_selector')}',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,
@@ -60,7 +60,7 @@ class SelectMonth extends StatelessWidget {
   }
 
   List<TableRow> monthsWidgetMaker(context) {
-    months = Translator().getFullMonthNames();
+    months = Translator.getFullMonthNames();
 
     List<Widget> _buildRowCells(int rowIndex) {
       List<TableCell> widgets = [];
@@ -72,7 +72,7 @@ class SelectMonth extends StatelessWidget {
               child: InkWell(
                 onTap: (() {
                   Navigator.pop(context);
-                  CalendarSelector().goToMonth((rowIndex * 3) + j + 1);
+                  CalendarUtils().goToMonth((rowIndex * 3) + j + 1);
                   onHeaderChanged.call();
                 }),
                 child: Padding(

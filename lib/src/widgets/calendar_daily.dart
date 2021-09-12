@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
-import 'package:flutter_event_calendar/src/widgets/Day.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
+import 'package:flutter_event_calendar/src/widgets/day.dart';
 
 class CalendarDaily extends StatelessWidget {
   Function? onCalendarChanged;
   var dayIndex;
   late ScrollController animatedTo;
+  EventSelector selector = EventSelector();
+  List<Date> enabledDays;
+  List<Date> disabledDays;
 
-  CalendarDaily({this.onCalendarChanged}) : super() {
+  CalendarDaily({this.onCalendarChanged,required this.enabledDays,required this.disabledDays}) : super() {
     dayIndex =
-        CalendarSelector().getPart(format: PartFormat.day, responseType: 'int');
+        CalendarUtils().getPart(format: PartFormat.day, responseType: 'int');
   }
 
   @override
@@ -22,6 +26,7 @@ class CalendarDaily extends StatelessWidget {
                 ? 80.0
                 : 60.0) *
             (dayIndex - 1));
+
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
           (EventCalendar.headerWeekDayStringType ==
@@ -97,10 +102,10 @@ class CalendarDaily extends StatelessWidget {
   }
 
   List<Widget> daysMaker() {
-    final currentMonth = CalendarSelector()
-        .getPart(format: PartFormat.month, responseType: 'int');
-    final currentYear = CalendarSelector()
-        .getPart(format: PartFormat.year, responseType: 'int');
+    final currentMonth =
+        CalendarUtils().getPart(format: PartFormat.month, responseType: 'int');
+    final currentYear =
+        CalendarUtils().getPart(format: PartFormat.year, responseType: 'int');
 
     List<Widget> days = [
       SizedBox(
@@ -112,17 +117,21 @@ class CalendarDaily extends StatelessWidget {
 
     int day = dayIndex;
 
-    CalendarSelector().getDays(currentMonth).forEach((index, weekDay) {
+    CalendarUtils().getDays(currentMonth).forEach((index, weekDay) {
+      final isEnable = isEnabledDay(currentYear, currentMonth, index) &&
+          !isDisabledDay(currentYear, currentMonth, index);
+
       var selected = index == day ? true : false;
       days.add(Day(
-        dayIndex: index,
-        year: currentYear,
+        day: index,
+        dayEvents: selector.getEventsByDayMonthYear(
+            EventDateTime(year: currentYear, month: currentMonth, day: index)),
         mini: false,
-        month: currentMonth,
+        enabled: isEnable,
         weekDay: weekDay,
         selected: selected,
         onCalendarChanged: () {
-          CalendarSelector().goToDay(index);
+          CalendarUtils().goToDay(index);
           onCalendarChanged?.call();
         },
       ));
@@ -135,5 +144,30 @@ class CalendarDaily extends StatelessWidget {
             : 60));
 
     return days;
+  }
+
+  bool isEnabledDay(int cYear, int cMonth, int day) {
+    if (enabledDays.isEmpty) return true;
+    return enabledDays
+            .where(
+              (element) =>
+                  element.year == cYear &&
+                  element.month == cMonth &&
+                  element.day == day,
+            )
+            .length !=
+        0;
+  }
+
+  bool isDisabledDay(cYear, cMonth, int day) {
+    return disabledDays
+            .where(
+              (element) =>
+                  element.year == cYear &&
+                  element.month == cMonth &&
+                  element.day == day,
+            )
+            .length !=
+        0;
   }
 }

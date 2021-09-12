@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/handlers/Event.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/models/event.dart';
 
 class EventCard extends StatelessWidget {
   Event fullCalendarEvent;
@@ -13,10 +13,10 @@ class EventCard extends StatelessWidget {
       padding: EdgeInsets.only(left: 7, right: 7),
       child: GestureDetector(
         onTap: (() {
-          fullCalendarEvent.onTap.call(fullCalendarEvent.listIndex);
+          fullCalendarEvent.onTap?.call(fullCalendarEvent.listIndex);
         }),
         onLongPress: (() {
-          fullCalendarEvent.onLongPress.call(fullCalendarEvent.listIndex);
+          fullCalendarEvent.onLongPress?.call(fullCalendarEvent.listIndex);
         }),
         child: Card(
           color: EventCalendar.eventBackgroundColor,
@@ -57,7 +57,7 @@ class EventCard extends StatelessWidget {
                   height: 8,
                 ),
                 Text(
-                  '${fullCalendarEvent.dateTime}',
+                  '${fullCalendarEvent.dateTime.toString()}',
                   style: TextStyle(
                     fontSize: 12,
                     color: EventCalendar.eventDateTimeColor,

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/CalendarSelector.dart';
-import 'package:flutter_event_calendar/src/handlers/EventCalendar.dart';
-import 'package:flutter_event_calendar/src/widgets/SelectMonth.dart';
-import 'package:flutter_event_calendar/src/widgets/SelectYear.dart';
+import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/widgets/select_month.dart';
+import 'package:flutter_event_calendar/src/widgets/select_year.dart';
 
 class Header extends StatelessWidget {
   Function onHeaderChanged;
@@ -28,7 +28,9 @@ class Header extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      CalendarSelector().previousMonth();
+                      final selector = CalendarUtils();
+                      selector.goToDay(1);
+                      selector.previousMonth();
                       onHeaderChanged.call();
                     },
                     customBorder: CircleBorder(),
@@ -69,7 +71,7 @@ class Header extends StatelessWidget {
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
-                            '${CalendarSelector().getPart(format: PartFormat.month, responseType: 'string')}',
+                            '${CalendarUtils().getPart(format: PartFormat.month, responseType: 'string')}',
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 20,
@@ -92,7 +94,7 @@ class Header extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          '${CalendarSelector().getPart(format: PartFormat.year, responseType: 'int')}',
+                          '${CalendarUtils().getPart(format: PartFormat.year, responseType: 'int')}',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 20,
@@ -112,7 +114,9 @@ class Header extends StatelessWidget {
                   InkWell(
                     customBorder: CircleBorder(),
                     onTap: () {
-                      CalendarSelector().nextMonth();
+                      final selector = CalendarUtils();
+                      selector.goToDay(1);
+                      selector.nextMonth();
                       onHeaderChanged.call();
                     },
                     child: Padding(
@@ -133,8 +137,8 @@ class Header extends StatelessWidget {
   }
 
   isInTodayIndex() {
-    return EventCalendar.dateTime.split(' ')[0] ==
-        CalendarSelector().getCurrentDateTime().split(' ')[0];
+    return EventCalendar.dateTime
+        .isDateEqual(EventCalendar.calendarProvider.getDateTime());
   }
 
   buildRefreshView() {

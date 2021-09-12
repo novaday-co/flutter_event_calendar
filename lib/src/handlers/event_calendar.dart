@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/Event.dart';
-import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
+import 'package:flutter_event_calendar/src/models/event.dart';
+import 'package:flutter_event_calendar/src/models/date.dart';
+import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
-import 'package:flutter_event_calendar/src/widgets/CalendarDaily.dart';
-import 'package:flutter_event_calendar/src/widgets/CalendarMonthly.dart';
-import 'package:flutter_event_calendar/src/widgets/Events.dart';
-import 'package:flutter_event_calendar/src/widgets/Header.dart';
-export 'package:flutter_event_calendar/src/handlers/Event.dart';
+import 'package:flutter_event_calendar/src/widgets/calendar_daily.dart';
+import 'package:flutter_event_calendar/src/widgets/calendar_monthly.dart';
+import 'package:flutter_event_calendar/src/widgets/events.dart';
+import 'package:flutter_event_calendar/src/widgets/header.dart';
+export 'package:flutter_event_calendar/src/models/event.dart';
 
 class EventCalendar extends StatefulWidget {
   static late CalendarProvider calendarProvider;
   static late String calendarLanguage;
   static late CalendarType calendarType;
-  static late String dateTime;
+  static late EventDateTime dateTime;
   static late List<Event> events;
   static List<Event> selectedEvents = [];
   static late String font;
@@ -40,10 +41,13 @@ class EventCalendar extends StatefulWidget {
   static late CalendarViewType viewType;
   static bool canSelectViewType = false;
 
+  List<Date> disabledDays = [];
+  List<Date> enabledDays = [];
+
   EventCalendar(
       {List<Event>? events,
       canSelectViewType,
-      dateTime,
+      EventDateTime? dateTime,
       font,
       HeaderMonthStringTypes? headerMonthStringType,
       HeaderWeekDayStringTypes? headerWeekDayStringType,
@@ -66,8 +70,9 @@ class EventCalendar extends StatefulWidget {
       eventDateTimeColor,
       viewType,
       calendarLanguage,
-      calendarType}) {
-
+      List<Date>? enabledDays,
+      List<Date>? disabledDays,
+      required calendarType}) {
     calendarProvider = createInstance(calendarType);
 
     EventCalendar.events = events ?? [];
@@ -106,6 +111,9 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.canSelectViewType = canSelectViewType ?? false;
     EventCalendar.calendarLanguage = calendarLanguage ?? 'en';
     EventCalendar.calendarType = calendarType ?? CalendarType.Gregorian;
+
+    this.disabledDays = disabledDays ?? [];
+    this.enabledDays = enabledDays ?? [];
   }
 
   @override
@@ -126,10 +134,15 @@ class _EventCalendarState extends State<EventCalendar> {
               },
             ),
             isMonthlyView()
-                ? CalendarMonthly(onCalendarChanged: () {
-                    setState(() {});
-                  })
+                ? CalendarMonthly(
+                    disabledDays: widget.disabledDays,
+                    enabledDays: widget.enabledDays,
+                    onCalendarChanged: () {
+                      setState(() {});
+                    })
                 : CalendarDaily(
+                    disabledDays: widget.disabledDays,
+                    enabledDays: widget.enabledDays,
                     onCalendarChanged: () {
                       setState(() {});
                     },

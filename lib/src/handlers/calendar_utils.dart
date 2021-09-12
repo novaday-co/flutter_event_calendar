@@ -47,7 +47,7 @@ class CalendarUtils {
     if (responseType == 'int') {
       return EventCalendar.calendarProvider.getDateTimePart(format);
     } else {
-      return Translator().getPartTranslate(
+      return Translator.getPartTranslate(
           format, EventCalendar.calendarProvider.getDateTimePart(format) - 1);
     }
   }

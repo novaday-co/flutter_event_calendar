@@ -125,7 +125,7 @@ class CalendarDaily extends StatelessWidget {
       days.add(Day(
         day: index,
         dayEvents: selector.getEventsByDayMonthYear(
-            EDateTime(year: currentYear, month: currentMonth, day: index)),
+            EventDateTime(year: currentYear, month: currentMonth, day: index)),
         mini: false,
         enabled: isEnable,
         weekDay: weekDay,

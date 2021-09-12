@@ -4,7 +4,7 @@ import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/widgets/EventCard.dart';
+import 'package:flutter_event_calendar/src/widgets/event_card.dart';
 
 class Events extends StatelessWidget {
   Function onEventsChanged;

@@ -5,10 +5,10 @@ import 'package:flutter_event_calendar/src/models/date.dart';
 import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
-import 'package:flutter_event_calendar/src/widgets/CalendarDaily.dart';
-import 'package:flutter_event_calendar/src/widgets/CalendarMonthly.dart';
-import 'package:flutter_event_calendar/src/widgets/Events.dart';
-import 'package:flutter_event_calendar/src/widgets/Header.dart';
+import 'package:flutter_event_calendar/src/widgets/calendar_daily.dart';
+import 'package:flutter_event_calendar/src/widgets/calendar_monthly.dart';
+import 'package:flutter_event_calendar/src/widgets/events.dart';
+import 'package:flutter_event_calendar/src/widgets/header.dart';
 export 'package:flutter_event_calendar/src/models/event.dart';
 
 class EventCalendar extends StatefulWidget {

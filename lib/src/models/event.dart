@@ -4,7 +4,7 @@ class Event {
   late int listIndex;
   late String title;
   late String description;
-  late EDateTime dateTime;
+  late EventDateTime dateTime;
   late Function? onTap;
   late Function? onLongPress;
 

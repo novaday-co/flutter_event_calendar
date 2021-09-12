@@ -20,7 +20,7 @@ class EventSelector {
     return EventCalendar.selectedEvents;
   }
 
-  List<Event> getEventsByDayMonthYear(EDateTime date) {
+  List<Event> getEventsByDayMonthYear(EventDateTime date) {
     EventCalendar.selectedEvents = [];
     var i = 0;
     for (var item in EventCalendar.events) {

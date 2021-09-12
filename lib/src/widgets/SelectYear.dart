@@ -41,7 +41,7 @@ class SelectYear extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              '${Translator().getTranslation('year_selector')}',
+              '${Translator.getTranslation('year_selector')}',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,

@@ -78,7 +78,7 @@ class Events extends StatelessWidget {
             color: EventCalendar.emptyIconColor,
           ),
           Text(
-            '${EventCalendar.emptyText != null ? EventCalendar.emptyText : Translator().getTranslation('empty')}',
+            '${EventCalendar.emptyText != null ? EventCalendar.emptyText : Translator.getTranslation('empty')}',
             style: TextStyle(
               color: EventCalendar.emptyTextColor,
               fontSize: 25,

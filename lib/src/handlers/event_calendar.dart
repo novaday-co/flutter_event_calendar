@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/models/event.dart';
 import 'package:flutter_event_calendar/src/models/date.dart';
-import 'package:flutter_event_calendar/src/providers/calendares/calendar_provider.dart';
+import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:flutter_event_calendar/src/widgets/CalendarDaily.dart';
@@ -15,7 +15,7 @@ class EventCalendar extends StatefulWidget {
   static late CalendarProvider calendarProvider;
   static late String calendarLanguage;
   static late CalendarType calendarType;
-  static late EDateTime dateTime;
+  static late EventDateTime dateTime;
   static late List<Event> events;
   static List<Event> selectedEvents = [];
   static late String font;
@@ -47,7 +47,7 @@ class EventCalendar extends StatefulWidget {
   EventCalendar(
       {List<Event>? events,
       canSelectViewType,
-      EDateTime? dateTime,
+      EventDateTime? dateTime,
       font,
       HeaderMonthStringTypes? headerMonthStringType,
       HeaderWeekDayStringTypes? headerWeekDayStringType,

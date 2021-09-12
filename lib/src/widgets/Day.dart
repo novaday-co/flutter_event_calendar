@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
-import 'package:flutter_event_calendar//handlers/event_selector.dart';
 
 class Day extends StatelessWidget {
   String weekDay;

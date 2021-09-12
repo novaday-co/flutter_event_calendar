@@ -1,11 +1,11 @@
-class EDateTime {
+class EventDateTime {
   int year;
   int month;
   int day;
   int? hour;
   int? minute;
 
-  EDateTime(
+  EventDateTime(
       {required this.year,
       required this.month,
       required this.day,
@@ -13,12 +13,12 @@ class EDateTime {
       this.minute});
 
   //1400-9-12 20:00
-  static EDateTime parse(String dateTime) {
+  static EventDateTime parse(String dateTime) {
     final splitter = dateTime.split(" ");
     final datePart = splitter[0].split("-");
     final timePart = splitter[1].split(":");
 
-    return EDateTime(
+    return EventDateTime(
         year: int.parse(datePart[0]),
         month: int.parse(datePart[1]),
         day: int.parse(datePart[2]),
@@ -26,13 +26,13 @@ class EDateTime {
         minute: int.parse(timePart[1]));
   }
 
-  bool isDateEqual(EDateTime dateTime) {
+  bool isDateEqual(EventDateTime dateTime) {
     return year == dateTime.year &&
         month == dateTime.month &&
         day == dateTime.day;
   }
 
-  bool isDateTimeEqual(EDateTime dateTime) {
+  bool isDateTimeEqual(EventDateTime dateTime) {
     return year == dateTime.year &&
         month == dateTime.month &&
         day == dateTime.day &&

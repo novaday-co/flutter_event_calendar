@@ -2,6 +2,7 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'translator.dart';
+import 'package:collection/collection.dart';
 
 class CalendarUtils {
   goToYear(index) {
@@ -38,10 +39,11 @@ class CalendarUtils {
 
   List getYears() => EventCalendar.calendarProvider.getYears();
 
-  Map getDays(int monthIndex) => EventCalendar.calendarProvider.getMonthDays(monthIndex);
+  Map getDays(int monthIndex) =>
+      EventCalendar.calendarProvider.getMonthDays(monthIndex);
 
-  Map getMonthDaysShort(int monthIndex) => EventCalendar.calendarProvider.getMonthDaysShort(monthIndex);
-
+  Map getMonthDaysShort(int monthIndex) =>
+      EventCalendar.calendarProvider.getMonthDaysShort(monthIndex);
 
   getPart({required PartFormat format, required String responseType}) {
     if (responseType == 'int') {
@@ -50,5 +52,25 @@ class CalendarUtils {
       return Translator.getPartTranslate(
           format, EventCalendar.calendarProvider.getDateTimePart(format) - 1);
     }
+  }
+
+  EventDateTime? getColorizedDay(
+      List<EventDateTime> colorizedDays, int year, int month, int day) {
+    final result = colorizedDays.firstWhereOrNull(
+        (element) => element.isDateEqualByInt(year, month, day));
+
+    return result;
+  }
+
+  bool isDisabledDay(List<EventDateTime> disabledDays, year, month, day) {
+    return disabledDays.firstWhereOrNull(
+            (element) => element.isDateEqualByInt(year, month, day)) !=
+        null;
+  }
+  bool isEnabledDay(List<EventDateTime> enabledDays, year, month, day) {
+    if (enabledDays.isEmpty) return true;
+    return enabledDays.firstWhereOrNull(
+            (element) => element.isDateEqualByInt(year, month, day)) !=
+        null;
   }
 }

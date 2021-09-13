@@ -10,10 +10,16 @@ class CalendarDaily extends StatelessWidget {
   var dayIndex;
   late ScrollController animatedTo;
   EventSelector selector = EventSelector();
-  List<Date> enabledDays;
-  List<Date> disabledDays;
+  List<EventDateTime> enabledDays;
+  List<EventDateTime> disabledDays;
+  List<EventDateTime> colorizedDays;
 
-  CalendarDaily({this.onCalendarChanged,required this.enabledDays,required this.disabledDays}) : super() {
+  CalendarDaily(
+      {this.onCalendarChanged,
+      required this.enabledDays,
+      required this.colorizedDays,
+      required this.disabledDays})
+      : super() {
     dayIndex =
         CalendarUtils().getPart(format: PartFormat.day, responseType: 'int');
   }

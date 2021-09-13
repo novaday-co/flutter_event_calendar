@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/models/event.dart';
-import 'package:flutter_event_calendar/src/models/date.dart';
 import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
@@ -41,8 +40,11 @@ class EventCalendar extends StatefulWidget {
   static late CalendarViewType viewType;
   static bool canSelectViewType = false;
 
-  List<Date> disabledDays = [];
-  List<Date> enabledDays = [];
+  List<EventDateTime> disabledDays;
+
+  List<EventDateTime> enabledDays;
+
+  List<EventDateTime> colorizedDays;
 
   EventCalendar(
       {List<Event>? events,
@@ -70,11 +72,11 @@ class EventCalendar extends StatefulWidget {
       eventDateTimeColor,
       viewType,
       calendarLanguage,
-      List<Date>? enabledDays,
-      List<Date>? disabledDays,
+      this.enabledDays = const [],
+      this.disabledDays = const [],
+      this.colorizedDays = const [],
       required calendarType}) {
     calendarProvider = createInstance(calendarType);
-
     EventCalendar.events = events ?? [];
     EventCalendar.headerMonthStringType =
         headerMonthStringType ?? HeaderMonthStringTypes.Full;
@@ -111,9 +113,6 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.canSelectViewType = canSelectViewType ?? false;
     EventCalendar.calendarLanguage = calendarLanguage ?? 'en';
     EventCalendar.calendarType = calendarType ?? CalendarType.Gregorian;
-
-    this.disabledDays = disabledDays ?? [];
-    this.enabledDays = enabledDays ?? [];
   }
 
   @override
@@ -137,10 +136,12 @@ class _EventCalendarState extends State<EventCalendar> {
                 ? CalendarMonthly(
                     disabledDays: widget.disabledDays,
                     enabledDays: widget.enabledDays,
+                    colorizedDays: widget.colorizedDays,
                     onCalendarChanged: () {
                       setState(() {});
                     })
                 : CalendarDaily(
+                    colorizedDays: widget.colorizedDays,
                     disabledDays: widget.disabledDays,
                     enabledDays: widget.enabledDays,
                     onCalendarChanged: () {

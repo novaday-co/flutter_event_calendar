@@ -13,12 +13,14 @@ class Day extends StatelessWidget {
   bool enabled;
   List<Event> dayEvents;
   int day;
+  Color? color;
+
   Day(
-      {
-      required this.day,
+      {required this.day,
       required this.weekDay,
       required this.selected,
       required this.dayEvents,
+      this.color,
       this.enabled = true,
       this.useUnselectedEffect = false,
       this.mini = true,
@@ -29,9 +31,9 @@ class Day extends StatelessWidget {
 
   late Color textColor = selected
       ? EventCalendar.dayIndexSelectedForegroundColor
-      : ((useUnselectedEffect || !enabled)
-          ? EventCalendar.dayIndexUnelectedForegroundColor.withOpacity(0.2)
-          : EventCalendar.dayIndexUnelectedForegroundColor);
+      : (_shouldHaveTransparentColor()
+          ? (color ?? EventCalendar.dayIndexUnelectedForegroundColor).withOpacity(0.3)
+          : (color ?? EventCalendar.dayIndexUnelectedForegroundColor));
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,7 @@ class Day extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: selected
-                    ? EventCalendar.weekDaySelectedColor
-                    : EventCalendar.weekDayUnselectedColor,
+                color: _getTitleColor(),
                 fontFamily: EventCalendar.font,
               ),
             ),
@@ -135,7 +135,7 @@ class Day extends StatelessWidget {
           height: 5,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: (useUnselectedEffect || !enabled)
+            color: _shouldHaveTransparentColor()
                 ? EventCalendar.dayEventCountColor.withOpacity(0.4)
                 : EventCalendar.dayEventCountColor,
           ),
@@ -158,7 +158,7 @@ class Day extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: (useUnselectedEffect || !enabled)
+        color: _shouldHaveTransparentColor()
             ? EventCalendar.dayEventCountColor.withOpacity(0.3)
             : EventCalendar.dayEventCountColor,
       ),
@@ -172,5 +172,18 @@ class Day extends StatelessWidget {
                 : EventCalendar.dayEventCountTextColor),
       ),
     );
+  }
+
+  _getTitleColor() {
+    print("color is $color");
+    return selected
+        ? EventCalendar.weekDaySelectedColor
+        : (color != null
+            ? color
+            : EventCalendar.weekDayUnselectedColor);
+  }
+
+  _shouldHaveTransparentColor() {
+    return useUnselectedEffect || !enabled;
   }
 }

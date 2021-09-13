@@ -31,7 +31,7 @@ class EventDateTime {
         day: int.parse(datePart[2]),
         hour: int.parse(timePart[0]),
         minute: int.parse(timePart[1]),
-        second: timePart.length == 3 ? int.parse(timePart[2]) : 0,
+        second: timePart.length == 3 ? double.parse(timePart[2]).toInt() : 0,
       );
     } on Exception catch (e) {
       return null;

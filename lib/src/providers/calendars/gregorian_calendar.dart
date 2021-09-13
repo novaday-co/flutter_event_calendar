@@ -6,7 +6,7 @@ import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 class GregorianCalendar extends CalendarProvider {
   @override
   EventDateTime getDateTime() {
-    return EventDateTime.parse(DateTime.now().toString());
+    return EventDateTime.parse(DateTime.now().toString())!;
   }
 
   @override
@@ -132,9 +132,9 @@ class GregorianCalendar extends CalendarProvider {
   String getMonthName(index) {
     switch (EventCalendar.headerMonthStringType) {
       case HeaderMonthStringTypes.Short:
-        return Translator().getShortMonthNames()[index];
+        return Translator.getShortMonthNames()[index];
       case HeaderMonthStringTypes.Full:
-        return Translator().getFullMonthNames()[index];
+        return Translator.getFullMonthNames()[index];
     }
   }
 }

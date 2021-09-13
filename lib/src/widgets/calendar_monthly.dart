@@ -184,7 +184,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
         ),
         day: day,
         weekDay: '',
-        titleColor: colorizedDay?.color,
+        color: colorizedDay?.color,
         enabled: isEnable,
         selected: day == currDay,
         onCalendarChanged: () {
@@ -209,7 +209,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             day: day,
             useUnselectedEffect: true,
             weekDay: '',
-            titleColor: colorizedDay?.color,
+            color: colorizedDay?.color,
             dayEvents: eventSelector.getEventsByDayMonthYear(EventDateTime(
                 year: year, month: getMonth(currMonth + 1), day: day)),
             enabled: isEnable,
@@ -239,7 +239,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             dayEvents: eventSelector.getEventsByDayMonthYear(
                 EventDateTime(year: year, month: month, day: day)),
             weekDay: '',
-            titleColor: colorizedDay?.color,
+            color: colorizedDay?.color,
             enabled: isEnable,
             onCalendarChanged: () {
               // reset to first to fix switching between 31/30/29 month lengths

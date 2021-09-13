@@ -18,7 +18,7 @@ class JalaliCalendar extends CalendarProvider {
   @override
   EventDateTime getNextMonthDateTime() {
     final date = _getSelectedDate();
-    final newDate = date.addMonths(1);
+    final newDate = date.withDay(1).addMonths(1);
     final f = newDate.formatter;
     return EventDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01);
   }
@@ -26,7 +26,7 @@ class JalaliCalendar extends CalendarProvider {
   @override
   EventDateTime getPreviousMonthDateTime() {
     final date = _getSelectedDate();
-    dynamic newDate = date.addMonths(-1);
+    dynamic newDate = date.withDay(1).addMonths(-1);
     final f = newDate.formatter;
     return EventDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01);
   }
@@ -139,9 +139,9 @@ class JalaliCalendar extends CalendarProvider {
   String getMonthName(index) {
     switch (EventCalendar.headerMonthStringType) {
       case HeaderMonthStringTypes.Short:
-        return Translator().getShortMonthNames()[index];
+        return Translator.getShortMonthNames()[index];
       case HeaderMonthStringTypes.Full:
-        return Translator().getFullMonthNames()[index];
+        return Translator.getFullMonthNames()[index];
     }
   }
 
@@ -151,7 +151,7 @@ class JalaliCalendar extends CalendarProvider {
     Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     int dayIndex = firstDayOfMonth.weekDay - 1;
     for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
-      days[i] = Translator().getShortNameOfDays()[dayIndex % 7];
+      days[i] = Translator.getShortNameOfDays()[dayIndex % 7];
       dayIndex++;
     }
     return days;

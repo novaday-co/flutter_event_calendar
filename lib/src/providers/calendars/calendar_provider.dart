@@ -29,6 +29,4 @@ abstract class CalendarProvider {
   int getDateTimePart(PartFormat format);
 
   List<int> getYears();
-
-  List<String> getNameOfDays();
 }

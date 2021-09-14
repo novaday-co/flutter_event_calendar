@@ -76,16 +76,6 @@ class GregorianCalendar extends CalendarProvider {
   }
 
   @override
-  List<String> getNameOfDays() {
-    switch (EventCalendar.headerWeekDayStringType) {
-      case HeaderWeekDayStringTypes.Full:
-        return Translator.getFullNameOfDays();
-      case HeaderWeekDayStringTypes.Short:
-        return Translator.getShortNameOfDays();
-    }
-  }
-
-  @override
   List<int> getYears() {
     int year = _getSelectedDate().year;
     List<int> years = [];

@@ -43,9 +43,9 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   @override
   void didChangeDependencies() {
     currDay =
-        calendarUtils.getPartByInt(format: PartFormat.day);
+        CalendarUtils.getPartByInt(format: PartFormat.day);
     currMonth =
-        calendarUtils.getPartByInt(format: PartFormat.month);
+        CalendarUtils.getPartByInt(format: PartFormat.month);
     super.didChangeDependencies();
   }
 

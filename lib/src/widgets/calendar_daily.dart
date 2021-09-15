@@ -21,21 +21,22 @@ class CalendarDaily extends StatelessWidget {
       required this.disabledDays})
       : super() {
     dayIndex =
-        CalendarUtils().getPart(format: PartFormat.day, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.day);
   }
 
   @override
   Widget build(BuildContext context) {
     animatedTo = ScrollController(
-        initialScrollOffset: (EventCalendar.headerWeekDayStringType ==
-                    HeaderWeekDayStringTypes.Full
-                ? 80.0
-                : 60.0) *
-            (dayIndex - 1));
+        initialScrollOffset:
+            (CalendarOptions.of(context).headerWeekDayStringType ==
+                        HeaderWeekDayStringTypes.Full
+                    ? 80.0
+                    : 60.0) *
+                (dayIndex - 1));
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
-          (EventCalendar.headerWeekDayStringType ==
+          (CalendarOptions.of(context).headerWeekDayStringType ==
                       HeaderWeekDayStringTypes.Full
                   ? 80.0
                   : 60.0) *
@@ -58,7 +59,7 @@ class CalendarDaily extends StatelessWidget {
                     reverse: EventCalendar.calendarProvider.isRTL(),
                     controller: animatedTo,
                     scrollDirection: Axis.horizontal,
-                    children: daysMaker(),
+                    children: daysMaker(context),
                   ),
                 )
               ],
@@ -107,15 +108,17 @@ class CalendarDaily extends StatelessWidget {
     );
   }
 
-  List<Widget> daysMaker() {
+  List<Widget> daysMaker(BuildContext context) {
     final currentMonth =
-        CalendarUtils().getPart(format: PartFormat.month, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.month);
     final currentYear =
-        CalendarUtils().getPart(format: PartFormat.year, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.year);
+
+    final calendarOptions = CalendarOptions.of(context);
 
     List<Widget> days = [
       SizedBox(
-          width: EventCalendar.headerWeekDayStringType ==
+          width: calendarOptions.headerWeekDayStringType ==
                   HeaderWeekDayStringTypes.Full
               ? 80
               : 60)
@@ -123,7 +126,8 @@ class CalendarDaily extends StatelessWidget {
 
     int day = dayIndex;
 
-    CalendarUtils().getDays(currentMonth).forEach((index, weekDay) {
+    CalendarUtils.getDays(calendarOptions.headerWeekDayStringType, currentMonth)
+        .forEach((index, weekDay) {
       final isEnable = isEnabledDay(currentYear, currentMonth, index) &&
           !isDisabledDay(currentYear, currentMonth, index);
 
@@ -137,14 +141,14 @@ class CalendarDaily extends StatelessWidget {
         weekDay: weekDay,
         selected: selected,
         onCalendarChanged: () {
-          CalendarUtils().goToDay(index);
+          CalendarUtils.goToDay(index);
           onCalendarChanged?.call();
         },
       ));
     });
 
     days.add(SizedBox(
-        width: EventCalendar.headerWeekDayStringType ==
+        width: calendarOptions.headerWeekDayStringType ==
                 HeaderWeekDayStringTypes.Full
             ? 80
             : 60));

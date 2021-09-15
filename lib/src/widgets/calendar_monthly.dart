@@ -29,17 +29,23 @@ class CalendarMonthly extends StatefulWidget {
 
 class _CalendarMonthlyState extends State<CalendarMonthly> {
   List<String> dayNames = Translator.getShortNameOfDays();
-  CalendarUtils calendarUtils = CalendarUtils();
   EventSelector eventSelector = EventSelector();
+  late CalendarOptions calendarOptions;
   int currDay = -1;
   int currMonth = -1;
 
   @override
+  void initState() {
+    calendarOptions = CalendarOptions.of(context);
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     currDay =
-        calendarUtils.getPart(format: PartFormat.day, responseType: 'int');
+        calendarUtils.getPartByInt(format: PartFormat.day);
     currMonth =
-        calendarUtils.getPart(format: PartFormat.month, responseType: 'int');
+        calendarUtils.getPartByInt(format: PartFormat.month);
     super.didChangeDependencies();
   }
 
@@ -47,9 +53,9 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   void didUpdateWidget(covariant CalendarMonthly oldWidget) {
     dayNames = Translator.getShortNameOfDays();
     currDay =
-        calendarUtils.getPart(format: PartFormat.day, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.day);
     currMonth =
-        calendarUtils.getPart(format: PartFormat.month, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.month);
     super.didUpdateWidget(oldWidget);
   }
 
@@ -135,24 +141,30 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
   int getFirstDayOfMonth() {
     final currentMonth =
-        calendarUtils.getPart(format: PartFormat.month, responseType: 'int');
-    final monthDays = calendarUtils.getMonthDaysShort(currentMonth);
+        CalendarUtils.getPartByInt(format: PartFormat.month);
+    final monthDays = CalendarUtils.getMonthDaysShort(currentMonth);
     return dayNames.indexOf(monthDays[1]);
   }
 
   int getLastDayOfMonth() {
     final currentMonth =
-        calendarUtils.getPart(format: PartFormat.month, responseType: 'int');
-    return calendarUtils.getDays(currentMonth).keys.last;
+        CalendarUtils.getPartByInt(format: PartFormat.month);
+    return CalendarUtils
+        .getDays(calendarOptions.headerWeekDayStringType, currentMonth)
+        .keys
+        .last;
   }
 
   int getLastMonthLastDay() {
     final cMonth =
-        calendarUtils.getPart(format: PartFormat.month, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.month);
     if (cMonth - 1 < 1) {
       return -1;
     }
-    return calendarUtils.getDays(cMonth - 1).keys.last;
+    return CalendarUtils
+        .getDays(calendarOptions.headerWeekDayStringType, cMonth - 1)
+        .keys
+        .last;
   }
 
   getMonth(int month) {
@@ -164,7 +176,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
   getYear(int month) {
     final year =
-        calendarUtils.getPart(format: PartFormat.year, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.year);
     if (month > 12)
       return year + 1;
     else if (month < 1) return year - 1;
@@ -175,7 +187,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     final curYear = getYear(currMonth);
     final isEnable = isDayEnabled(curYear, currMonth, day);
 
-    final EventDateTime? colorizedDay = calendarUtils.getColorizedDay(
+    final EventDateTime? colorizedDay = CalendarUtils.getColorizedDay(
         widget.colorizedDays, curYear, currMonth, day);
 
     return Center(
@@ -189,7 +201,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
         enabled: isEnable,
         selected: day == currDay,
         onCalendarChanged: () {
-          calendarUtils.goToDay(day);
+          CalendarUtils.goToDay(day);
           widget.onCalendarChanged.call();
         },
         mini: true,
@@ -203,7 +215,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     final isEnable = isDayEnabled(year, month, day);
 
     final EventDateTime? colorizedDay =
-        calendarUtils.getColorizedDay(widget.colorizedDays, year, month, day);
+        CalendarUtils.getColorizedDay(widget.colorizedDays, year, month, day);
 
     return Center(
         child: Day(
@@ -216,8 +228,8 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             enabled: isEnable,
             onCalendarChanged: () {
               // reset to first to fix switching between 31/30/29 month lengths
-              calendarUtils.nextMonth();
-              calendarUtils.goToDay(day);
+              CalendarUtils.nextMonth();
+              CalendarUtils.goToDay(day);
               widget.onCalendarChanged.call();
             },
             selected: false,
@@ -231,7 +243,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     final isEnable = isDayEnabled(year, month, day);
 
     final EventDateTime? colorizedDay =
-        calendarUtils.getColorizedDay(widget.colorizedDays, year, month, day);
+        CalendarUtils.getColorizedDay(widget.colorizedDays, year, month, day);
 
     return Center(
         child: Day(
@@ -244,8 +256,8 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             enabled: isEnable,
             onCalendarChanged: () {
               // reset to first to fix switching between 31/30/29 month lengths
-              calendarUtils.previousMonth();
-              calendarUtils.goToDay(day);
+              CalendarUtils.previousMonth();
+              CalendarUtils.goToDay(day);
               widget.onCalendarChanged.call();
             },
             selected: false,
@@ -253,9 +265,9 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
   isDayEnabled(curYear, int currMonth, day) {
-    return calendarUtils.isEnabledDay(
+    return CalendarUtils.isEnabledDay(
             widget.enabledDays, curYear, currMonth, day) &&
-        !calendarUtils.isDisabledDay(
+        !CalendarUtils.isDisabledDay(
             widget.disabledDays, curYear, currMonth, day);
   }
 }

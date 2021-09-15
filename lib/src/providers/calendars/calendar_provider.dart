@@ -4,7 +4,7 @@ import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 abstract class CalendarProvider {
   bool isRTL();
 
-  Map getMonthDays(int index);
+  Map getMonthDays(HeaderWeekDayStringTypes type,int index);
 
   Map getMonthDaysShort(int index);
 
@@ -17,8 +17,6 @@ abstract class CalendarProvider {
   EventDateTime getPreviousDayDateTime();
 
   EventDateTime getDateTime();
-
-  String getMonthName(index);
 
   EventDateTime goToMonth(index);
 

@@ -1,5 +1,5 @@
 enum CalendarType { Jalali, Gregorian }
-enum CalendarViewType { Daily, Monthly }
+enum ViewType { Daily, Monthly }
 enum HeaderMonthStringTypes { Full, Short }
 enum HeaderWeekDayStringTypes { Full, Short }
 enum PartFormat { month, day, year }

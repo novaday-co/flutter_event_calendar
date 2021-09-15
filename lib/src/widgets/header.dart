@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/models/calendar_options.dart';
+import 'package:flutter_event_calendar/src/models/style/select_month_style.dart';
+import 'package:flutter_event_calendar/src/models/style/select_year_style.dart';
 import 'package:flutter_event_calendar/src/widgets/select_month.dart';
 import 'package:flutter_event_calendar/src/widgets/select_year.dart';
 
@@ -61,9 +64,14 @@ class Header extends StatelessWidget {
                           showModalBottomSheet(
                             backgroundColor: Colors.transparent,
                             context: context,
-                            builder: (BuildContext context) {
+                            builder: (BuildContext mmm) {
                               return SelectMonth(
                                 onHeaderChanged: onHeaderChanged,
+                                monthStyle: MonthStyle(
+                                  font: CalendarOptions.of(context).font,
+                                  selectedColor: DayStyle.of(context)
+                                      .dayIndexSelectedBackgroundColor,
+                                ),
                               );
                             },
                           );
@@ -75,7 +83,7 @@ class Header extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 20,
-                              fontFamily: EventCalendar.font,
+                              fontFamily: CalendarOptions.of(context).font,
                             ),
                           ),
                         ),
@@ -86,9 +94,14 @@ class Header extends StatelessWidget {
                           showModalBottomSheet(
                             backgroundColor: Colors.transparent,
                             context: context,
-                            builder: (BuildContext context) {
+                            builder: (BuildContext mmm) {
                               return SelectYear(
                                 onHeaderChanged: onHeaderChanged,
+                                yearStyle: YearStyle(
+                                  font: CalendarOptions.of(context).font,
+                                  selectedColor: DayStyle.of(context)
+                                      .dayIndexSelectedBackgroundColor,
+                                ),
                               );
                             },
                           );
@@ -98,7 +111,7 @@ class Header extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 20,
-                            fontFamily: EventCalendar.font,
+                            fontFamily: CalendarOptions.of(context).font,
                           ),
                         ),
                       ),
@@ -110,7 +123,7 @@ class Header extends StatelessWidget {
               Row(
                 children: [
                   buildRefreshView(),
-                  buildSelectViewType(),
+                  buildSelectViewType(context),
                   InkWell(
                     customBorder: CircleBorder(),
                     onTap: () {
@@ -162,22 +175,26 @@ class Header extends StatelessWidget {
     );
   }
 
-  buildSelectViewType() {
-    if (EventCalendar.canSelectViewType)
+  buildSelectViewType(BuildContext context) {
+    if (CalendarOptions.of(context).selectableViewType)
       return InkWell(
         customBorder: CircleBorder(),
         onTap: () {
           // EventCalendar.dateTime = EventCalendar.calendarProvider.getDateTime();
-          if (EventCalendar.viewType == CalendarViewType.Monthly)
-            EventCalendar.viewType = CalendarViewType.Daily;
+          if (CalendarOptions.of(context).calendarViewType ==
+              CalendarViewType.Monthly)
+            CalendarOptions.of(context).calendarViewType =
+                CalendarViewType.Daily;
           else
-            EventCalendar.viewType = CalendarViewType.Monthly;
+            CalendarOptions.of(context).calendarViewType =
+                CalendarViewType.Monthly;
           onHeaderChanged.call();
         },
         child: Padding(
           padding: EdgeInsets.all(5),
           child: Icon(
-            EventCalendar.viewType == CalendarViewType.Monthly
+            CalendarOptions.of(context).calendarViewType ==
+                    CalendarViewType.Monthly
                 ? Icons.calendar_view_month_outlined
                 : Icons.calendar_view_day_outlined,
             size: 24,

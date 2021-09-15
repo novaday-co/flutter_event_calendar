@@ -6,6 +6,7 @@ import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
+import 'package:flutter_event_calendar/src/models/calendar_options.dart';
 import 'package:flutter_event_calendar/src/widgets/day.dart';
 
 class CalendarMonthly extends StatefulWidget {
@@ -78,7 +79,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  fontFamily: EventCalendar.font),
+                  fontFamily: CalendarOptions.of(context).font),
             ),
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
 import 'package:flutter_event_calendar/src/widgets/day.dart';
 
 class CalendarDaily extends StatelessWidget {
@@ -28,16 +29,16 @@ class CalendarDaily extends StatelessWidget {
   Widget build(BuildContext context) {
     animatedTo = ScrollController(
         initialScrollOffset:
-            (CalendarOptions.of(context).headerWeekDayStringType ==
-                        HeaderWeekDayStringTypes.Full
+            (HeadersStyle.of(context).weekDayStringType ==
+                        WeekDayStringTypes.Full
                     ? 80.0
                     : 60.0) *
                 (dayIndex - 1));
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
-          (CalendarOptions.of(context).headerWeekDayStringType ==
-                      HeaderWeekDayStringTypes.Full
+          (HeadersStyle.of(context).weekDayStringType ==
+                      WeekDayStringTypes.Full
                   ? 80.0
                   : 60.0) *
               (dayIndex - 1),
@@ -114,19 +115,19 @@ class CalendarDaily extends StatelessWidget {
     final currentYear =
         CalendarUtils.getPartByInt(format: PartFormat.year);
 
-    final calendarOptions = CalendarOptions.of(context);
+    final headersStyle = HeadersStyle.of(context);
 
     List<Widget> days = [
       SizedBox(
-          width: calendarOptions.headerWeekDayStringType ==
-                  HeaderWeekDayStringTypes.Full
+          width: headersStyle.weekDayStringType ==
+                  WeekDayStringTypes.Full
               ? 80
               : 60)
     ];
 
     int day = dayIndex;
 
-    CalendarUtils.getDays(calendarOptions.headerWeekDayStringType, currentMonth)
+    CalendarUtils.getDays(headersStyle.weekDayStringType, currentMonth)
         .forEach((index, weekDay) {
       final isEnable = isEnabledDay(currentYear, currentMonth, index) &&
           !isDisabledDay(currentYear, currentMonth, index);
@@ -148,8 +149,8 @@ class CalendarDaily extends StatelessWidget {
     });
 
     days.add(SizedBox(
-        width: calendarOptions.headerWeekDayStringType ==
-                HeaderWeekDayStringTypes.Full
+        width: headersStyle.weekDayStringType ==
+                WeekDayStringTypes.Full
             ? 80
             : 60));
 

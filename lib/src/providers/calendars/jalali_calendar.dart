@@ -53,18 +53,18 @@ class JalaliCalendar extends CalendarProvider {
   bool isRTL() => Translator.isRTL();
 
   @override
-  Map getMonthDays(int index) {
+  Map getMonthDays(WeekDayStringTypes type,int index) {
     Map days = {};
     Jalali firstDayOfMonth = _getSelectedDate().withMonth(index).withDay(1);
     int dayIndex = firstDayOfMonth.weekDay - 1;
-    switch (EventCalendar.headerWeekDayStringType) {
-      case HeaderWeekDayStringTypes.Full:
+    switch (type) {
+      case WeekDayStringTypes.Full:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
           days[i] = Translator.getFullNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
-      case HeaderWeekDayStringTypes.Short:
+      case WeekDayStringTypes.Short:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
           days[i] = Translator.getShortNameOfDays()[dayIndex % 7];
           dayIndex++;
@@ -122,16 +122,6 @@ class JalaliCalendar extends CalendarProvider {
         return date.month;
       case PartFormat.day:
         return date.day;
-    }
-  }
-
-  @override
-  String getMonthName(index) {
-    switch (EventCalendar.headerMonthStringType) {
-      case HeaderMonthStringTypes.Short:
-        return Translator.getShortMonthNames()[index];
-      case HeaderMonthStringTypes.Full:
-        return Translator.getFullMonthNames()[index];
     }
   }
 

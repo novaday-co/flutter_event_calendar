@@ -17,7 +17,7 @@ class SelectMonth extends StatelessWidget {
   late BoxDecoration selectedDecoration;
 
   final int currentMonth =
-      CalendarUtils().getPart(format: PartFormat.month, responseType: 'int');
+      CalendarUtils.getPartByInt(format: PartFormat.month);
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class SelectMonth extends StatelessWidget {
               child: InkWell(
                 onTap: (() {
                   Navigator.pop(context);
-                  CalendarUtils().goToMonth(mMonth);
+                  CalendarUtils.goToMonth(mMonth);
                   onHeaderChanged.call();
                 }),
                 child: Container(

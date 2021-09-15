@@ -21,7 +21,7 @@ class EventCard extends StatelessWidget {
           fullCalendarEvent.onLongPress?.call(fullCalendarEvent.listIndex);
         }),
         child: Card(
-          color: EventStyle.of(context).eventBackgroundColor,
+          color: EventStyle.of(context).backgroundColor,
           child: Container(
             padding: EdgeInsets.all(20),
             child: Column(
@@ -37,7 +37,7 @@ class EventCard extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 20,
-                    color: EventStyle.of(context).eventTitleColor,
+                    color: EventStyle.of(context).titleColor,
                     fontFamily: CalendarOptions.of(context).font,
                   ),
                 ),
@@ -51,7 +51,7 @@ class EventCard extends StatelessWidget {
                       : TextDirection.ltr,
                   style: TextStyle(
                     fontSize: 13,
-                    color: EventStyle.of(context).eventDescriptionColor,
+                    color: EventStyle.of(context).descriptionColor,
                     fontFamily: CalendarOptions.of(context).font,
                   ),
                 ),
@@ -62,7 +62,7 @@ class EventCard extends StatelessWidget {
                   '${fullCalendarEvent.dateTime.toString()}',
                   style: TextStyle(
                     fontSize: 12,
-                    color: EventStyle.of(context).eventDateTimeColor,
+                    color: EventStyle.of(context).dateTimeColor,
                     fontFamily: CalendarOptions.of(context).font,
                   ),
                 ),

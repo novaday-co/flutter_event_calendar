@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/models/calendar_options.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
 
 class Day extends StatelessWidget {
   String weekDay;
@@ -37,11 +38,11 @@ class Day extends StatelessWidget {
     dayStyle = DayStyle.of(context);
 
     textColor = selected
-        ? dayStyle.dayIndexSelectedForegroundColor
+        ? dayStyle.selectedTextColor
         : (_shouldHaveTransparentColor()
-            ? (color ?? dayStyle.dayIndexUnelectedForegroundColor)
+            ? (color ?? dayStyle.unselectedTextColor)
                 .withOpacity(0.3)
-            : (color ?? dayStyle.dayIndexUnelectedForegroundColor));
+            : (color ?? dayStyle.unselectedTextColor));
 
     child = InkWell(
       onTap: (() {
@@ -53,13 +54,15 @@ class Day extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           if (!mini)
-            Text(
-              '$weekDay',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: _getTitleColor(),
-                fontFamily: CalendarOptions.of(context).font,
+            FittedBox(
+              child: Text(
+                '$weekDay',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: _getTitleColor(),
+                  fontFamily: CalendarOptions.of(context).font,
+                ),
               ),
             ),
           if (!mini)
@@ -71,14 +74,14 @@ class Day extends StatelessWidget {
             curve: Curves.ease,
             padding: mini
                 ? EdgeInsets.all(0)
-                : (EdgeInsets.all(EventCalendar.headerWeekDayStringType ==
-                        HeaderWeekDayStringTypes.Full
+                : (EdgeInsets.all(HeadersStyle.of(context).weekDayStringType ==
+                        WeekDayStringTypes.Full
                     ? 4
                     : 0)),
             decoration: BoxDecoration(
                 color: selected
-                    ? dayStyle.dayIndexSelectedBackgroundColor
-                    : dayStyle.dayIndexUnselectedBackgroundColor,
+                    ? dayStyle.selectedBackgroundColor
+                    : dayStyle.unselectedBackgroundColor,
                 shape: BoxShape.circle),
             constraints: BoxConstraints(
                 minWidth: double.infinity, minHeight: mini ? 35 : 45),
@@ -96,13 +99,13 @@ class Day extends StatelessWidget {
                   ),
                 ),
                 Align(
-                  alignment: dayStyle.dayEventCounterViewType ==
+                  alignment: dayStyle.eventCounterViewType ==
                           DayEventCountViewType.DOT
                       ? Alignment.bottomCenter
                       : Alignment.bottomRight,
-                  child: dayStyle.dayEventCounterViewType ==
+                  child: dayStyle.eventCounterViewType ==
                           DayEventCountViewType.DOT
-                      ? dotMaker()
+                      ? dotMaker(context)
                       : labelMaker(context),
                 ),
               ],
@@ -117,15 +120,15 @@ class Day extends StatelessWidget {
       padding: EdgeInsets.all(mini ? 0 : 10),
       width: mini
           ? 45
-          : (EventCalendar.headerWeekDayStringType ==
-                  HeaderWeekDayStringTypes.Full
+          : (HeadersStyle.of(context).weekDayStringType ==
+                  WeekDayStringTypes.Full
               ? 80
               : 60),
       child: child,
     );
   }
 
-  dotMaker() {
+  dotMaker(BuildContext context) {
     List<Widget> widgets = [];
 
     final maxDot = min(dayEvents.length, 3);
@@ -133,8 +136,8 @@ class Day extends StatelessWidget {
       widgets.add(
         Container(
           margin: EdgeInsets.only(
-              bottom: EventCalendar.headerWeekDayStringType ==
-                      HeaderWeekDayStringTypes.Short
+              bottom: HeadersStyle.of(context).weekDayStringType ==
+                      WeekDayStringTypes.Short
                   ? (mini ? 4 : 8)
                   : 2),
           width: 5,
@@ -142,8 +145,8 @@ class Day extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: _shouldHaveTransparentColor()
-                ? dayStyle.dayEventCounterColor.withOpacity(0.4)
-                : dayStyle.dayEventCounterColor,
+                ? dayStyle.eventCounterColor.withOpacity(0.4)
+                : dayStyle.eventCounterColor,
           ),
         ),
       );
@@ -165,8 +168,8 @@ class Day extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: _shouldHaveTransparentColor()
-            ? dayStyle.dayEventCounterColor.withOpacity(0.3)
-            : dayStyle.dayEventCounterColor,
+            ? dayStyle.eventCounterColor.withOpacity(0.3)
+            : dayStyle.eventCounterColor,
       ),
       child: Text(
         "${dayEvents.length >= 10 ? '+9' : dayEvents.length}",
@@ -174,14 +177,13 @@ class Day extends StatelessWidget {
             fontSize: 10,
             fontFamily: CalendarOptions.of(context).font,
             color: useUnselectedEffect
-                ? dayStyle.dayEventCounterTextColor.withOpacity(0.3)
-                : dayStyle.dayEventCounterTextColor),
+                ? dayStyle.eventCounterTextColor.withOpacity(0.3)
+                : dayStyle.eventCounterTextColor),
       ),
     );
   }
 
   _getTitleColor() {
-    print("color is $color");
     return selected
         ? dayStyle.weekDaySelectedColor
         : (color != null ? color : dayStyle.weekDayUnselectedColor);

@@ -7,20 +7,21 @@ class EventStyle extends Model {
   Color emptyTextColor;
   IconData emptyIcon;
   Color emptyIconColor;
-  Color eventBackgroundColor;
-  Color eventTitleColor;
-  Color eventDescriptionColor;
-  Color eventDateTimeColor;
+  Color backgroundColor;
+  Color titleColor;
+  Color descriptionColor;
+  Color dateTimeColor;
 
   EventStyle(
       {this.emptyText,
       this.emptyTextColor = const Color(0xffe5e5e5),
       this.emptyIcon = Icons.reorder,
       this.emptyIconColor = const Color(0xffebebeb),
-      this.eventBackgroundColor = Colors.white,
-      this.eventTitleColor = Colors.black,
-      this.eventDescriptionColor = Colors.grey,
-      this.eventDateTimeColor = Colors.grey});
+      this.backgroundColor = Colors.white,
+      this.titleColor = Colors.black,
+      this.descriptionColor = Colors.grey,
+      this.dateTimeColor = Colors.grey});
 
-  static EventStyle of(BuildContext context) => ScopedModel.of<EventStyle>(context);
+  static EventStyle of(BuildContext context) =>
+      ScopedModel.of<EventStyle>(context);
 }

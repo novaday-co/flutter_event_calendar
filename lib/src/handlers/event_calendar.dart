@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/models/calendar_options.dart';
 import 'package:flutter_event_calendar/src/models/event.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
 import 'package:flutter_event_calendar/src/models/style/event_style.dart';
 import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
@@ -19,8 +20,9 @@ class EventCalendar extends StatefulWidget {
   static late EventDateTime dateTime;
   static late List<Event> events;
   static List<Event> selectedEvents = [];
-  static late HeaderMonthStringTypes headerMonthStringType;
-  static late HeaderWeekDayStringTypes headerWeekDayStringType;
+
+  // static late HeaderMonthStringTypes headerMonthStringType;
+  // static late HeaderWeekDayStringTypes headerWeekDayStringType;
   static late String calendarLanguage;
   static late CalendarType calendarType;
 
@@ -38,15 +40,16 @@ class EventCalendar extends StatefulWidget {
 
   EventStyle? eventStyle;
 
+  HeadersStyle? headersStyle;
+
   EventCalendar(
       {List<Event>? events,
       canSelectViewType,
       EventDateTime? dateTime,
-      HeaderMonthStringTypes? headerMonthStringType,
-      HeaderWeekDayStringTypes? headerWeekDayStringType,
       this.calendarOptions,
       this.dayStyle,
       this.eventStyle,
+      this.headersStyle,
       this.enabledDays = const [],
       this.disabledDays = const [],
       this.colorizedDays = const [],
@@ -63,10 +66,6 @@ class EventCalendar extends StatefulWidget {
     EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
     EventCalendar.calendarType = calendarType ?? CalendarType.Gregorian;
     EventCalendar.calendarLanguage = calendarLanguage ?? 'en';
-    EventCalendar.headerMonthStringType =
-        headerMonthStringType ?? HeaderMonthStringTypes.Full;
-    EventCalendar.headerWeekDayStringType =
-        headerWeekDayStringType ?? HeaderWeekDayStringTypes.Short;
   }
 
   @override
@@ -116,7 +115,7 @@ class _EventCalendarState extends State<EventCalendar> {
   }
 
   isMonthlyView() {
-    return widget.calendarOptions?.calendarViewType == CalendarViewType.Monthly;
+    return widget.calendarOptions?.viewType == ViewType.Monthly;
   }
 
   buildScopeModels({required Container child}) {
@@ -126,7 +125,10 @@ class _EventCalendarState extends State<EventCalendar> {
         model: widget.dayStyle!,
         child: ScopedModel<EventStyle>(
           model: widget.eventStyle!,
-          child: child,
+          child: ScopedModel<HeadersStyle>(
+            model: widget.headersStyle!,
+            child: child,
+          ),
         ),
       ),
     );

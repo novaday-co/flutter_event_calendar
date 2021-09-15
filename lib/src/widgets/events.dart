@@ -31,10 +31,10 @@ class Events extends StatelessWidget {
               // left
               switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
-                  CalendarUtils().nextDay();
+                  CalendarUtils.nextDay();
                   break;
                 case false:
-                  CalendarUtils().previousDay();
+                  CalendarUtils.previousDay();
                   break;
               }
               onEventsChanged.call();
@@ -42,10 +42,10 @@ class Events extends StatelessWidget {
               // right
               switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
-                  CalendarUtils().previousDay();
+                  CalendarUtils.previousDay();
                   break;
                 case false:
-                  CalendarUtils().nextDay();
+                  CalendarUtils.nextDay();
                   break;
               }
               onEventsChanged.call();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'translator.dart';
 import 'package:collection/collection.dart';
@@ -40,14 +41,14 @@ class CalendarUtils {
 
   static List getYears() => EventCalendar.calendarProvider.getYears();
 
-  static Map getDays(HeaderWeekDayStringTypes type, int monthIndex) =>
+  static Map getDays(WeekDayStringTypes type, int monthIndex) =>
       EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
 
   static Map getMonthDaysShort(int monthIndex) =>
       EventCalendar.calendarProvider.getMonthDaysShort(monthIndex);
 
   static getPartByString(
-      {required PartFormat format, required CalendarOptions options}) {
+      {required PartFormat format, required HeadersStyle options}) {
     return Translator.getPartTranslate(options, format,
         EventCalendar.calendarProvider.getDateTimePart(format) - 1);
   }

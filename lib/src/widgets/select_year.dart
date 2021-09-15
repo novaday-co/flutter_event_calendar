@@ -18,7 +18,7 @@ class SelectYear extends StatelessWidget {
   late VoidCallback scrollToPositionCallback;
 
   final int selectedYear =
-      CalendarUtils().getPart(format: PartFormat.year, responseType: 'int');
+      CalendarUtils.getPartByInt(format: PartFormat.year);
 
   late BoxDecoration selectedDecoration;
 
@@ -26,7 +26,7 @@ class SelectYear extends StatelessWidget {
   Widget build(BuildContext context) {
     animateToCurrentYear();
 
-    years = CalendarUtils().getYears();
+    years = CalendarUtils.getYears();
 
     selectedDecoration = BoxDecoration(
       color: yearStyle?.selectedColor,
@@ -77,7 +77,7 @@ class SelectYear extends StatelessWidget {
     return InkWell(
       onTap: (() {
         Navigator.pop(context);
-        CalendarUtils().goToYear(year);
+        CalendarUtils.goToYear(year);
         onHeaderChanged.call();
       }),
       child: Center(

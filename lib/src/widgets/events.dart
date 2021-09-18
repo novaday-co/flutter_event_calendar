@@ -4,15 +4,19 @@ import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
+import 'package:flutter_event_calendar/src/models/calendar_options.dart';
+import 'package:flutter_event_calendar/src/models/style/event_style.dart';
 import 'package:flutter_event_calendar/src/widgets/event_card.dart';
 
 class Events extends StatelessWidget {
   Function onEventsChanged;
+  late EventStyle eventStyle;
 
   Events({required this.onEventsChanged});
 
   @override
   Widget build(BuildContext context) {
+    eventStyle = EventStyle.of(context);
     return Expanded(
       child: Padding(
         padding: EdgeInsets.all(5),
@@ -27,10 +31,10 @@ class Events extends StatelessWidget {
               // left
               switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
-                  CalendarUtils().nextDay();
+                  CalendarUtils.nextDay();
                   break;
                 case false:
-                  CalendarUtils().previousDay();
+                  CalendarUtils.previousDay();
                   break;
               }
               onEventsChanged.call();
@@ -38,10 +42,10 @@ class Events extends StatelessWidget {
               // right
               switch (EventCalendar.calendarProvider.isRTL()) {
                 case true:
-                  CalendarUtils().previousDay();
+                  CalendarUtils.previousDay();
                   break;
                 case false:
-                  CalendarUtils().nextDay();
+                  CalendarUtils.nextDay();
                   break;
               }
               onEventsChanged.call();
@@ -49,14 +53,14 @@ class Events extends StatelessWidget {
           }),
           child: ListView(
             scrollDirection: Axis.vertical,
-            children: eventCardsMaker(),
+            children: eventCardsMaker(context),
           ),
         ),
       ),
     );
   }
 
-  List<Widget> eventCardsMaker() {
+  List<Widget> eventCardsMaker(BuildContext context) {
     var selectedEvents = EventSelector().updateEvents();
     List<Widget> eventCards = [];
     for (var item in selectedEvents)
@@ -73,16 +77,16 @@ class Events extends StatelessWidget {
             height: 150,
           ),
           Icon(
-            EventCalendar.emptyIcon,
+            eventStyle.emptyIcon,
             size: 95,
-            color: EventCalendar.emptyIconColor,
+            color: eventStyle.emptyIconColor,
           ),
           Text(
-            '${EventCalendar.emptyText != null ? EventCalendar.emptyText : Translator.getTranslation('empty')}',
+            '${eventStyle.emptyText != null ? eventStyle.emptyText : Translator.getTranslation('empty')}',
             style: TextStyle(
-              color: EventCalendar.emptyTextColor,
+              color: eventStyle.emptyTextColor,
               fontSize: 25,
-              fontFamily: EventCalendar.font,
+              fontFamily: CalendarOptions.of(context).font,
             ),
           ),
         ],

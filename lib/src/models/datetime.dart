@@ -9,14 +9,13 @@ class EventDateTime {
   int? second;
   Color? color;
 
-  EventDateTime(
-      {required this.year,
-      required this.month,
-      required this.day,
-      this.hour,
-      this.minute,
-      this.second,
-      this.color});
+  EventDateTime({required this.year,
+    required this.month,
+    required this.day,
+    this.hour,
+    this.minute,
+    this.second,
+    this.color});
 
   //supported format 1400-9-12 20:00(:50)
   static EventDateTime? parse(String dateTime) {
@@ -34,6 +33,7 @@ class EventDateTime {
         second: timePart.length == 3 ? double.parse(timePart[2]).toInt() : 0,
       );
     } on Exception catch (e) {
+      print("${e.toString()}");
       return null;
     }
   }
@@ -59,7 +59,9 @@ class EventDateTime {
   @override
   String toString() {
     if (hour != null && minute != null) {
-      return "$year/$month/$day $hour:$minute${second != null ? ':$second' : ''}";
+      return "$year/$month/$day $hour:$minute${second != null
+          ? ':$second'
+          : ''}";
     } else
       return "$year/$month/$day";
   }

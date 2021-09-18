@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/models/calendar_options.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
 
 class Day extends StatelessWidget {
   String weekDay;
@@ -14,7 +16,7 @@ class Day extends StatelessWidget {
   List<Event> dayEvents;
   int day;
   Color? color;
-
+  late DayStyle dayStyle;
   Day(
       {required this.day,
       required this.weekDay,
@@ -29,14 +31,19 @@ class Day extends StatelessWidget {
 
   late Widget child;
 
-  late Color textColor = selected
-      ? EventCalendar.dayIndexSelectedForegroundColor
-      : (_shouldHaveTransparentColor()
-          ? (color ?? EventCalendar.dayIndexUnelectedForegroundColor).withOpacity(0.3)
-          : (color ?? EventCalendar.dayIndexUnelectedForegroundColor));
+  late Color textColor;
 
   @override
   Widget build(BuildContext context) {
+    dayStyle = DayStyle.of(context);
+
+    textColor = selected
+        ? dayStyle.selectedTextColor
+        : (_shouldHaveTransparentColor()
+            ? (color ?? dayStyle.unselectedTextColor)
+                .withOpacity(0.3)
+            : (color ?? dayStyle.unselectedTextColor));
+
     child = InkWell(
       onTap: (() {
         if (enabled) onCalendarChanged?.call();
@@ -47,13 +54,15 @@ class Day extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           if (!mini)
-            Text(
-              '$weekDay',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: _getTitleColor(),
-                fontFamily: EventCalendar.font,
+            FittedBox(
+              child: Text(
+                '$weekDay',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: _getTitleColor(),
+                  fontFamily: CalendarOptions.of(context).font,
+                ),
               ),
             ),
           if (!mini)
@@ -65,14 +74,14 @@ class Day extends StatelessWidget {
             curve: Curves.ease,
             padding: mini
                 ? EdgeInsets.all(0)
-                : (EdgeInsets.all(EventCalendar.headerWeekDayStringType ==
-                        HeaderWeekDayStringTypes.Full
+                : (EdgeInsets.all(HeadersStyle.of(context).weekDayStringType ==
+                        WeekDayStringTypes.Full
                     ? 4
                     : 0)),
             decoration: BoxDecoration(
                 color: selected
-                    ? EventCalendar.dayIndexSelectedBackgroundColor
-                    : EventCalendar.dayIndexUnselectedBackgroundColor,
+                    ? dayStyle.selectedBackgroundColor
+                    : dayStyle.unselectedBackgroundColor,
                 shape: BoxShape.circle),
             constraints: BoxConstraints(
                 minWidth: double.infinity, minHeight: mini ? 35 : 45),
@@ -85,19 +94,19 @@ class Day extends StatelessWidget {
                     '$day',
                     style: TextStyle(
                       color: textColor,
-                      fontFamily: EventCalendar.font,
+                      fontFamily: CalendarOptions.of(context).font,
                     ),
                   ),
                 ),
                 Align(
-                  alignment: EventCalendar.dayEventCountViewType ==
+                  alignment: dayStyle.eventCounterViewType ==
                           DayEventCountViewType.DOT
                       ? Alignment.bottomCenter
                       : Alignment.bottomRight,
-                  child: EventCalendar.dayEventCountViewType ==
+                  child: dayStyle.eventCounterViewType ==
                           DayEventCountViewType.DOT
-                      ? dotMaker()
-                      : labelMaker(),
+                      ? dotMaker(context)
+                      : labelMaker(context),
                 ),
               ],
             ),
@@ -111,15 +120,15 @@ class Day extends StatelessWidget {
       padding: EdgeInsets.all(mini ? 0 : 10),
       width: mini
           ? 45
-          : (EventCalendar.headerWeekDayStringType ==
-                  HeaderWeekDayStringTypes.Full
+          : (HeadersStyle.of(context).weekDayStringType ==
+                  WeekDayStringTypes.Full
               ? 80
               : 60),
       child: child,
     );
   }
 
-  dotMaker() {
+  dotMaker(BuildContext context) {
     List<Widget> widgets = [];
 
     final maxDot = min(dayEvents.length, 3);
@@ -127,8 +136,8 @@ class Day extends StatelessWidget {
       widgets.add(
         Container(
           margin: EdgeInsets.only(
-              bottom: EventCalendar.headerWeekDayStringType ==
-                      HeaderWeekDayStringTypes.Short
+              bottom: HeadersStyle.of(context).weekDayStringType ==
+                      WeekDayStringTypes.Short
                   ? (mini ? 4 : 8)
                   : 2),
           width: 5,
@@ -136,8 +145,8 @@ class Day extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: _shouldHaveTransparentColor()
-                ? EventCalendar.dayEventCountColor.withOpacity(0.4)
-                : EventCalendar.dayEventCountColor,
+                ? dayStyle.eventCounterColor.withOpacity(0.4)
+                : dayStyle.eventCounterColor,
           ),
         ),
       );
@@ -151,7 +160,7 @@ class Day extends StatelessWidget {
     return Row(mainAxisSize: MainAxisSize.min, children: widgets);
   }
 
-  labelMaker() {
+  labelMaker(BuildContext context) {
     if (dayEvents.isEmpty) return Container();
     return Container(
       margin: EdgeInsets.only(right: 2),
@@ -159,28 +168,25 @@ class Day extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: _shouldHaveTransparentColor()
-            ? EventCalendar.dayEventCountColor.withOpacity(0.3)
-            : EventCalendar.dayEventCountColor,
+            ? dayStyle.eventCounterColor.withOpacity(0.3)
+            : dayStyle.eventCounterColor,
       ),
       child: Text(
         "${dayEvents.length >= 10 ? '+9' : dayEvents.length}",
         style: TextStyle(
             fontSize: 10,
-            fontFamily: EventCalendar.font,
+            fontFamily: CalendarOptions.of(context).font,
             color: useUnselectedEffect
-                ? EventCalendar.dayEventCountTextColor.withOpacity(0.3)
-                : EventCalendar.dayEventCountTextColor),
+                ? dayStyle.eventCounterTextColor.withOpacity(0.3)
+                : dayStyle.eventCounterTextColor),
       ),
     );
   }
 
   _getTitleColor() {
-    print("color is $color");
     return selected
-        ? EventCalendar.weekDaySelectedColor
-        : (color != null
-            ? color
-            : EventCalendar.weekDayUnselectedColor);
+        ? dayStyle.weekDaySelectedColor
+        : (color != null ? color : dayStyle.weekDayUnselectedColor);
   }
 
   _shouldHaveTransparentColor() {

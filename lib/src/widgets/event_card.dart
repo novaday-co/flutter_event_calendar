@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/models/calendar_options.dart';
 import 'package:flutter_event_calendar/src/models/event.dart';
+import 'package:flutter_event_calendar/src/models/style/event_style.dart';
 
 class EventCard extends StatelessWidget {
   Event fullCalendarEvent;
@@ -19,7 +21,7 @@ class EventCard extends StatelessWidget {
           fullCalendarEvent.onLongPress?.call(fullCalendarEvent.listIndex);
         }),
         child: Card(
-          color: EventCalendar.eventBackgroundColor,
+          color: EventStyle.of(context).backgroundColor,
           child: Container(
             padding: EdgeInsets.all(20),
             child: Column(
@@ -35,8 +37,8 @@ class EventCard extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 20,
-                    color: EventCalendar.eventTitleColor,
-                    fontFamily: EventCalendar.font,
+                    color: EventStyle.of(context).titleColor,
+                    fontFamily: CalendarOptions.of(context).font,
                   ),
                 ),
                 SizedBox(
@@ -49,8 +51,8 @@ class EventCard extends StatelessWidget {
                       : TextDirection.ltr,
                   style: TextStyle(
                     fontSize: 13,
-                    color: EventCalendar.eventDescriptionColor,
-                    fontFamily: EventCalendar.font,
+                    color: EventStyle.of(context).descriptionColor,
+                    fontFamily: CalendarOptions.of(context).font,
                   ),
                 ),
                 SizedBox(
@@ -60,8 +62,8 @@ class EventCard extends StatelessWidget {
                   '${fullCalendarEvent.dateTime.toString()}',
                   style: TextStyle(
                     fontSize: 12,
-                    color: EventCalendar.eventDateTimeColor,
-                    fontFamily: EventCalendar.font,
+                    color: EventStyle.of(context).dateTimeColor,
+                    fontFamily: CalendarOptions.of(context).font,
                   ),
                 ),
               ],

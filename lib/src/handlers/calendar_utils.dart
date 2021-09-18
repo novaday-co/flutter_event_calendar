@@ -1,60 +1,63 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'translator.dart';
 import 'package:collection/collection.dart';
 
 class CalendarUtils {
-  goToYear(index) {
+  static goToYear(index) {
     EventCalendar.dateTime = EventCalendar.calendarProvider.goToYear(index);
   }
 
-  goToMonth(index) {
+  static goToMonth(index) {
     EventCalendar.dateTime = EventCalendar.calendarProvider.goToMonth(index);
   }
 
-  goToDay(index) {
+  static goToDay(index) {
     EventCalendar.dateTime = EventCalendar.calendarProvider.goToDay(index);
   }
 
-  nextDay() {
+  static nextDay() {
     EventCalendar.dateTime =
         EventCalendar.calendarProvider.getNextDayDateTime();
   }
 
-  previousDay() {
+  static previousDay() {
     EventCalendar.dateTime =
         EventCalendar.calendarProvider.getPreviousDayDateTime();
   }
 
-  nextMonth() {
+  static nextMonth() {
     EventCalendar.dateTime =
         EventCalendar.calendarProvider.getNextMonthDateTime();
   }
 
-  previousMonth() {
+  static previousMonth() {
     EventCalendar.dateTime =
         EventCalendar.calendarProvider.getPreviousMonthDateTime();
   }
 
-  List getYears() => EventCalendar.calendarProvider.getYears();
+  static List getYears() => EventCalendar.calendarProvider.getYears();
 
-  Map getDays(int monthIndex) =>
-      EventCalendar.calendarProvider.getMonthDays(monthIndex);
+  static Map getDays(WeekDayStringTypes type, int monthIndex) =>
+      EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
 
-  Map getMonthDaysShort(int monthIndex) =>
-      EventCalendar.calendarProvider.getMonthDaysShort(monthIndex);
+  static Map getMonthDays(WeekDayStringTypes type, int monthIndex) =>
+      EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
 
-  getPart({required PartFormat format, required String responseType}) {
-    if (responseType == 'int') {
-      return EventCalendar.calendarProvider.getDateTimePart(format);
-    } else {
-      return Translator.getPartTranslate(
-          format, EventCalendar.calendarProvider.getDateTimePart(format) - 1);
-    }
+  static getPartByString(
+      {required PartFormat format, required HeadersStyle options}) {
+    return Translator.getPartTranslate(options, format,
+        EventCalendar.calendarProvider.getDateTimePart(format) - 1);
   }
 
-  EventDateTime? getColorizedDay(
+  static getPartByInt({required PartFormat format}) {
+    return EventCalendar.calendarProvider.getDateTimePart(format);
+  }
+
+  static EventDateTime? getColorizedDay(
       List<EventDateTime> colorizedDays, int year, int month, int day) {
     final result = colorizedDays.firstWhereOrNull(
         (element) => element.isDateEqualByInt(year, month, day));
@@ -62,12 +65,14 @@ class CalendarUtils {
     return result;
   }
 
-  bool isDisabledDay(List<EventDateTime> disabledDays, year, month, day) {
+  static bool isDisabledDay(
+      List<EventDateTime> disabledDays, year, month, day) {
     return disabledDays.firstWhereOrNull(
             (element) => element.isDateEqualByInt(year, month, day)) !=
         null;
   }
-  bool isEnabledDay(List<EventDateTime> enabledDays, year, month, day) {
+
+  static bool isEnabledDay(List<EventDateTime> enabledDays, year, month, day) {
     if (enabledDays.isEmpty) return true;
     return enabledDays.firstWhereOrNull(
             (element) => element.isDateEqualByInt(year, month, day)) !=

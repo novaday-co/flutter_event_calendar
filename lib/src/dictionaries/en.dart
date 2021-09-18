@@ -102,5 +102,5 @@ class En{
     }
   };
 
-  static Map directionIsRTL = { 'en' : false };
+  static Map  directionIsRTL = { 'en' : false };
 }

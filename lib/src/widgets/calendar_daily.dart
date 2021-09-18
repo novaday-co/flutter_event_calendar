@@ -3,6 +3,7 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
 import 'package:flutter_event_calendar/src/widgets/day.dart';
 
 class CalendarDaily extends StatelessWidget {
@@ -21,22 +22,23 @@ class CalendarDaily extends StatelessWidget {
       required this.disabledDays})
       : super() {
     dayIndex =
-        CalendarUtils().getPart(format: PartFormat.day, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.day);
   }
 
   @override
   Widget build(BuildContext context) {
     animatedTo = ScrollController(
-        initialScrollOffset: (EventCalendar.headerWeekDayStringType ==
-                    HeaderWeekDayStringTypes.Full
-                ? 80.0
-                : 60.0) *
-            (dayIndex - 1));
+        initialScrollOffset:
+            (HeadersStyle.of(context).weekDayStringType ==
+                        WeekDayStringTypes.Full
+                    ? 80.0
+                    : 60.0) *
+                (dayIndex - 1));
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       animatedTo.animateTo(
-          (EventCalendar.headerWeekDayStringType ==
-                      HeaderWeekDayStringTypes.Full
+          (HeadersStyle.of(context).weekDayStringType ==
+                      WeekDayStringTypes.Full
                   ? 80.0
                   : 60.0) *
               (dayIndex - 1),
@@ -58,7 +60,7 @@ class CalendarDaily extends StatelessWidget {
                     reverse: EventCalendar.calendarProvider.isRTL(),
                     controller: animatedTo,
                     scrollDirection: Axis.horizontal,
-                    children: daysMaker(),
+                    children: daysMaker(context),
                   ),
                 )
               ],
@@ -107,23 +109,26 @@ class CalendarDaily extends StatelessWidget {
     );
   }
 
-  List<Widget> daysMaker() {
+  List<Widget> daysMaker(BuildContext context) {
     final currentMonth =
-        CalendarUtils().getPart(format: PartFormat.month, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.month);
     final currentYear =
-        CalendarUtils().getPart(format: PartFormat.year, responseType: 'int');
+        CalendarUtils.getPartByInt(format: PartFormat.year);
+
+    final headersStyle = HeadersStyle.of(context);
 
     List<Widget> days = [
       SizedBox(
-          width: EventCalendar.headerWeekDayStringType ==
-                  HeaderWeekDayStringTypes.Full
+          width: headersStyle.weekDayStringType ==
+                  WeekDayStringTypes.Full
               ? 80
               : 60)
     ];
 
     int day = dayIndex;
 
-    CalendarUtils().getDays(currentMonth).forEach((index, weekDay) {
+    CalendarUtils.getDays(headersStyle.weekDayStringType, currentMonth)
+        .forEach((index, weekDay) {
       final isEnable = isEnabledDay(currentYear, currentMonth, index) &&
           !isDisabledDay(currentYear, currentMonth, index);
 
@@ -137,15 +142,15 @@ class CalendarDaily extends StatelessWidget {
         weekDay: weekDay,
         selected: selected,
         onCalendarChanged: () {
-          CalendarUtils().goToDay(index);
+          CalendarUtils.goToDay(index);
           onCalendarChanged?.call();
         },
       ));
     });
 
     days.add(SizedBox(
-        width: EventCalendar.headerWeekDayStringType ==
-                HeaderWeekDayStringTypes.Full
+        width: headersStyle.weekDayStringType ==
+                WeekDayStringTypes.Full
             ? 80
             : 60));
 

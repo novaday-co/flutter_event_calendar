@@ -12,13 +12,15 @@ class GregorianCalendar extends CalendarProvider {
   @override
   EventDateTime getNextMonthDateTime() {
     final date = _getSelectedDate();
-    return EventDateTime(year: date.year, month: date.month + 1, day: 1);
+    return EventDateTime.parse(
+        DateTime(date.year, date.month + 1, 1).toString())!;
   }
 
   @override
   EventDateTime getPreviousMonthDateTime() {
     final date = _getSelectedDate();
-    return EventDateTime(year: date.year, month: date.month - 1, day: 1);
+    return EventDateTime.parse(
+        DateTime(date.year, date.month - 1, 1).toString())!;
   }
 
   @override
@@ -37,21 +39,21 @@ class GregorianCalendar extends CalendarProvider {
   bool isRTL() => Translator.isRTL();
 
   @override
-  Map getMonthDays(int index) {
+  Map getMonthDays(WeekDayStringTypes type, int index) {
     Map days = {};
     EventDateTime now = _getSelectedDate();
     int monthLength = DateTime(now.year, index + 1, 0).day;
     DateTime firstDayOfMonth = DateTime(now.year, index, 1);
     int dayIndex = firstDayOfMonth.weekday;
 
-    switch (EventCalendar.headerWeekDayStringType) {
-      case HeaderWeekDayStringTypes.Full:
+    switch (type) {
+      case WeekDayStringTypes.Full:
         for (var i = 1; i <= monthLength; i++) {
           days[i] = Translator.getFullNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
-      case HeaderWeekDayStringTypes.Short:
+      case WeekDayStringTypes.Short:
         for (var i = 1; i <= monthLength; i++) {
           days[i] = Translator.getShortNameOfDays()[dayIndex % 7];
           dayIndex++;
@@ -73,16 +75,6 @@ class GregorianCalendar extends CalendarProvider {
       dayIndex++;
     }
     return days;
-  }
-
-  @override
-  List<String> getNameOfDays() {
-    switch (EventCalendar.headerWeekDayStringType) {
-      case HeaderWeekDayStringTypes.Full:
-        return Translator.getFullNameOfDays();
-      case HeaderWeekDayStringTypes.Short:
-        return Translator.getShortNameOfDays();
-    }
   }
 
   @override
@@ -125,16 +117,6 @@ class GregorianCalendar extends CalendarProvider {
         return date.month;
       case PartFormat.day:
         return date.day;
-    }
-  }
-
-  @override
-  String getMonthName(index) {
-    switch (EventCalendar.headerMonthStringType) {
-      case HeaderMonthStringTypes.Short:
-        return Translator.getShortMonthNames()[index];
-      case HeaderMonthStringTypes.Full:
-        return Translator.getFullMonthNames()[index];
     }
   }
 }

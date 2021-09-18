@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
+import 'package:flutter_event_calendar/src/models/style/select_year_style.dart';
 
 class SelectYear extends StatelessWidget {
   late List years;
 
   Function onHeaderChanged;
-  ScrollController _scrollController = ScrollController();
 
-  SelectYear({required this.onHeaderChanged});
+  YearStyle? yearStyle;
+
+  SelectYear({required this.onHeaderChanged,this.yearStyle});
+
+  ScrollController _scrollController = ScrollController();
 
   late VoidCallback scrollToPositionCallback;
 
   final int selectedYear =
-        CalendarUtils().getPart(format: PartFormat.month, responseType: 'int');
+      CalendarUtils.getPartByInt(format: PartFormat.year);
 
-  final selectedDecoration = BoxDecoration(
-    color: EventCalendar.dayIndexSelectedBackgroundColor,
-    borderRadius: BorderRadius.circular(8),
-  );
+  late BoxDecoration selectedDecoration;
 
   @override
   Widget build(BuildContext context) {
     animateToCurrentYear();
 
-    years = CalendarUtils().getYears();
+    years = CalendarUtils.getYears();
+
+    selectedDecoration = BoxDecoration(
+      color: yearStyle?.selectedColor,
+      borderRadius: BorderRadius.circular(8),
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -45,7 +50,7 @@ class SelectYear extends StatelessWidget {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,
-                fontFamily: EventCalendar.font,
+                fontFamily: yearStyle?.font,
               ),
             ),
             SizedBox(
@@ -69,11 +74,10 @@ class SelectYear extends StatelessWidget {
   }
 
   Widget yearWidgetMaker(year, context) {
-    print("${year == selectedYear}");
     return InkWell(
       onTap: (() {
         Navigator.pop(context);
-        CalendarUtils().goToYear(year);
+        CalendarUtils.goToYear(year);
         onHeaderChanged.call();
       }),
       child: Center(
@@ -85,7 +89,7 @@ class SelectYear extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               color: year == selectedYear ? Colors.white : null,
-              fontFamily: EventCalendar.font,
+              fontFamily: yearStyle?.font,
             ),
           ),
         ),

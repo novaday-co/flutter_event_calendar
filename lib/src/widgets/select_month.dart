@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
+import 'package:flutter_event_calendar/src/models/calendar_options.dart';
+import 'package:flutter_event_calendar/src/models/style/select_month_style.dart';
 
 class SelectMonth extends StatelessWidget {
   late List months;
 
   Function onHeaderChanged;
 
-  SelectMonth({required this.onHeaderChanged});
+  MonthStyle? monthStyle;
+
+  SelectMonth({required this.onHeaderChanged, this.monthStyle});
+
+  late BoxDecoration selectedDecoration;
+
+  final int currentMonth =
+      CalendarUtils.getPartByInt(format: PartFormat.month);
 
   @override
   Widget build(BuildContext context) {
+    selectedDecoration = BoxDecoration(
+      color: monthStyle?.selectedColor,
+      borderRadius: BorderRadius.circular(8),
+    );
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -29,7 +43,7 @@ class SelectMonth extends StatelessWidget {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,
-                fontFamily: EventCalendar.font,
+                fontFamily: monthStyle?.font,
               ),
             ),
             SizedBox(
@@ -65,6 +79,7 @@ class SelectMonth extends StatelessWidget {
     List<Widget> _buildRowCells(int rowIndex) {
       List<TableCell> widgets = [];
       for (var j = 0; j < 3; j++) {
+        final mMonth = (rowIndex * 3) + j + 1;
         widgets.add(
           TableCell(
             verticalAlignment: TableCellVerticalAlignment.middle,
@@ -72,11 +87,13 @@ class SelectMonth extends StatelessWidget {
               child: InkWell(
                 onTap: (() {
                   Navigator.pop(context);
-                  CalendarUtils().goToMonth((rowIndex * 3) + j + 1);
+                  CalendarUtils.goToMonth(mMonth);
                   onHeaderChanged.call();
                 }),
-                child: Padding(
+                child: Container(
                   padding: EdgeInsets.all(15),
+                  decoration:
+                      mMonth == currentMonth ? selectedDecoration : null,
                   child: Center(
                       child: FittedBox(
                     fit: BoxFit.fitWidth,
@@ -84,7 +101,8 @@ class SelectMonth extends StatelessWidget {
                       '${months[(rowIndex * 3) + j].toString()}',
                       style: TextStyle(
                         fontSize: 16,
-                        fontFamily: EventCalendar.font,
+                        color: mMonth == currentMonth ? Colors.white : null,
+                        fontFamily: monthStyle?.font,
                       ),
                       maxLines: 1,
                     ),

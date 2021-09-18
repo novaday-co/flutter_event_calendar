@@ -44,8 +44,8 @@ class CalendarUtils {
   static Map getDays(WeekDayStringTypes type, int monthIndex) =>
       EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
 
-  static Map getMonthDaysShort(int monthIndex) =>
-      EventCalendar.calendarProvider.getMonthDaysShort(monthIndex);
+  static Map getMonthDays(WeekDayStringTypes type, int monthIndex) =>
+      EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
 
   static getPartByString(
       {required PartFormat format, required HeadersStyle options}) {

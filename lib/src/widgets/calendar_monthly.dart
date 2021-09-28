@@ -103,7 +103,6 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     final int lastDayIndex = firstDayIndex + getLastDayOfMonth();
     final lastMonthLastDay = getLastMonthLastDay();
 
-    print("ff $firstDayIndex");
     return SizedBox(
       height: 7 * 40,
       child: Directionality(

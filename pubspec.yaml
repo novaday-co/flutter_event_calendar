@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   shamsi_date: ^0.15.0
+  scoped_model: ^1.1.0
   flutter:
     sdk: flutter
 

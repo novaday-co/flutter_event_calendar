@@ -18,6 +18,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color:Colors.white,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         child: Directionality(

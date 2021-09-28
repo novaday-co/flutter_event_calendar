@@ -42,10 +42,13 @@ class EventCalendar extends StatefulWidget {
 
   HeadersStyle? headersStyle;
 
+  Widget? Function(EventDateTime)? middleWidget;
+
   EventCalendar(
       {List<Event>? events,
       canSelectViewType,
       EventDateTime? dateTime,
+      this.middleWidget,
       this.calendarOptions,
       this.dayStyle,
       this.eventStyle,
@@ -59,6 +62,7 @@ class EventCalendar extends StatefulWidget {
     calendarProvider = createInstance(calendarType);
 
     if (this.calendarOptions == null) this.calendarOptions = CalendarOptions();
+    if (this.headersStyle == null) this.headersStyle = HeadersStyle();
     if (this.eventStyle == null) this.eventStyle = EventStyle();
     if (this.dayStyle == null) this.dayStyle = DayStyle();
 
@@ -104,6 +108,8 @@ class _EventCalendarState extends State<EventCalendar> {
                         widget.onChangeDateTime?.call(EventCalendar.dateTime);
                         setState(() {});
                       }),
+              if (widget.middleWidget != null)
+                widget.middleWidget!.call(EventCalendar.dateTime)!,
               Events(onEventsChanged: () {
                 setState(() {});
               }),

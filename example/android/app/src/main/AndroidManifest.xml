@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="${applicationName}"
         android:label="flutter_event_calendar_example"
         android:icon="@mipmap/ic_launcher">
         <activity

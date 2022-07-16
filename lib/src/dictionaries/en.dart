@@ -3,7 +3,7 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 class En{
   static Map fullMonthNames = const {
     'en': {
-      CalendarType.Jalali: [
+      CalendarType.JALALI: [
         'Farvardin',
         'Ordibehesht',
         'Khordad',
@@ -17,7 +17,7 @@ class En{
         'Bahman',
         'Esfand'
     ],
-      CalendarType.Gregorian: [
+      CalendarType.GREGORIAN: [
         'January',
         'February',
         'March',
@@ -35,7 +35,7 @@ class En{
   };
   static Map shortMonthNames = const {
   'en': {
-    CalendarType.Jalali: [
+    CalendarType.JALALI: [
       'Far',
       'Ord',
       'Kho',
@@ -49,7 +49,7 @@ class En{
       'Bah',
       'Esf'
     ],
-    CalendarType.Gregorian: [
+    CalendarType.GREGORIAN: [
       'Jan',
       'Feb',
       'Mar',
@@ -68,7 +68,7 @@ class En{
 
   static Map fullDayNames = const {
     'en': {
-      CalendarType.Jalali: [
+      CalendarType.JALALI: [
         'Saturday',
         'Sunday',
         'Monday',
@@ -77,7 +77,7 @@ class En{
         'Thursday',
         'Friday',
     ],
-    CalendarType.Gregorian: [
+    CalendarType.GREGORIAN: [
         'Sunday',
         'Monday',
         'Tuesday',
@@ -90,8 +90,8 @@ class En{
 };
   static Map shortDayNames = const {
     'en': {
-      CalendarType.Jalali: ['Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr'],
-      CalendarType.Gregorian: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+      CalendarType.JALALI: ['Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr'],
+      CalendarType.GREGORIAN: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
     }
   };
   static Map titles = const {

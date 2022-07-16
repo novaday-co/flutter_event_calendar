@@ -5,34 +5,45 @@ import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 class GregorianCalendar extends CalendarProvider {
   @override
-  EventDateTime getDateTime() {
-    return EventDateTime.parse(DateTime.now().toString())!;
+  CalendarDateTime getDateTime() {
+    return CalendarDateTime.parseDateTime(
+        DateTime.now().toString(), getCalendarType())!;
   }
 
   @override
-  EventDateTime getNextMonthDateTime() {
+  CalendarDateTime getNextMonthDateTime() {
     final date = _getSelectedDate();
-    return EventDateTime.parse(
-        DateTime(date.year, date.month + 1, 1).toString())!;
+    return CalendarDateTime.parseDateTime(
+        DateTime(date.year, date.month + 1, 1).toString(),
+        getCalendarType())!;
   }
 
   @override
-  EventDateTime getPreviousMonthDateTime() {
+  CalendarDateTime getPreviousMonthDateTime() {
     final date = _getSelectedDate();
-    return EventDateTime.parse(
-        DateTime(date.year, date.month - 1, 1).toString())!;
+    return CalendarDateTime.parseDateTime(
+        DateTime(date.year, date.month - 1, 1).toString(),
+        getCalendarType())!;
   }
 
   @override
-  EventDateTime getPreviousDayDateTime() {
+  CalendarDateTime getPreviousDayDateTime() {
     final date = _getSelectedDate();
-    return EventDateTime(year: date.year, month: date.month, day: date.day - 1);
+    return CalendarDateTime(
+        year: date.year,
+        month: date.month,
+        day: date.day - 1,
+        calendarType: getCalendarType());
   }
 
   @override
-  EventDateTime getNextDayDateTime() {
+  CalendarDateTime getNextDayDateTime() {
     final date = _getSelectedDate();
-    return EventDateTime(year: date.year, month: date.month, day: date.day + 1);
+    return CalendarDateTime(
+        year: date.year,
+        month: date.month,
+        day: date.day + 1,
+        calendarType: getCalendarType());
   }
 
   @override
@@ -41,19 +52,19 @@ class GregorianCalendar extends CalendarProvider {
   @override
   Map getMonthDays(WeekDayStringTypes type, int index) {
     Map days = {};
-    EventDateTime now = _getSelectedDate();
+    CalendarDateTime now = _getSelectedDate();
     int monthLength = DateTime(now.year, index + 1, 0).day;
     DateTime firstDayOfMonth = DateTime(now.year, index, 1);
     int dayIndex = firstDayOfMonth.weekday;
 
     switch (type) {
-      case WeekDayStringTypes.Full:
+      case WeekDayStringTypes.FULL:
         for (var i = 1; i <= monthLength; i++) {
           days[i] = Translator.getFullNameOfDays()[dayIndex % 7];
           dayIndex++;
         }
         break;
-      case WeekDayStringTypes.Short:
+      case WeekDayStringTypes.SHORT:
         for (var i = 1; i <= monthLength; i++) {
           days[i] = Translator.getShortNameOfDays()[dayIndex % 7];
           dayIndex++;
@@ -66,7 +77,7 @@ class GregorianCalendar extends CalendarProvider {
   @override
   Map getMonthDaysShort(int index) {
     Map days = {};
-    EventDateTime now = _getSelectedDate();
+    CalendarDateTime now = _getSelectedDate();
     int monthLength = DateTime(now.year, index + 1, 0).day;
     DateTime firstDayOfMonth = DateTime(now.year, index, 1);
     int dayIndex = firstDayOfMonth.weekday;
@@ -85,38 +96,67 @@ class GregorianCalendar extends CalendarProvider {
     return years;
   }
 
-  EventDateTime _getSelectedDate() {
-    return EventCalendar.dateTime;
+  CalendarDateTime _getSelectedDate() {
+    return EventCalendar.dateTime!;
   }
 
   @override
-  EventDateTime goToDay(index) {
+  CalendarDateTime goToDay(index) {
     dynamic date = _getSelectedDate();
-    return EventDateTime(year: date.year, month: date.month, day: index);
+    return CalendarDateTime(
+        year: date.year,
+        month: date.month,
+        day: index,
+        calendarType: getCalendarType());
   }
 
   @override
-  EventDateTime goToMonth(index) {
+  CalendarDateTime goToMonth(index) {
     dynamic date = _getSelectedDate();
-    return EventDateTime(year: date.year, month: index, day: 1);
+    return CalendarDateTime(
+        year: date.year,
+        month: index,
+        day: 1,
+        calendarType: getCalendarType());
   }
 
   @override
-  EventDateTime goToYear(index) {
+  CalendarDateTime goToYear(index) {
     dynamic date = _getSelectedDate();
-    return EventDateTime(year: index, month: date.month, day: 1);
+    return CalendarDateTime(
+        year: index,
+        month: date.month,
+        day: 1,
+        calendarType: getCalendarType());
   }
 
   @override
   int getDateTimePart(PartFormat format) {
-    EventDateTime date = _getSelectedDate();
+    CalendarDateTime date = _getSelectedDate();
     switch (format) {
-      case PartFormat.year:
+      case PartFormat.YEAR:
         return date.year;
-      case PartFormat.month:
+      case PartFormat.MONTH:
         return date.month;
-      case PartFormat.day:
+      case PartFormat.DAY:
         return date.day;
     }
+  }
+
+  @override
+  String getFormattedDate({DateTime? customDate}) {
+    CalendarDateTime? dateTime;
+    if (customDate != null) {
+      dateTime = CalendarDateTime.parseDateTime(
+          customDate.toString(), getCalendarType());
+    } else {
+      dateTime = _getSelectedDate();
+    }
+    return "${dateTime!.day} ${Translator.getFullMonthNames()[dateTime.month - 1]} ${dateTime.year}";
+  }
+
+  @override
+  CalendarType getCalendarType() {
+    return CalendarType.GREGORIAN;
   }
 }

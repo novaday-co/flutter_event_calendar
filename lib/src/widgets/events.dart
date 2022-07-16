@@ -5,18 +5,19 @@ import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
 import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/event_style.dart';
+import 'package:flutter_event_calendar/src/models/style/event_options.dart';
 import 'package:flutter_event_calendar/src/widgets/event_card.dart';
 
 class Events extends StatelessWidget {
   Function onEventsChanged;
-  late EventStyle eventStyle;
+  late EventOptions eventStyle;
 
   Events({required this.onEventsChanged});
 
   @override
   Widget build(BuildContext context) {
-    eventStyle = EventStyle.of(context);
+    eventStyle = EventOptions.of(context);
+    List<Widget> events = eventCardsMaker(context);
     return Expanded(
       child: Padding(
         padding: EdgeInsets.all(5),
@@ -51,10 +52,15 @@ class Events extends StatelessWidget {
               onEventsChanged.call();
             }
           }),
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: eventCardsMaker(context),
-          ),
+          child: eventStyle.showLoadingForEvent?.call() == true
+              ? eventStyle.loadingWidget!.call()
+              : events.isEmpty
+                  ? emptyView(context)
+                  : ListView(
+                      padding: EdgeInsets.zero,
+                      scrollDirection: Axis.vertical,
+                      children: events,
+                    ),
         ),
       ),
     );
@@ -63,26 +69,29 @@ class Events extends StatelessWidget {
   List<Widget> eventCardsMaker(BuildContext context) {
     var selectedEvents = EventSelector().updateEvents();
     List<Widget> eventCards = [];
-    for (var item in selectedEvents)
+    for (var item in selectedEvents) {
       eventCards.add(
         EventCard(
           fullCalendarEvent: item,
         ),
       );
+    }
 
-    if (selectedEvents.length == 0)
-      eventCards.add(Column(
+    return eventCards;
+  }
+  Widget emptyView(BuildContext context){
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            height: 150,
-          ),
           Icon(
             eventStyle.emptyIcon,
             size: 95,
             color: eventStyle.emptyIconColor,
           ),
           Text(
-            '${eventStyle.emptyText != null ? eventStyle.emptyText : Translator.getTranslation('empty')}',
+            eventStyle.emptyText ??
+                Translator.getTranslation('empty'),
             style: TextStyle(
               color: eventStyle.emptyTextColor,
               fontSize: 25,
@@ -90,8 +99,7 @@ class Events extends StatelessWidget {
             ),
           ),
         ],
-      ));
-
-    return eventCards;
+      ),
+    );
   }
 }

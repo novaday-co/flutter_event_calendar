@@ -2,32 +2,29 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
 
 class Day extends StatelessWidget {
   String weekDay;
-  bool selected;
   Function? onCalendarChanged;
-  bool mini;
-  bool useUnselectedEffect;
-  bool enabled;
   List<Event> dayEvents;
   int day;
-  Color? color;
-  late DayStyle dayStyle;
+  DayOptions? dayOptions;
+  DayStyle? dayStyle;
+  late double opacity;
+
   Day(
       {required this.day,
       required this.weekDay,
-      required this.selected,
       required this.dayEvents,
-      this.color,
-      this.enabled = true,
-      this.useUnselectedEffect = false,
-      this.mini = true,
+      this.dayOptions,
+      this.dayStyle,
       this.onCalendarChanged})
-      : super();
+      : super() {
+    dayOptions ??= DayOptions();
+    dayStyle ??= DayStyle();
+  }
 
   late Widget child;
 
@@ -35,25 +32,26 @@ class Day extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dayStyle = DayStyle.of(context);
+    dayOptions = DayOptions.of(context);
 
-    textColor = selected
-        ? dayStyle.selectedTextColor
-        : (_shouldHaveTransparentColor()
-            ? (color ?? dayStyle.unselectedTextColor)
-                .withOpacity(0.3)
-            : (color ?? dayStyle.unselectedTextColor));
+    opacity = _shouldHaveTransparentColor() ? 0.5 : 1;
+
+    textColor = dayStyle!.useDisabledEffect
+        ? dayOptions!.disabledTextColor
+        : dayStyle!.selected
+            ? dayOptions!.selectedTextColor
+            : dayOptions!.unselectedTextColor;
 
     child = InkWell(
       onTap: (() {
-        if (enabled) onCalendarChanged?.call();
+        if (dayStyle!.enabled) onCalendarChanged?.call();
       }),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          if (!mini)
+          if (!dayStyle!.mini && dayOptions!.showWeekDay)
             FittedBox(
               child: Text(
                 '$weekDay',
@@ -65,26 +63,26 @@ class Day extends StatelessWidget {
                 ),
               ),
             ),
-          if (!mini)
+          if (!dayStyle!.mini && dayOptions!.showWeekDay)
             SizedBox(
               height: 8,
             ),
           AnimatedContainer(
             duration: Duration(milliseconds: 500),
             curve: Curves.ease,
-            padding: mini
-                ? EdgeInsets.all(0)
-                : (EdgeInsets.all(HeadersStyle.of(context).weekDayStringType ==
-                        WeekDayStringTypes.Full
+            padding: dayStyle!.mini
+                ? EdgeInsets.zero
+                : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
+                        WeekDayStringTypes.FULL
                     ? 4
                     : 0)),
             decoration: BoxDecoration(
-                color: selected
-                    ? dayStyle.selectedBackgroundColor
-                    : dayStyle.unselectedBackgroundColor,
+                color: dayStyle!.selected
+                    ? dayOptions!.selectedBackgroundColor
+                    : dayOptions!.unselectedBackgroundColor,
                 shape: BoxShape.circle),
             constraints: BoxConstraints(
-                minWidth: double.infinity, minHeight: mini ? 35 : 45),
+                minWidth: double.infinity, minHeight: dayStyle!.mini ? 35 : 45),
             child: Stack(
               fit: StackFit.passthrough,
               children: [
@@ -98,16 +96,16 @@ class Day extends StatelessWidget {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: dayStyle.eventCounterViewType ==
-                          DayEventCountViewType.DOT
-                      ? Alignment.bottomCenter
-                      : Alignment.bottomRight,
-                  child: dayStyle.eventCounterViewType ==
-                          DayEventCountViewType.DOT
-                      ? dotMaker(context)
-                      : labelMaker(context),
-                ),
+                dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: dotMaker(context),
+                      )
+                    : Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: labelMaker(context),
+                      ),
               ],
             ),
           ),
@@ -115,16 +113,19 @@ class Day extends StatelessWidget {
       ),
     );
     // }
-
-    return Container(
-      padding: EdgeInsets.all(mini ? 0 : 10),
-      width: mini
-          ? 45
-          : (HeadersStyle.of(context).weekDayStringType ==
-                  WeekDayStringTypes.Full
-              ? 80
-              : 60),
-      child: child,
+    return Opacity(
+      opacity: opacity,
+      child: Container(
+        padding: EdgeInsets.all(dayStyle!.mini ? 0 : 10),
+        decoration: dayStyle?.decoration,
+        width: dayStyle!.mini
+            ? 45
+            : (HeaderOptions.of(context).weekDayStringType ==
+                    WeekDayStringTypes.FULL
+                ? 80
+                : 60),
+        child: child,
+      ),
     );
   }
 
@@ -136,17 +137,15 @@ class Day extends StatelessWidget {
       widgets.add(
         Container(
           margin: EdgeInsets.only(
-              bottom: HeadersStyle.of(context).weekDayStringType ==
-                      WeekDayStringTypes.Short
-                  ? (mini ? 4 : 8)
-                  : 2),
+              bottom: HeaderOptions.of(context).weekDayStringType ==
+                      WeekDayStringTypes.SHORT
+                  ? (dayStyle!.mini ? 4 : 8)
+                  : 4),
           width: 5,
           height: 5,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: _shouldHaveTransparentColor()
-                ? dayStyle.eventCounterColor.withOpacity(0.4)
-                : dayStyle.eventCounterColor,
+            color: dayOptions!.eventCounterColor,
           ),
         ),
       );
@@ -157,39 +156,61 @@ class Day extends StatelessWidget {
           ),
         );
     }
-    return Row(mainAxisSize: MainAxisSize.min, children: widgets);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: widgets,
+    );
   }
 
   labelMaker(BuildContext context) {
     if (dayEvents.isEmpty) return Container();
     return Container(
-      margin: EdgeInsets.only(right: 2),
-      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      // padding:
+      //     EdgeInsets.symmetric(horizontal: dayStyle!.mini ? 4 : 8, vertical: 2),
+      width: dayStyle!.mini ? 15 : 18,
+      height: dayStyle!.mini ? 15 : 18,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _shouldHaveTransparentColor()
-            ? dayStyle.eventCounterColor.withOpacity(0.3)
-            : dayStyle.eventCounterColor,
+        color: dayOptions!.eventCounterColor,
       ),
       child: Text(
         "${dayEvents.length >= 10 ? '+9' : dayEvents.length}",
         style: TextStyle(
-            fontSize: 10,
+            fontSize: 12,
             fontFamily: CalendarOptions.of(context).font,
-            color: useUnselectedEffect
-                ? dayStyle.eventCounterTextColor.withOpacity(0.3)
-                : dayStyle.eventCounterTextColor),
+            color: dayStyle!.useUnselectedEffect
+                ? dayOptions!.eventCounterTextColor.withOpacity(opacity)
+                : dayOptions!.eventCounterTextColor),
       ),
     );
   }
 
   _getTitleColor() {
-    return selected
-        ? dayStyle.weekDaySelectedColor
-        : (color != null ? color : dayStyle.weekDayUnselectedColor);
+    return dayStyle!.selected
+        ? dayOptions!.weekDaySelectedColor
+        : dayOptions!.weekDayUnselectedColor;
   }
 
   _shouldHaveTransparentColor() {
-    return useUnselectedEffect || !enabled;
+    return !dayStyle!.enabled || dayStyle!.useUnselectedEffect;
   }
+}
+
+class DayStyle {
+  final bool mini;
+  final bool useUnselectedEffect;
+  final bool enabled;
+  final bool selected;
+  final bool useDisabledEffect;
+  final BoxDecoration? decoration;
+
+  const DayStyle({
+    this.mini = false,
+    this.useUnselectedEffect = false,
+    this.enabled = false,
+    this.selected = false,
+    this.decoration = const BoxDecoration(),
+    this.useDisabledEffect = false,
+  });
 }

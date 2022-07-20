@@ -11,7 +11,7 @@ class SelectYear extends StatelessWidget {
 
   YearOptions? yearStyle;
 
-  SelectYear({required this.onHeaderChanged,this.yearStyle});
+  SelectYear({required this.onHeaderChanged, this.yearStyle});
 
   ScrollController _scrollController = ScrollController();
 

@@ -104,7 +104,7 @@ class SelectYear extends StatelessWidget {
   }
 
   void animateToCurrentYear() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (_scrollController.hasClients)
         _scrollController.animateTo(findSelectedYearOffset(),
             duration: Duration(milliseconds: 500), curve: Curves.ease);

@@ -183,7 +183,7 @@ class CalendarDaily extends StatelessWidget {
   }
 
   void executeAsync(context) async {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (animatedTo.hasClients) {
         final animateOffset = (DayOptions.of(context).mini
                 ? 40.0

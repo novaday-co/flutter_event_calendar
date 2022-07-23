@@ -24,7 +24,7 @@ class EventCalendar extends StatefulWidget {
   // static late HeaderMonthStringTypes headerMonthStringType;
   // static late HeaderWeekDayStringTypes headerWeekDayStringType;
   static late String calendarLanguage;
-  static late CalendarType calendarType;
+  static  CalendarType? calendarType;
 
   CalendarChangeCallback? onChangeDateTime;
   CalendarChangeCallback? onMonthChanged;

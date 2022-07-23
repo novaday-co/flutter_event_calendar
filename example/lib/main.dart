@@ -26,8 +26,9 @@ class MyHomePage extends StatelessWidget {
     // than having to individually change instances of widgets.
     return Scaffold(
       body: EventCalendar(
-        calendarType: CalendarType.GREGORIAN,
-        headerOptions: HeaderOptions(),
+        calendarType: CalendarType.JALALI,
+        calendarLanguage: 'fa',
+        calendarOptions: CalendarOptions(viewType: ViewType.MONTHLY),
       ),
     );
   }

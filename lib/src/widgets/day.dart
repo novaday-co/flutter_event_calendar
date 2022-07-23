@@ -46,70 +46,134 @@ class Day extends StatelessWidget {
       onTap: (() {
         if (dayStyle!.enabled) onCalendarChanged?.call();
       }),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          if (!dayStyle!.mini && dayOptions!.showWeekDay)
-            FittedBox(
-              child: Text(
-                '$weekDay',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: _getTitleColor(),
-                  fontFamily: CalendarOptions.of(context).font,
-                ),
-              ),
-            ),
-          if (!dayStyle!.mini && dayOptions!.showWeekDay)
-            SizedBox(
-              height: 8,
-            ),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            curve: Curves.ease,
-            padding: dayStyle!.mini
-                ? EdgeInsets.zero
-                : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
-                        WeekDayStringTypes.FULL
-                    ? 4
-                    : 0)),
-            decoration: BoxDecoration(
-                color: dayStyle!.selected
-                    ? dayOptions!.selectedBackgroundColor
-                    : dayOptions!.unselectedBackgroundColor,
-                shape: BoxShape.circle),
-            constraints: BoxConstraints(
-                minWidth: double.infinity, minHeight: dayStyle!.mini ? 35 : 45),
-            child: Stack(
-              fit: StackFit.passthrough,
-              children: [
-                Align(
-                  alignment: Alignment.center,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            if (!dayStyle!.mini && dayOptions!.showWeekDay)
+              FittedBox(
+                child: Container(
+                  width: 1,
+                  height: 1,
                   child: Text(
-                    '$day',
+                    '$weekDay',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: textColor,
+                      color: _getTitleColor(),
                       fontFamily: CalendarOptions.of(context).font,
                     ),
                   ),
                 ),
-                dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
-                    ? Align(
-                        alignment: Alignment.bottomCenter,
-                        child: dotMaker(context),
-                      )
-                    : Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: labelMaker(context),
+              ),
+            if (!dayStyle!.mini && dayOptions!.showWeekDay)
+              SizedBox(
+                height: 0,
+              ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              curve: Curves.ease,
+              padding: dayStyle!.mini
+                  ? EdgeInsets.zero
+                  : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
+                  WeekDayStringTypes.FULL
+                  ? 4
+                  : 0)),
+              decoration: BoxDecoration(
+                  color: dayStyle!.selected
+                      ? dayOptions!.selectedBackgroundColor
+                      : dayOptions!.unselectedBackgroundColor,
+                  shape: BoxShape.circle),
+             /* constraints: BoxConstraints(
+                  minWidth: double.infinity, minHeight: dayStyle!.mini ? 35 : 45),*/
+              child: Stack(
+                fit: StackFit.passthrough,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$day',
+                      style: TextStyle(
+                        color: textColor,
+                        fontFamily: CalendarOptions.of(context).font,
                       ),
-              ],
-            ),
-          ),
-        ],
+                    ),
+                  ),
+                  dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
+                      ? Align(
+                    alignment: Alignment.bottomCenter,
+                   // child: dotMaker(context),
+                  )
+                      : Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: labelMaker(context),
+                  ),
+                ],
+              ),
+            )
+          /*  if (!dayStyle!.mini && dayOptions!.showWeekDay)
+              FittedBox(
+                child: Text(
+                  '$weekDay',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: _getTitleColor(),
+                    fontFamily: CalendarOptions.of(context).font,
+                  ),
+                ),
+              ),
+            if (!dayStyle!.mini && dayOptions!.showWeekDay)
+              SizedBox(
+                height: 8,
+              ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              curve: Curves.ease,
+              padding: dayStyle!.mini
+                  ? EdgeInsets.zero
+                  : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
+                          WeekDayStringTypes.FULL
+                      ? 4
+                      : 0)),
+              decoration: BoxDecoration(
+                  color: dayStyle!.selected
+                      ? dayOptions!.selectedBackgroundColor
+                      : dayOptions!.unselectedBackgroundColor,
+                  shape: BoxShape.circle),
+              constraints: BoxConstraints(
+                  minWidth: double.infinity, minHeight: dayStyle!.mini ? 35 : 45),
+              child: Stack(
+                fit: StackFit.passthrough,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$day',
+                      style: TextStyle(
+                        color: textColor,
+                        fontFamily: CalendarOptions.of(context).font,
+                      ),
+                    ),
+                  ),
+                  dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
+                      ? Align(
+                          alignment: Alignment.bottomCenter,
+                          child: dotMaker(context),
+                        )
+                      : Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: labelMaker(context),
+                        ),
+                ],
+              ),
+            ),*/
+          ],
+        ),
       ),
     );
     // }

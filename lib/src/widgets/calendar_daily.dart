@@ -32,7 +32,7 @@ class CalendarDaily extends StatelessWidget {
     executeAsync(context);
     // Yearly , Monthly , Weekly and Daily calendar
     return Container(
-      height: 70,
+      height: 80,
       child: Stack(
         children: [
           Row(

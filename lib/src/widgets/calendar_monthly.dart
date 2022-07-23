@@ -117,7 +117,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             physics: NeverScrollableScrollPhysics(),
             itemCount: 42,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7, mainAxisExtent: 40, mainAxisSpacing: 5),
+                crossAxisCount: 7, mainAxisExtent: 45, mainAxisSpacing: 5),
             itemBuilder: (context, index) => _buildItem(
                 index, firstDayIndex, lastDayIndex, lastMonthLastDay)),
       ),

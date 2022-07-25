@@ -52,71 +52,11 @@ class Day extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           if (!dayStyle!.mini && dayOptions!.showWeekDay)
-            if(CalendarOptions.of(context).viewType==ViewType.DAILY)...[
-              FittedBox(
-                child: Text(
-                  '$weekDay',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: _getTitleColor(),
-                    fontFamily: CalendarOptions.of(context).font,
-                  ),
-                ),
-              ),
-            ],
-
-          if (!dayStyle!.mini && dayOptions!.showWeekDay)
-            SizedBox(
-              height: 0,
-            ),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            curve: Curves.ease,
-            padding: dayStyle!.mini
-                ? EdgeInsets.zero
-                : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
-                WeekDayStringTypes.FULL
-                ? 4
-                : 0)),
-            decoration: BoxDecoration(
-                color: dayStyle!.selected
-                    ? dayOptions!.selectedBackgroundColor
-                    : dayOptions!.unselectedBackgroundColor,
-                shape: BoxShape.circle),
-            constraints: BoxConstraints(
-                minWidth: double.infinity, minHeight: dayStyle!.mini ? 35 : 20),
-            child: Stack(
-              fit: StackFit.passthrough,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$day',
-                    style: TextStyle(
-                      color: textColor,
-                      fontFamily: CalendarOptions.of(context).font,
-                    ),
-                  ),
-                ),
-                dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
-                    ? Align(
-                  alignment: Alignment.bottomCenter,
-                 // child: dotMaker(context),
-                )
-                    : Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: labelMaker(context),
-                ),
-              ],
-            ),
-          )
-        /*  if (!dayStyle!.mini && dayOptions!.showWeekDay)
+            if(CalendarOptions.of(context).viewType==ViewType.DAILY)
             FittedBox(
               child: Text(
                 '$weekDay',
-                maxLines: 1,
+                maxLines:2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: _getTitleColor(),
@@ -124,52 +64,55 @@ class Day extends StatelessWidget {
                 ),
               ),
             ),
+
           if (!dayStyle!.mini && dayOptions!.showWeekDay)
             SizedBox(
-              height: 8,
+              height: 0,
             ),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            curve: Curves.ease,
-            padding: dayStyle!.mini
-                ? EdgeInsets.zero
-                : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
-                        WeekDayStringTypes.FULL
-                    ? 4
-                    : 0)),
-            decoration: BoxDecoration(
-                color: dayStyle!.selected
-                    ? dayOptions!.selectedBackgroundColor
-                    : dayOptions!.unselectedBackgroundColor,
-                shape: BoxShape.circle),
-            constraints: BoxConstraints(
-                minWidth: double.infinity, minHeight: dayStyle!.mini ? 35 : 45),
-            child: Stack(
-              fit: StackFit.passthrough,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$day',
-                    style: TextStyle(
-                      color: textColor,
-                      fontFamily: CalendarOptions.of(context).font,
+          Expanded(
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              curve: Curves.ease,
+              padding: dayStyle!.mini
+                  ? EdgeInsets.zero
+                  : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
+                  WeekDayStringTypes.FULL
+                  ? 4
+                  : 0)),
+              decoration: BoxDecoration(
+                  color: dayStyle!.selected
+                      ? dayOptions!.selectedBackgroundColor
+                      : dayOptions!.unselectedBackgroundColor,
+                  shape: BoxShape.circle),
+              constraints: BoxConstraints(
+                  minWidth: double.infinity, minHeight: dayStyle!.mini ? 35 : 20, ),
+              child: Stack(
+                fit: StackFit.passthrough,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$day',
+                      style: TextStyle(
+                        color: textColor,
+                        fontFamily: CalendarOptions.of(context).font,
+                      ),
                     ),
                   ),
-                ),
-                dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
-                    ? Align(
-                        alignment: Alignment.bottomCenter,
-                        child: dotMaker(context),
-                      )
-                    : Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: labelMaker(context),
-                      ),
-              ],
+                  dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
+                      ? Align(
+                    alignment: Alignment.bottomCenter,
+                   // child: dotMaker(context),
+                  )
+                      : Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: labelMaker(context),
+                  ),
+                ],
+              ),
             ),
-          ),*/
+          )
         ],
       ),
     );

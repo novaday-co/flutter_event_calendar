@@ -50,14 +50,19 @@ You can load a full calendar with events .
 
 ```dart
   return EventCalendar(
-        events: [
-          Event(
-            title: 'Laravel Event',
-            description: 'The largest Laravel event of the year ...',
-            dateTime: '2020-09-27 20:00',
-          ),
-        ],
-      ),
+calendarType: CalendarType.JALALI,
+calendarLanguage: 'fa',
+events: [
+Event(
+child: const Text('Laravel Event'),
+dateTime: CalendarDateTime(
+year: 1401,
+month: 5,
+day: 12,
+calendarType: CalendarType.JALALI),
+),
+],
+)
 ```
 
 
@@ -72,37 +77,81 @@ You have many option for changes in : style , locale and structure.
 
 | Option       	| Type                         	|
 |------------	|-------------------------------------	|
-| type 	| String ( jalali or gregorian )	|
-| dateTime 	| String ( yy-mm-dd H:i:s )	|
+| calendarType 	| CalendarType ( JALALI or GREGORIAN )	|
+| middleWidget 	| Widget	|
 | events	 	| List<Event> 	|
+| calendarOptions	 	| CalendarOptions 	|
+| headerOptions	 	| HeaderOptions 	|
+| eventOptions	 	| EventOptions 	|
+| dayOptions	 	| DayOptions 	|
+| showLoadingForEvent	 	| bool 	|
+| specialDays	 	| List<CalendarDateTime> 	|
+| onChangeDateTime	 	| Function(CalendarDateTime) 	|
+| onMonthChanged	 	| Function(CalendarDateTime) 	|
+| onDateTimeReset	 	| Function(CalendarDateTime) 	|
+| onInit	 	| Function 	|
+| onYearChanged	 	| Function(CalendarDateTime) 	|
+| calendarLanguage	 	| String(fa or en) 	|
+
+## CalendarOptions :
+
+| Option       	| Type                         	|
+|------------	|-------------------------------------	|
+| toggleViewType 	| bool	|
+| viewType 	| ViewType	|
 | font	 	| String 	|
-| headerMonthStringType	 	| String ( full or short ) 	|
-| headerWeekDayStringType	 	| String ( full or short ) 	|
+| headerMonthBackColor	 	| Color 	|
+| headerMonthShadowColor	 	| Color 	|
+| headerMonthElevation	 	| double 	|
+| headerMonthShape	 	| ShapeBorder 	|
+
+### HeaderOptions :
+
+| Option       	| Type                         	|
+|------------	|-------------------------------------	|
+| weekDayStringType 	| WeekDayStringTypes(FULL or SHORT)	|
+| MonthStringTypes 	| MonthStringTypes(FULL or SHORT)	|
+| headerTextColor	 	| Color 	|
+| navigationColor	 	| Color 	|
+| resetDateColor	 	| Color 	|
+
+### EventOptions :
+
+| Option       	| Type                         	|
+|------------	|-------------------------------------	|
+| emptyText 	| String	|
+| emptyTextColor	 	| Color 	|
+| emptyIcon	 	| IconData 	|
+| emptyIconColor	 	| Color 	|
+
+
+### DayOptions :
+
+| Option       	| Type                         	|
+|------------	|-------------------------------------	|
 | weekDaySelectedColor	 	| Color 	|
 | weekDayUnselectedColor	 	| Color 	|
-| dayIndexSelectedBackgroundColor	 	| Color 	|
-| dayIndexUnselectedBackgroundColor	 	| Color 	|
-| dayIndexSelectedForegroundColor	 	| Color 	|
-| dayIndexUnelectedForegroundColor	 	| Color	|
-| emptyText	 	| String	|
-| emptyTextColor	 	| Color	|
-| emptyIcon	 	| IconData	|
-| emptyIconColor	 	| Color	|
-| eventBackgroundColor	 	| Color	|
-| eventTitleColor	 	| Color	|
-| eventDescriptionColor	 	| Color	|
-| eventDateTimeColor	 	| Color	|
-| isRTL	 	| bool	|
+| showWeekDay	 	| bool 	|
+| mini	 	| bool 	|
+| selectedBackgroundColor	 	| Color 	|
+| unselectedBackgroundColor	 	| Color 	|
+| selectedTextColor	 	| Color 	|
+| disabledTextColor	 	| Color 	|
+| unselectedTextColor	 	| Color 	|
+| eventCounterColor	 	| Color 	|
+| eventCounterViewType	 	| DayEventCounterViewType 	|
+| eventCounterTextColor	 	| Color 	|
+| disableFadeEffect	 	| bool 	|
+| disableDaysBeforeNow	 	| bool 	|
 
 
-## Event Structure
+### Event Structure
 
 
 | Option       	| Type                         	|
 |------------	|-------------------------------------	|
-| title 	| String	|
-| description 	| String 	|
-| dateTime	 	| String ( yy-mm-dd H:i:s ) 	|
+| child 	| Widget	|
+| dateTime	 	| CalendarDateTime 	|
 | onTap	 	| Function 	|
 | onLongPress	 	| Function 	|
 

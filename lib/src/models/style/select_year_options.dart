@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class YearStyle{
+class YearOptions{
   String font;
   Color? selectedColor;
 
-  YearStyle({this.font = '', this.selectedColor});
+  YearOptions({this.font = '', this.selectedColor});
 }

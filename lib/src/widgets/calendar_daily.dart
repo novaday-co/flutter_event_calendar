@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
+import 'package:flutter_event_calendar/src/utils/style_provider.dart';
 import 'package:flutter_event_calendar/src/widgets/day.dart';
 
 class CalendarDaily extends StatelessWidget {
@@ -11,136 +12,127 @@ class CalendarDaily extends StatelessWidget {
   var dayIndex;
   late ScrollController animatedTo;
   EventSelector selector = EventSelector();
-  List<EventDateTime> enabledDays;
-  List<EventDateTime> disabledDays;
-  List<EventDateTime> colorizedDays;
+  List<CalendarDateTime> specialDays;
 
-  CalendarDaily(
-      {this.onCalendarChanged,
-      required this.enabledDays,
-      required this.colorizedDays,
-      required this.disabledDays})
-      : super() {
-    dayIndex =
-        CalendarUtils.getPartByInt(format: PartFormat.day);
+  CalendarDaily({this.onCalendarChanged, required this.specialDays}) : super() {
+    dayIndex = CalendarUtils.getPartByInt(format: PartFormat.DAY);
   }
 
   @override
   Widget build(BuildContext context) {
     animatedTo = ScrollController(
-        initialScrollOffset:
-            (HeadersStyle.of(context).weekDayStringType ==
-                        WeekDayStringTypes.Full
+        initialScrollOffset: (DayOptions.of(context).mini
+                ? 40.0
+                : (HeaderOptions.of(context).weekDayStringType ==
+                        WeekDayStringTypes.FULL
                     ? 80.0
-                    : 60.0) *
-                (dayIndex - 1));
+                    : 60.0)) *
+            (dayIndex - 1));
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      animatedTo.animateTo(
-          (HeadersStyle.of(context).weekDayStringType ==
-                      WeekDayStringTypes.Full
-                  ? 80.0
-                  : 60.0) *
-              (dayIndex - 1),
-          duration: Duration(milliseconds: 700),
-          curve: Curves.decelerate);
-    });
-
+    executeAsync(context);
     // Yearly , Monthly , Weekly and Daily calendar
     return Container(
-      height: 130,
-      child: Padding(
-        padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: ListView(
-                    reverse: EventCalendar.calendarProvider.isRTL(),
-                    controller: animatedTo,
-                    scrollDirection: Axis.horizontal,
-                    children: daysMaker(context),
-                  ),
-                )
-              ],
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: IgnorePointer(
-                child: Container(
-                  width: 70,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        const Color(0xffffffff),
-                        const Color(0x0affffff)
-                      ],
-                      tileMode: TileMode.clamp,
+      height: 80,
+      child: Stack(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: ListView(
+                  reverse: EventCalendar.calendarProvider.isRTL(),
+                  controller: animatedTo,
+                  scrollDirection: Axis.horizontal,
+                  children: daysMaker(context),
+                ),
+              )
+            ],
+          ),
+          DayOptions.of(context).disableFadeEffect
+              ? const SizedBox()
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: IgnorePointer(
+                    child: Container(
+                      width: 70,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [Color(0xffffffff), Color(0x0affffff)],
+                          tileMode: TileMode.clamp,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: IgnorePointer(
-                child: Container(
-                  width: 70,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerRight,
-                      end: Alignment.centerLeft,
-                      colors: [
-                        const Color(0xffffffff),
-                        const Color(0x0affffff)
-                      ],
-                      tileMode: TileMode.clamp,
+          DayOptions.of(context).disableFadeEffect
+              ? const SizedBox()
+              : Align(
+                  alignment: Alignment.centerRight,
+                  child: IgnorePointer(
+                    child: Container(
+                      width: 70,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: [Color(0xffffffff), Color(0x0affffff)],
+                          tileMode: TileMode.clamp,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
 
   List<Widget> daysMaker(BuildContext context) {
-    final currentMonth =
-        CalendarUtils.getPartByInt(format: PartFormat.month);
-    final currentYear =
-        CalendarUtils.getPartByInt(format: PartFormat.year);
+    int currentMonth = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
+    int currentYear = CalendarUtils.getPartByInt(format: PartFormat.YEAR);
 
-    final headersStyle = HeadersStyle.of(context);
+    final headersStyle = HeaderOptions.of(context);
 
     List<Widget> days = [
       SizedBox(
-          width: headersStyle.weekDayStringType ==
-                  WeekDayStringTypes.Full
-              ? 80
-              : 60)
+          width: DayOptions.of(context).mini
+              ? 40
+              : headersStyle.weekDayStringType == WeekDayStringTypes.FULL
+                  ? 80
+                  : 60)
     ];
 
     int day = dayIndex;
-
     CalendarUtils.getDays(headersStyle.weekDayStringType, currentMonth)
         .forEach((index, weekDay) {
-      final isEnable = isEnabledDay(currentYear, currentMonth, index) &&
-          !isDisabledDay(currentYear, currentMonth, index);
+      final CalendarDateTime? specialDay = CalendarUtils.getFromSpecialDay(
+          specialDays, currentYear, currentMonth, index);
 
-      var selected = index == day ? true : false;
+      BoxDecoration? decoration = StyleProvider.getSpecialDayDecoration(
+          specialDay, currentYear, currentMonth, index);
+
+      var selected = index == day;
+
+      bool isBeforeToday =
+          CalendarUtils.isBeforeThanToday(currentYear, currentMonth, index);
+
       days.add(Day(
         day: index,
         dayEvents: selector.getEventsByDayMonthYear(
-            EventDateTime(year: currentYear, month: currentMonth, day: index)),
-        mini: false,
-        enabled: isEnable,
+          CalendarDateTime(year: currentYear, month: currentMonth, day: index, calendarType: CalendarUtils.getCalendarType()),
+        ),
+        dayStyle: DayStyle(
+          mini: DayOptions.of(context).mini,
+          decoration: decoration,
+          enabled: (specialDay?.isEnableDay ?? true),
+          selected: selected,
+          useUnselectedEffect: false,
+          useDisabledEffect: DayOptions.of(context).disableDaysBeforeNow
+              ? isBeforeToday
+              : false,
+        ),
         weekDay: weekDay,
-        selected: selected,
         onCalendarChanged: () {
           CalendarUtils.goToDay(index);
           onCalendarChanged?.call();
@@ -148,37 +140,62 @@ class CalendarDaily extends StatelessWidget {
       ));
     });
 
-    days.add(SizedBox(
-        width: headersStyle.weekDayStringType ==
-                WeekDayStringTypes.Full
-            ? 80
-            : 60));
+    days.add(
+      SizedBox(
+        width: DayOptions.of(context).mini
+            ? 40
+            : headersStyle.weekDayStringType == WeekDayStringTypes.FULL
+                ? 80
+                : 60,
+      ),
+    );
 
     return days;
   }
 
-  bool isEnabledDay(int cYear, int cMonth, int day) {
-    if (enabledDays.isEmpty) return true;
-    return enabledDays
-            .where(
-              (element) =>
-                  element.year == cYear &&
-                  element.month == cMonth &&
-                  element.day == day,
-            )
-            .length !=
-        0;
+  BoxDecoration? _getDecoration(
+      CalendarDateTime? specialDay, curYear, int currMonth, day) {
+    BoxDecoration? decoration;
+    final isStartRange =
+        CalendarUtils.isStartOfRange(specialDay, curYear, currMonth, day);
+    final isEndRange =
+        CalendarUtils.isEndOfRange(specialDay, curYear, currMonth, day);
+    final isInRange =
+        CalendarUtils.isInRange(specialDay, curYear, currMonth, day);
+
+    if (isEndRange && isStartRange) {
+      decoration = BoxDecoration(
+          color: specialDay?.color, borderRadius: BorderRadius.circular(8));
+    } else if (isStartRange) {
+      decoration = BoxDecoration(
+          color: specialDay?.color,
+          borderRadius:
+              const BorderRadius.horizontal(right: Radius.circular(8)));
+    } else if (isEndRange) {
+      decoration = BoxDecoration(
+          color: specialDay?.color,
+          borderRadius:
+              const BorderRadius.horizontal(left: Radius.circular(8)));
+    } else if (isInRange) {
+      decoration = BoxDecoration(color: specialDay?.color);
+    }
+    return decoration;
   }
 
-  bool isDisabledDay(cYear, cMonth, int day) {
-    return disabledDays
-            .where(
-              (element) =>
-                  element.year == cYear &&
-                  element.month == cMonth &&
-                  element.day == day,
-            )
-            .length !=
-        0;
+  void executeAsync(context) async {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      if (animatedTo.hasClients) {
+        final animateOffset = (DayOptions.of(context).mini
+                ? 40.0
+                : (HeaderOptions.of(context).weekDayStringType ==
+                        WeekDayStringTypes.FULL
+                    ? 80.0
+                    : 60.0)) *
+            (dayIndex - 1);
+        animatedTo.animateTo(animateOffset,
+            duration: const Duration(milliseconds: 700),
+            curve: Curves.decelerate);
+      }
+    });
   }
 }

@@ -6,10 +6,18 @@ class CalendarOptions extends Model {
   bool toggleViewType;
   ViewType viewType;
   String font;
+  Color? headerMonthBackColor;
+  Color? headerMonthShadowColor;
+  double? headerMonthElevation;
+  ShapeBorder? headerMonthShape;
 
   CalendarOptions(
       {this.toggleViewType = false,
-      this.viewType = ViewType.Monthly,
+      this.viewType = ViewType.MONTHLY,
+      this.headerMonthBackColor,
+      this.headerMonthShadowColor,
+      this.headerMonthElevation,
+      this.headerMonthShape,
       this.font = ''});
 
   static CalendarOptions of(BuildContext context) =>

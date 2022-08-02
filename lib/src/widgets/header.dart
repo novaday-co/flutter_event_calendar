@@ -4,23 +4,25 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
 import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
-import 'package:flutter_event_calendar/src/models/style/select_month_style.dart';
-import 'package:flutter_event_calendar/src/models/style/select_year_style.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
+import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
+import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
 import 'package:flutter_event_calendar/src/widgets/select_month.dart';
 import 'package:flutter_event_calendar/src/widgets/select_year.dart';
 
 class Header extends StatelessWidget {
-  Function onHeaderChanged;
-
-  Header({required this.onHeaderChanged});
+  Function onViewTypeChanged;
+  Function onDateTimeReset;
+  Function onYearChanged;
+  Function onMonthChanged;
+  Header({required this.onViewTypeChanged,required this.onYearChanged,required this.onMonthChanged,required this.onDateTimeReset});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color:Colors.white,
+      color: Colors.transparent,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Directionality(
           textDirection: EventCalendar.calendarProvider.isRTL()
               ? TextDirection.rtl
@@ -35,7 +37,7 @@ class Header extends StatelessWidget {
                     onTap: () {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.previousMonth();
-                      onHeaderChanged.call();
+                      onMonthChanged.call();
                     },
                     customBorder: CircleBorder(),
                     child: Padding(
@@ -45,6 +47,7 @@ class Header extends StatelessWidget {
                         child: Icon(
                           Icons.arrow_forward_ios,
                           size: 18,
+                          color: HeaderOptions.of(context).navigationColor,
                         ),
                       ),
                     ),
@@ -67,10 +70,10 @@ class Header extends StatelessWidget {
                             context: context,
                             builder: (BuildContext mmm) {
                               return SelectMonth(
-                                onHeaderChanged: onHeaderChanged,
-                                monthStyle: MonthStyle(
+                                onHeaderChanged: onMonthChanged,
+                                monthStyle: MonthOptions(
                                   font: CalendarOptions.of(context).font,
-                                  selectedColor: DayStyle.of(context)
+                                  selectedColor: DayOptions.of(context)
                                       .selectedBackgroundColor,
                                 ),
                               );
@@ -81,12 +84,13 @@ class Header extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             '${CalendarUtils.getPartByString(
-                              format: PartFormat.month,
-                              options: HeadersStyle.of(context),
+                              format: PartFormat.MONTH,
+                              options: HeaderOptions.of(context),
                             )}',
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 20,
+                              color: HeaderOptions.of(context).headerTextColor,
                               fontFamily: CalendarOptions.of(context).font,
                             ),
                           ),
@@ -100,10 +104,10 @@ class Header extends StatelessWidget {
                             context: context,
                             builder: (BuildContext mmm) {
                               return SelectYear(
-                                onHeaderChanged: onHeaderChanged,
-                                yearStyle: YearStyle(
+                                onHeaderChanged: onYearChanged,
+                                yearStyle: YearOptions(
                                   font: CalendarOptions.of(context).font,
-                                  selectedColor: DayStyle.of(context)
+                                  selectedColor: DayOptions.of(context)
                                       .selectedBackgroundColor,
                                 ),
                               );
@@ -111,10 +115,11 @@ class Header extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          '${CalendarUtils.getPartByInt(format: PartFormat.year)}',
+                          '${CalendarUtils.getPartByInt(format: PartFormat.YEAR)}',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 20,
+                            color: HeaderOptions.of(context).headerTextColor,
                             fontFamily: CalendarOptions.of(context).font,
                           ),
                         ),
@@ -126,20 +131,21 @@ class Header extends StatelessWidget {
               // if (!isInTodayIndex()) buildRefreshView(),
               Row(
                 children: [
-                  buildRefreshView(),
+                  buildRefreshView(context),
                   buildSelectViewType(context),
                   InkWell(
                     customBorder: CircleBorder(),
                     onTap: () {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.nextMonth();
-                      onHeaderChanged.call();
+                      onMonthChanged.call();
                     },
                     child: Padding(
                       padding: EdgeInsets.all(8),
                       child: Icon(
                         Icons.arrow_forward_ios,
                         size: 18,
+                        color: HeaderOptions.of(context).navigationColor,
                       ),
                     ),
                   ),
@@ -153,11 +159,11 @@ class Header extends StatelessWidget {
   }
 
   isInTodayIndex() {
-    return EventCalendar.dateTime
+    return EventCalendar.dateTime!
         .isDateEqual(EventCalendar.calendarProvider.getDateTime());
   }
 
-  buildRefreshView() {
+  buildRefreshView(BuildContext context) {
     return AnimatedOpacity(
       duration: Duration(milliseconds: 300),
       opacity: !isInTodayIndex() ? 1 : 0,
@@ -165,13 +171,14 @@ class Header extends StatelessWidget {
         customBorder: CircleBorder(),
         onTap: () {
           EventCalendar.dateTime = EventCalendar.calendarProvider.getDateTime();
-          onHeaderChanged.call();
+          onDateTimeReset.call();
         },
         child: Padding(
           padding: EdgeInsets.all(5),
           child: Icon(
             Icons.restore,
             size: 24,
+            color: HeaderOptions.of(context).headerTextColor,
           ),
         ),
       ),
@@ -179,27 +186,29 @@ class Header extends StatelessWidget {
   }
 
   buildSelectViewType(BuildContext context) {
-    if (CalendarOptions.of(context).toggleViewType)
+    if (CalendarOptions.of(context).toggleViewType) {
       return InkWell(
         customBorder: CircleBorder(),
         onTap: () {
           // EventCalendar.dateTime = EventCalendar.calendarProvider.getDateTime();
-          if (CalendarOptions.of(context).viewType == ViewType.Monthly)
-            CalendarOptions.of(context).viewType = ViewType.Daily;
-          else
-            CalendarOptions.of(context).viewType = ViewType.Monthly;
-          onHeaderChanged.call();
+          if (CalendarOptions.of(context).viewType == ViewType.MONTHLY) {
+            CalendarOptions.of(context).viewType = ViewType.DAILY;
+          } else {
+            CalendarOptions.of(context).viewType = ViewType.MONTHLY;
+          }
+          onViewTypeChanged.call();
         },
         child: Padding(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: Icon(
-            CalendarOptions.of(context).viewType == ViewType.Monthly
+            CalendarOptions.of(context).viewType == ViewType.MONTHLY
                 ? Icons.calendar_view_month_outlined
                 : Icons.calendar_view_day_outlined,
             size: 24,
           ),
         ),
       );
-    return SizedBox();
+    }
+    return const SizedBox();
   }
 }

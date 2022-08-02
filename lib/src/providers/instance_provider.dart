@@ -5,8 +5,8 @@ import 'package:flutter_event_calendar/src/providers/calendars/jalali_calendar.d
 
 CalendarProvider createInstance(CalendarType cType) {
   final Map<CalendarType, CalendarProvider> _factories = {
-    CalendarType.Jalali: JalaliCalendar(),
-    CalendarType.Gregorian: GregorianCalendar()
+    CalendarType.JALALI: JalaliCalendar(),
+    CalendarType.GREGORIAN: GregorianCalendar()
   };
   if (!_factories.keys.contains(cType)) {
     throw Exception(

@@ -1,13 +1,13 @@
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_style.dart';
+import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import '../dictionaries/dictionary.dart';
 
 class Translator {
-  static String getPartTranslate(HeadersStyle options, format, index) {
+  static String getPartTranslate(HeaderOptions options, format, index) {
     switch (format) {
-      case PartFormat.month:
+      case PartFormat.MONTH:
         return _getMonthName(options.monthStringType, index);
       default:
         return '';
@@ -16,9 +16,9 @@ class Translator {
 
   static String _getMonthName(MonthStringTypes type, index) {
     switch (type) {
-      case MonthStringTypes.Short:
+      case MonthStringTypes.SHORT:
         return getShortMonthNames()[index];
-      case MonthStringTypes.Full:
+      case MonthStringTypes.FULL:
         return getFullMonthNames()[index];
     }
   }
@@ -28,9 +28,9 @@ class Translator {
 
   static List<String> getNameOfDay(WeekDayStringTypes type) {
     switch (type) {
-      case WeekDayStringTypes.Short:
+      case WeekDayStringTypes.SHORT:
         return getShortNameOfDays();
-      case WeekDayStringTypes.Full:
+      case WeekDayStringTypes.FULL:
         return getFullNameOfDays();
     }
   }

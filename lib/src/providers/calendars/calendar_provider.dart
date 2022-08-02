@@ -8,23 +8,27 @@ abstract class CalendarProvider {
 
   Map getMonthDaysShort(int index);
 
-  EventDateTime getNextMonthDateTime();
+  CalendarDateTime getNextMonthDateTime();
 
-  EventDateTime getPreviousMonthDateTime();
+  CalendarDateTime getPreviousMonthDateTime();
 
-  EventDateTime getNextDayDateTime();
+  CalendarDateTime getNextDayDateTime();
 
-  EventDateTime getPreviousDayDateTime();
+  CalendarDateTime getPreviousDayDateTime();
 
-  EventDateTime getDateTime();
+  CalendarDateTime getDateTime();
 
-  EventDateTime goToMonth(index);
+  String getFormattedDate({DateTime? customDate});
 
-  EventDateTime goToDay(index);
+  CalendarDateTime goToMonth(index);
 
-  EventDateTime goToYear(int index);
+  CalendarDateTime goToDay(index);
+
+  CalendarDateTime goToYear(int index);
 
   int getDateTimePart(PartFormat format);
 
   List<int> getYears();
+
+  CalendarType getCalendarType();
 }

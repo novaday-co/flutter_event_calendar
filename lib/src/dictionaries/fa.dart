@@ -3,7 +3,7 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 class Fa {
   static Map fullMonthNames = const {
     'fa': {
-      CalendarType.Jalali :[
+      CalendarType.JALALI :[
           'فروردین',
           'اردیبهشت',
           'خرداد',
@@ -17,7 +17,7 @@ class Fa {
           'بهمن',
           'اسفند'
       ],
-    CalendarType.Gregorian: [
+    CalendarType.GREGORIAN: [
         'ژانویه',
         'فوریه',
         'مارس',
@@ -35,7 +35,7 @@ class Fa {
 };
   static Map shortMonthNames = const {
     'fa': { 
-      CalendarType.Jalali : [
+      CalendarType.JALALI : [
         'فرو',
         'ارد',
         'خرد',
@@ -49,7 +49,7 @@ class Fa {
         'بهم',
         'اسف'
     ],
-      CalendarType.Gregorian: [
+      CalendarType.GREGORIAN: [
         'ژان',
         'قور',
         'مار',
@@ -67,7 +67,7 @@ class Fa {
 };
   static Map fullDayNames = const {
     'fa': {
-      CalendarType.Jalali  : [
+      CalendarType.JALALI  : [
         'شنبه',
         'یکشنبه',
         'دوشنبه',
@@ -76,7 +76,7 @@ class Fa {
         'پنج شنبه',
         'جمعه'
     ],
-      CalendarType.Gregorian: [
+      CalendarType.GREGORIAN: [
         'یکشنبه',
         'دوشنبه',
         'سه شنبه',
@@ -89,8 +89,8 @@ class Fa {
 };
   static Map shortDayNames = const {
     'fa': { 
-      CalendarType.Jalali : ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'], 
-      CalendarType.Gregorian: ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش'] 
+      CalendarType.JALALI : ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'],
+      CalendarType.GREGORIAN: ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش']
     }
   };
   static Map titles = const {

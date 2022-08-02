@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/models/style/select_year_style.dart';
+import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
 
 class SelectYear extends StatelessWidget {
   late List years;
 
   Function onHeaderChanged;
 
-  YearStyle? yearStyle;
+  YearOptions? yearStyle;
 
-  SelectYear({required this.onHeaderChanged,this.yearStyle});
+  SelectYear({required this.onHeaderChanged, this.yearStyle});
 
   ScrollController _scrollController = ScrollController();
 
   late VoidCallback scrollToPositionCallback;
 
-  final int selectedYear =
-      CalendarUtils.getPartByInt(format: PartFormat.year);
+  final int selectedYear = CalendarUtils.getPartByInt(format: PartFormat.YEAR);
 
   late BoxDecoration selectedDecoration;
 
@@ -58,6 +57,7 @@ class SelectYear extends StatelessWidget {
             ),
             Expanded(
               child: Material(
+                color: Colors.transparent,
                 child: GridView.builder(
                     controller: _scrollController,
                     itemCount: years.length,
@@ -104,9 +104,10 @@ class SelectYear extends StatelessWidget {
   }
 
   void animateToCurrentYear() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _scrollController.animateTo(findSelectedYearOffset(),
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      if (_scrollController.hasClients)
+        _scrollController.animateTo(findSelectedYearOffset(),
+            duration: Duration(milliseconds: 500), curve: Curves.ease);
     });
   }
 }

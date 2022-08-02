@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MonthStyle{
+class MonthOptions{
   String font;
   Color? selectedColor;
 
-  MonthStyle({this.font = '', this.selectedColor});
+  MonthOptions({this.font = '', this.selectedColor});
 }

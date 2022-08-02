@@ -3,21 +3,21 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
 import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/select_month_style.dart';
+import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
 
 class SelectMonth extends StatelessWidget {
   late List months;
 
   Function onHeaderChanged;
 
-  MonthStyle? monthStyle;
+  MonthOptions? monthStyle;
 
   SelectMonth({required this.onHeaderChanged, this.monthStyle});
 
   late BoxDecoration selectedDecoration;
 
   final int currentMonth =
-      CalendarUtils.getPartByInt(format: PartFormat.month);
+      CalendarUtils.getPartByInt(format: PartFormat.MONTH);
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +84,7 @@ class SelectMonth extends StatelessWidget {
           TableCell(
             verticalAlignment: TableCellVerticalAlignment.middle,
             child: Material(
+              color: Colors.transparent,
               child: InkWell(
                 onTap: (() {
                   Navigator.pop(context);
@@ -98,7 +99,7 @@ class SelectMonth extends StatelessWidget {
                       child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      '${months[(rowIndex * 3) + j].toString()}',
+                      months[(rowIndex * 3) + j].toString(),
                       style: TextStyle(
                         fontSize: 16,
                         color: mMonth == currentMonth ? Colors.white : null,

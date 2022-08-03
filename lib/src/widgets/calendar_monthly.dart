@@ -24,6 +24,8 @@ class CalendarMonthly extends StatefulWidget {
 
 class _CalendarMonthlyState extends State<CalendarMonthly> {
   EventSelector eventSelector = EventSelector();
+  late DayOptions dayOptions;
+
   late List<String> dayNames;
   late HeaderOptions headersStyle;
   int currDay = -1;
@@ -32,6 +34,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   @override
   void initState() {
     headersStyle = HeaderOptions.of(context);
+    dayOptions=DayOptions.of(context);
     dayNames = Translator.getNameOfDay(headersStyle.weekDayStringType);
     super.initState();
   }
@@ -58,7 +61,9 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _buildDayName(),
+          if(!dayOptions.compactMode)...[
+            _buildDayName(),
+          ],
           SizedBox(
             height: 12,
           ),

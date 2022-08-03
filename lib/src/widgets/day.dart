@@ -51,7 +51,7 @@ class Day extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          if (!dayStyle!.mini && dayOptions!.showWeekDay)
+          if (!dayStyle!.compactMode && dayOptions!.showWeekDay)
             if(CalendarOptions.of(context).viewType==ViewType.DAILY)
             FittedBox(
               child: Text(
@@ -65,7 +65,7 @@ class Day extends StatelessWidget {
               ),
             ),
 
-          if (!dayStyle!.mini && dayOptions!.showWeekDay)
+          if (!dayStyle!.compactMode && dayOptions!.showWeekDay)
             SizedBox(
               height: 0,
             ),
@@ -73,7 +73,7 @@ class Day extends StatelessWidget {
             child: AnimatedContainer(
               duration: Duration(milliseconds: 500),
               curve: Curves.ease,
-              padding: dayStyle!.mini
+              padding: dayStyle!.compactMode
                   ? EdgeInsets.zero
                   : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
                   WeekDayStringTypes.FULL
@@ -85,7 +85,7 @@ class Day extends StatelessWidget {
                       : dayOptions!.unselectedBackgroundColor,
                   shape: BoxShape.circle),
               constraints: BoxConstraints(
-                  minWidth: double.infinity, minHeight: dayStyle!.mini ? 35 : 20, ),
+                  minWidth: double.infinity, minHeight: dayStyle!.compactMode ? 35 : 20, ),
               child: Stack(
                 fit: StackFit.passthrough,
                 children: [
@@ -120,9 +120,9 @@ class Day extends StatelessWidget {
     return Opacity(
       opacity: opacity,
       child: Container(
-        padding: EdgeInsets.all(dayStyle!.mini ? 0 : 10),
+        padding: EdgeInsets.all(dayStyle!.compactMode ? 0 : 10),
         decoration: dayStyle?.decoration,
-        width: dayStyle!.mini
+        width: dayStyle!.compactMode
             ? 45
             : (HeaderOptions.of(context).weekDayStringType ==
                     WeekDayStringTypes.FULL
@@ -143,7 +143,7 @@ class Day extends StatelessWidget {
           margin: EdgeInsets.only(
               bottom: HeaderOptions.of(context).weekDayStringType ==
                       WeekDayStringTypes.SHORT
-                  ? (dayStyle!.mini ? 4 : 8)
+                  ? (dayStyle!.compactMode ? 4 : 8)
                   : 4),
           width: 5,
           height: 5,
@@ -171,8 +171,8 @@ class Day extends StatelessWidget {
     return Container(
       // padding:
       //     EdgeInsets.symmetric(horizontal: dayStyle!.mini ? 4 : 8, vertical: 2),
-      width: dayStyle!.mini ? 15 : 18,
-      height: dayStyle!.mini ? 15 : 18,
+      width: dayStyle!.compactMode ? 15 : 18,
+      height: dayStyle!.compactMode ? 15 : 18,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -202,7 +202,7 @@ class Day extends StatelessWidget {
 }
 
 class DayStyle {
-  final bool mini;
+  final bool compactMode;
   final bool useUnselectedEffect;
   final bool enabled;
   final bool selected;
@@ -210,7 +210,7 @@ class DayStyle {
   final BoxDecoration? decoration;
 
   const DayStyle({
-    this.mini = false,
+    this.compactMode = false,
     this.useUnselectedEffect = false,
     this.enabled = false,
     this.selected = false,

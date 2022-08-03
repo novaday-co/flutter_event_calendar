@@ -169,7 +169,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       day: day,
       weekDay: '',
       dayStyle: DayStyle(
-          mini: DayOptions.of(context).mini,
+          compactMode: DayOptions.of(context).compactMode,
           enabled: specialDay?.isEnableDay ?? true,
           selected: day == currDay,
           useUnselectedEffect: false,
@@ -202,7 +202,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             calendarType: CalendarUtils.getCalendarType()),
       ),
       dayStyle: DayStyle(
-        mini: DayOptions.of(context).mini,
+        compactMode: DayOptions.of(context).compactMode,
         enabled: specialDay?.isEnableDay ?? true,
         decoration: decoration,
         selected: false,
@@ -236,7 +236,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
           calendarType: CalendarUtils.getCalendarType())),
       weekDay: '',
       dayStyle: DayStyle(
-        mini: true,
+        compactMode: true,
         enabled: specialDay?.isEnableDay ?? true,
         selected: false,
         decoration: decoration,

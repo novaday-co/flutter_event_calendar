@@ -21,7 +21,7 @@ class CalendarDaily extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     animatedTo = ScrollController(
-        initialScrollOffset: (DayOptions.of(context).mini
+        initialScrollOffset: (DayOptions.of(context).compactMode
                 ? 40.0
                 : (HeaderOptions.of(context).weekDayStringType ==
                         WeekDayStringTypes.FULL
@@ -96,7 +96,7 @@ class CalendarDaily extends StatelessWidget {
 
     List<Widget> days = [
       SizedBox(
-          width: DayOptions.of(context).mini
+          width: DayOptions.of(context).compactMode
               ? 40
               : headersStyle.weekDayStringType == WeekDayStringTypes.FULL
                   ? 80
@@ -123,7 +123,7 @@ class CalendarDaily extends StatelessWidget {
           CalendarDateTime(year: currentYear, month: currentMonth, day: index, calendarType: CalendarUtils.getCalendarType()),
         ),
         dayStyle: DayStyle(
-          mini: DayOptions.of(context).mini,
+          compactMode: DayOptions.of(context).compactMode,
           decoration: decoration,
           enabled: (specialDay?.isEnableDay ?? true),
           selected: selected,
@@ -142,7 +142,7 @@ class CalendarDaily extends StatelessWidget {
 
     days.add(
       SizedBox(
-        width: DayOptions.of(context).mini
+        width: DayOptions.of(context).compactMode
             ? 40
             : headersStyle.weekDayStringType == WeekDayStringTypes.FULL
                 ? 80
@@ -185,7 +185,7 @@ class CalendarDaily extends StatelessWidget {
   void executeAsync(context) async {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (animatedTo.hasClients) {
-        final animateOffset = (DayOptions.of(context).mini
+        final animateOffset = (DayOptions.of(context).compactMode
                 ? 40.0
                 : (HeaderOptions.of(context).weekDayStringType ==
                         WeekDayStringTypes.FULL

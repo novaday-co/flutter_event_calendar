@@ -86,12 +86,17 @@ You have many option for changes in : style , locale and structure.
 | dayOptions	 	| DayOptions 	|
 | showLoadingForEvent	 	| bool 	|
 | specialDays	 	| List<CalendarDateTime> 	|
-| onChangeDateTime	 	| Function(CalendarDateTime) 	|
-| onMonthChanged	 	| Function(CalendarDateTime) 	|
-| onDateTimeReset	 	| Function(CalendarDateTime) 	|
-| onInit	 	| Function 	|
-| onYearChanged	 	| Function(CalendarDateTime) 	|
 | calendarLanguage	 	| String(fa or en) 	|
+
+### Events
+
+| Name       	| Description                         	|
+|------------	|-------------------------------------	|
+| onInit 	| Called when Event Calendar object is inserted into the tree.|
+| onChangeDateTime	 	| Return a string of new date selected like (year-month-day)	|
+| onMonthChanged	 	| When the month changes return a string of CalendarDateTime (year-month-day hour:minute:second)	|
+| onYearChanged	 	| When the year changes return a string of CalendarDateTime (year-month-day hour:minute:second)	|
+| onDateTimeReset	 	| When clicking on the reset button return a string of current CalendarDateTime (year-month-day hour:minute:second) 	|
 
 ## CalendarOptions :
 

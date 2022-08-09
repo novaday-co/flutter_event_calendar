@@ -49,20 +49,21 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 You can load a full calendar with events .
 
 ```dart
-  return EventCalendar(
-calendarType: CalendarType.JALALI,
-calendarLanguage: 'fa',
-events: [
-Event(
-child: const Text('Laravel Event'),
-dateTime: CalendarDateTime(
-year: 1401,
-month: 5,
-day: 12,
-calendarType: CalendarType.JALALI),
-),
-],
-)
+    return EventCalendar(
+      calendarType: CalendarType.JALALI,
+      calendarLanguage: 'fa',
+      events: [
+        Event(
+          child: const Text('Laravel Event'),
+          dateTime: CalendarDateTime(
+            year: 1401,
+            month: 5,
+            day: 12,
+            calendarType: CalendarType.JALALI,
+          ),
+        ),
+      ],
+    );
 ```
 
 
@@ -86,63 +87,68 @@ You have many option for changes in : style , locale and structure.
 | dayOptions	 	| DayOptions 	|
 | showLoadingForEvent	 	| bool 	|
 | specialDays	 	| List<CalendarDateTime> 	|
-| onChangeDateTime	 	| Function(CalendarDateTime) 	|
-| onMonthChanged	 	| Function(CalendarDateTime) 	|
-| onDateTimeReset	 	| Function(CalendarDateTime) 	|
-| onInit	 	| Function 	|
-| onYearChanged	 	| Function(CalendarDateTime) 	|
 | calendarLanguage	 	| String(fa or en) 	|
+
+### Events
+
+| Name       	| Description                         	|
+|------------	|-------------------------------------	|
+| onInit 	| Called when Event Calendar object is inserted into the tree.|
+| onChangeDateTime	 	| Return a string of new date selected like (year-month-day)	|
+| onMonthChanged	 	| When the month changes return a string of CalendarDateTime (year-month-day hour:minute:second)	|
+| onYearChanged	 	| When the year changes return a string of CalendarDateTime (year-month-day hour:minute:second)	|
+| onDateTimeReset	 	| When clicking on the reset button return a string of current CalendarDateTime (year-month-day hour:minute:second) 	|
 
 ## CalendarOptions :
 
-| Option       	| Type                         	|
-|------------	|-------------------------------------	|
-| toggleViewType 	| bool	|
-| viewType 	| ViewType	|
-| font	 	| String 	|
-| headerMonthBackColor	 	| Color 	|
-| headerMonthShadowColor	 	| Color 	|
-| headerMonthElevation	 	| double 	|
-| headerMonthShape	 	| ShapeBorder 	|
+| Option       	| Type                         	| Description                        |
+|------------	|-------------------------------------	| -------------------------------------|
+| toggleViewType 	| bool	| Whether user can toggle view type between monthly and daily or not |
+| viewType 	| ViewType	| Default view type of Calendar Daily or Monthly |
+| font	 	| String 	| Name of your font |
+| headerMonthBackColor	 	| Color 	| The background color of Calendar card |
+| headerMonthShadowColor	 	| Color 	| The shadow color of Calendar card  |
+| headerMonthElevation	 	| double 	| The elevation of shadow color Calendar card |
+| headerMonthShape	 	| ShapeBorder 	| The shape of Calendar card like(RoundedRectangleBorder) |
 
 ### HeaderOptions :
 
-| Option       	| Type                         	|
-|------------	|-------------------------------------	|
-| weekDayStringType 	| WeekDayStringTypes(FULL or SHORT)	|
-| MonthStringTypes 	| MonthStringTypes(FULL or SHORT)	|
-| headerTextColor	 	| Color 	|
-| navigationColor	 	| Color 	|
-| resetDateColor	 	| Color 	|
+| Option       	| Type                         	| Description                        |
+|------------	|-------------------------------------	| -------------------------------------|
+| weekDayStringType 	| WeekDayStringTypes | Day names FULL or SHORT |
+| MonthStringTypes 	| MonthStringTypes 	|  Month names FULL or SHORT |
+| headerTextColor	 	| Color 	| The color of Header Text |
+| navigationColor	 	| Color 	| The color of Header navigation icons | 
+| resetDateColor	 	| Color 	| The color of reset date icon |
 
 ### EventOptions :
 
-| Option       	| Type                         	|
-|------------	|-------------------------------------	|
-| emptyText 	| String	|
-| emptyTextColor	 	| Color 	|
-| emptyIcon	 	| IconData 	|
-| emptyIconColor	 	| Color 	|
+| Option       	| Type                         	| Description                        |
+|------------	|-------------------------------------	| -------------------------------------|
+| emptyText 	| String	| if it doesn't have any event, this text will display |
+| emptyTextColor	 	| Color 	| The color of empty text | 
+| emptyIcon	 	| IconData 	| if it doesn't have any event, this icon will display |
+| emptyIconColor	 	| Color 	| The color of empty icon |
 
 
 ### DayOptions :
 
-| Option       	| Type                         	|
-|------------	|-------------------------------------	|
-| weekDaySelectedColor	 	| Color 	|
-| weekDayUnselectedColor	 	| Color 	|
-| showWeekDay	 	| bool 	|
-| mini	 	| bool 	|
-| selectedBackgroundColor	 	| Color 	|
-| unselectedBackgroundColor	 	| Color 	|
-| selectedTextColor	 	| Color 	|
-| disabledTextColor	 	| Color 	|
-| unselectedTextColor	 	| Color 	|
-| eventCounterColor	 	| Color 	|
-| eventCounterViewType	 	| DayEventCounterViewType 	|
-| eventCounterTextColor	 	| Color 	|
-| disableFadeEffect	 	| bool 	|
-| disableDaysBeforeNow	 	| bool 	|
+| Option       	| Type                         	| Description                        |
+|------------	|-------------------------------------	| -------------------------------------|
+| weekDaySelectedColor	 	| Color 	| The color of the Selected weekday |
+| weekDayUnselectedColor	 	| Color 	| The color of the UnSelected weekday |
+| showWeekDay	 	| bool 	| Whether weekdays show or not |
+| compactMode	 	| bool 	| Whether the Calendar card is compact or not |
+| selectedBackgroundColor	 	| Color 	| The background color of the selected day |
+| unselectedBackgroundColor	 	| Color 	| The background color of the unselected day |
+| selectedTextColor	 	| Color 	| The text color of the selected day |
+| disabledTextColor	 	| Color 	| The text color of the disabled day |
+| unselectedTextColor	 	| Color 	| The text color of the unselected day |
+| eventCounterColor	 	| Color 	| The background color of the event counter |
+| eventCounterViewType	 	| DayEventCounterViewType 	| The view type of event counter |
+| eventCounterTextColor	 	| Color 	| The text color of the event Counter |
+| disableFadeEffect	 	| bool 	| Whether days before now has fade effect or not |
+| disableDaysBeforeNow	 	| bool 	| Whether days before now Disabled or not |
 
 
 ### Event Structure

@@ -6,7 +6,7 @@ class DayOptions extends Model {
   Color weekDaySelectedColor;
   Color weekDayUnselectedColor;
   bool showWeekDay;
-  bool mini;
+  bool compactMode;
   Color selectedBackgroundColor;
   Color unselectedBackgroundColor;
   Color selectedTextColor;
@@ -25,7 +25,7 @@ class DayOptions extends Model {
       this.unselectedBackgroundColor = Colors.transparent,
       this.selectedTextColor = Colors.white,
       this.showWeekDay = true,
-      this.mini = false,
+      this.compactMode = false,
       this.disableDaysBeforeNow = false,
       this.disableFadeEffect = false,
       this.disabledTextColor = Colors.grey,

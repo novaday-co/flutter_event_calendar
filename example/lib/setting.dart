@@ -1,59 +1,135 @@
+import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar_example/injection.dart';
+import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
+import 'package:flutter_event_calendar_example/widgets/expanded_items_setting.dart';
 import 'package:flutter_event_calendar_example/widgets/radio_button_list.dart';
-
-import '../models/calender_setting_item_model.dart';
-
+import 'package:flutter_event_calendar_example/widgets/theme_setting.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CalendarSetting extends StatefulWidget {
-  const CalendarSetting({Key key}) : super(key: key);
+  CalendarSetting({
+    Key key,
+  }) : super(key: key);
 
   @override
   State<CalendarSetting> createState() => _CalendarSettingState();
 }
 
 class _CalendarSettingState extends State<CalendarSetting> {
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<Item> _items = [Item(title: "JALALI",id: 0), Item(title: "GREGORIAN",id: 1)];
-    final List<Item> _items_calendar_language = [Item(title: "ENGLISH"), Item(title: "FARSI")];
-    final List<Item> _month_stringTypes = [Item(title: "FULL"), Item(title: "SHORT")];
+    List<String> listLanguage = ['Persian', 'English'];
+    List<String> listCalendartype = ['Jalali', 'Miladi'];
+    List<String> listMonthStringType = ['full', 'short'];
 
-    final List<CalendarSettingItem> _data = [
-      CalendarSettingItem(
-          id: 0, expandedValue: _items, headerValue: "Calendar Type"),
-      CalendarSettingItem(
-          id: 1, expandedValue: _items_calendar_language, headerValue: "Calendar Language"),
-      CalendarSettingItem(
-          id: 2, expandedValue: _month_stringTypes, headerValue: "Month String Types")
+    StreamController streamController = StreamController<CalendarEventModel>();
+    CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
+    List<ExpandedItem> calendarOptions = [
+      ExpandedItem(
+        icon:'assets/language_icon.svg',
+        title: "CalendarType",
+        body: RadioButtonList(
+          listItems: listLanguage,
+          onChanged: (dynamic keyName) {
+            if (keyName == 'Persian') {
+              calendarEventModel.calendarLanguage = "fa";
+              streamController.add(calendarEventModel);
+            } else {
+              calendarEventModel.calendarLanguage = "en";
+              streamController.add(calendarEventModel);
+            }
+          },
+        ),
+      ),
+      ExpandedItem(
+          icon:'assets/language_icon.svg',
+
+          title: "calendarLanguage",
+          body: RadioButtonList(
+            listItems: listCalendartype,
+            onChanged: (dynamic keyName) {
+              if (keyName == 'Jalali') {
+                calendarEventModel.calendarType = CalendarType.JALALI;
+              } else {
+                calendarEventModel.calendarType = CalendarType.GREGORIAN;
+              }
+            },
+          )),
+      ExpandedItem(
+        icon: 'assets/calendar.svg',
+          title: "Month String Types",
+          body: RadioButtonList(
+            listItems: listMonthStringType,
+            onChanged: (dynamic keyName) {
+              if (keyName == 'Persian') {
+                //calendarEventModel. = "fa";
+              } else {
+                //  calendarEventModel.languageCalendar = "en";
+              }
+            },
+          )),
+      ExpandedItem(
+        icon:'assets/color_filter.svg',
+        title: 'Calendar Color',
+        body: Container(
+          child: Column(
+            children: [ThemeSetting()],
+          ),
+        ),
+      )
     ];
 
     return Scaffold(
+      backgroundColor:Color(0xffF5F5F5) ,
+     appBar: AppBar(
+       backgroundColor: Color(0xffF5F5F5),
+       elevation: 0,
+       leading:
+         Row(children: [
+           SizedBox(width: 10,),
+           Expanded(
+
+           //  margin: EdgeInsets.symmetric(horizontal: 10),
+           child: new OutlinedButton(
+
+
+             style: OutlinedButton.styleFrom(
+               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+             ),
+             child: new Icon(Icons.arrow_back_ios, color: Colors.black,size: 18,),
+             onPressed: () => Navigator.of(context).pop(),
+           ),
+
+         ),],),
+       title: Text("Calendar Settings",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+   ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            child: _buildPanel(_data,_items),
+            child: Column(
+              children: [
+
+                SizedBox(height: 30,),
+                ExpandedWidget(
+                  items: calendarOptions,
+                ),
+
+              ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-
-
-  Widget _buildPanel(List<CalendarSettingItem> _data,List<Item> _items) {
-    int _character=1;
-    return ExpansionPanelList.radio(
-      initialOpenPanelValue: 1,
-      children: _data.map<ExpansionPanelRadio>((CalendarSettingItem item) {
-        return ExpansionPanelRadio(
-            value: item.id,
-            headerBuilder: (BuildContext context, bool isExpanded) {
-              return Container(margin: EdgeInsets.symmetric(horizontal: 10),alignment: Alignment.centerLeft,child: Text(item.headerValue,style: TextStyle(fontWeight: FontWeight.bold),));
-            },
-            body:  RadioButtonListWidget(calendarSettingItem:item));
-      }).toList(),
     );
   }
 }

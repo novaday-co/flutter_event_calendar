@@ -12,6 +12,11 @@ dependencies:
   scoped_model: ^2.0.0-nullsafety.0
   flutter:
     sdk: flutter
+  get_it: ^7.2.0
+  flutter_colorpicker: ^1.0.3
+  equatable: ^2.0.5
+  get_storage: ^2.0.3
+  flutter_svg: ^1.1.4
 
 dev_dependencies:
   flutter_test:

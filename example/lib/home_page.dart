@@ -1,178 +1,81 @@
+import 'dart:async';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
+import 'package:flutter_event_calendar_example/setting.dart';
+
+import 'injection.dart';
+import 'models/calender_setting_item_model.dart';
+
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, }) : super(key: key);
-
-
-
+  const MyHomePage({
+    Key key,
+  }) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String calendarLanguage = "en";
 
-  ValueNotifier<CalendarType> typeCalendar = ValueNotifier<CalendarType>(CalendarType.JALALI);
-  ValueNotifier<String> calendarLanguage = ValueNotifier<String>("en");
-  ValueNotifier<ViewType> calendarViewType = ValueNotifier<ViewType>(ViewType.MONTHLY);
+  var streamSubscription = getit<StreamController<CalendarEventModel>>().stream;
 
-  // ValueChanged<Color> callback
-  void changeColor(Color color) {
-    setState(() => pickerColor = color);
-  }
-// create some values
-  Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
-  showBottomSheet(){
-    return showModalBottomSheet<void>(
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: 20,horizontal: 20),
-          decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),color: Colors.white),
-          height: 400,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              //    mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+  CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
 
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("calendarType",  style: TextStyle(
-                        fontWeight: FontWeight.bold),),
-                    SizedBox(width: 5,),
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                    Text("headerMonthBackColor" ,style: TextStyle(
-                        fontWeight: FontWeight.bold),),
-                    SizedBox(width: 5,),
-                    //   Container(color: Colors.red,child: OutlinedButton.styleFrom(: ,onPressed: openPaltte, child: Icon(Icons.palette)),),
-                    OutlinedButton(
+  @override
+  void initState() {
+    streamSubscription.listen((event) {
+      setState(() {
+        calendarEventModel = event;
+        print("event is" + event.toString());
+      });
+    });
 
-                      style: OutlinedButton.styleFrom(
-                        fixedSize: Size(10, 40),
-                        side: BorderSide(width: 1.0, color: Colors.grey),
-                      ),
-                      child:   Icon(Icons.palette,color: Colors.cyan,),
-                      onPressed: openPaltte,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                    Text("calendarLanguage" ,style: TextStyle(
-                        fontWeight: FontWeight.bold),),
-                    SizedBox(width: 5,),
-
-                  ],
-                ),
-                SizedBox(height: 20,),
-
-
-                Row(
-                  children: [
-                    Text("MonthStringTypes" ,style: TextStyle(
-                        fontWeight: FontWeight.bold),),
-                    SizedBox(width: 5,),
-
-                  ],
-                ),
-
-
-              ],
-            ),
-          ),
-        );
-      },
-    );
-
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
 
-
-    typeCalendar.addListener(() {
-      print("addListener callde + ${typeCalendar.value}");
-
-      setState(() {
-
-      });
-      ;
-    });
-
-
-    calendarLanguage.addListener(() {     setState(() {
-
-    });});
-
-
-    return  Scaffold(
-      appBar: AppBar(actions: [ Container(child: IconButton(onPressed: showBottomSheet,icon: Icon(Icons.settings),),),Icon(Icons.add)
-      ],),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-            children: [
-              Expanded(
-                child: EventCalendar(
-                  showLoadingForEvent: true,
-                  calendarType: typeCalendar.value,
-                  calendarLanguage: calendarLanguage.value,
-                  calendarOptions: CalendarOptions(viewType: ViewType.MONTHLY,toggleViewType: true),
-                ),
-              ),
-            ] ),
-      ),
-    );
-  }
-
-  openPaltte() {
-    return showDialog(
-
-      context: context,
-      builder:(context)=> AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32.0))),
-        content: Container(
-          height: 300,
-          // child: SlidePicker(
-          //   showSliderText: false,
-          //   showParams: false,
-          //
-          //   pickerColor: pickerColor,
-          //   onColorChanged: changeColor,),
-        ),
-        actions: <Widget>[
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
           Container(
-            padding: EdgeInsets.all(20),
-            child: OutlinedButton(
-
-              style: OutlinedButton.styleFrom(
-                fixedSize: Size(10, 40),
-                shape: CircleBorder(
-
-                ),),
-              child:   Icon(Icons.format_paint,color: Colors.cyan,),
+            child: IconButton(
               onPressed: () {
-                setState(() => currentColor = pickerColor);
-                print(currentColor);
-                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CalendarSetting()),
+                );
               },
+              icon: Icon(Icons.settings),
             ),
           ),
+          Icon(Icons.add)
         ],
+      ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Column(children: [
+          Expanded(
+            child: EventCalendar(
+              showLoadingForEvent: true,
+              calendarType: calendarEventModel.calendarType,
+              calendarLanguage: calendarEventModel.calendarLanguage ?? "fa",
+              //  calendarOptions: CalendarOptions(toggleViewType:calendarEventModel.calendarOptions.toggleViewType),
+              headerOptions: HeaderOptions(
+                  monthStringType:
+                      calendarEventModel.headerOptions.monthStringType ??
+                          MonthStringTypes.SHORT),
+            ),
+          ),
+        ]),
       ),
     );
   }
 }
-
-
-

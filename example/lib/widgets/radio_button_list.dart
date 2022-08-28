@@ -1,45 +1,66 @@
-
 import 'package:flutter/material.dart';
-import '../models/calendar_event_model.dart';
-import '../models/calender_setting_item_model.dart';
-//ValueNotifier<CalendarEventModel> calendarEventModel=ValueNotifier<CalendarEventModel>(getIt.get<CalendarEventModel>());
 
-class RadioButtonListWidget extends StatefulWidget {
-  RadioButtonListWidget({Key key,@required this.calendarSettingItem}) : super(key: key);
-  CalendarSettingItem calendarSettingItem;
+class RadioButtonList extends StatefulWidget {
+  RadioButtonList(
+      {Key key,
+     @required this.onChanged,
+        @required this.listItems,
+      })
+      : super(key: key);
+
+  Function(dynamic keyName) onChanged;
+  List<String> listItems;
   @override
-  State<RadioButtonListWidget> createState() => _RadioButtonListWidgetState();
+  State<RadioButtonList> createState() => _RadioButtonListState();
 }
-class _RadioButtonListWidgetState extends State<RadioButtonListWidget> {
-  String groubValueKey="parisima";
+
+
+class _RadioButtonListState extends State<RadioButtonList> {
+  var groubValueKey = "parisima";
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // streamController.close();
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
-      child: Column(
-        children: [
-          RadioListTile(title: Text(widget.calendarSettingItem.expandedValue[0].title),
-            value: widget.calendarSettingItem.expandedValue[0].title,
-            groupValue: groubValueKey,
-            onChanged: (value) {
-              //calendarEventModel.value.calendarLanguage=value;
-              setState(() {
-                groubValueKey = value;
+      child:
+      Column(
 
-              });
-            },),
-          RadioListTile(title:Text(widget.calendarSettingItem.expandedValue[1].title),
-              value: widget.calendarSettingItem.expandedValue[1].title,
-              groupValue: groubValueKey,
-              onChanged: (value) {
-                setState(() {
-                  groubValueKey = value;
-                });
-              }),
+        children: [
+          ListView.builder(
+            itemCount: widget.listItems.length,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return RadioListTile(
+                title: Text(widget.listItems[index]),
+                value: widget.listItems[index],
+                groupValue: groubValueKey,
+                onChanged: (value) {
+                  setState(() {
+                    print("value"+value);
+                    groubValueKey = value;
+                     widget.onChanged(value);
+                  });
+                },
+              );
+            },
+          ),
+
+
         ],
       ),
-
     );
   }
 }

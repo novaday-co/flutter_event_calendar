@@ -1,8 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar_example/home_page.dart';
 import 'package:flutter_event_calendar_example/setting.dart';
+import 'injection.dart';
 
 void main() {
+  setUp();
+
   runApp(MyApp());
 }
 
@@ -16,21 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: CalendarSetting(),
+      home: MyHomePage(),
     );
   }
 }
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      body: EventCalendar(
-        calendarType: CalendarType.JALALI,
-        calendarLanguage: 'fa',
-        calendarOptions: CalendarOptions(viewType: ViewType.MONTHLY),
-      ),
-    );
-  }
-}
-

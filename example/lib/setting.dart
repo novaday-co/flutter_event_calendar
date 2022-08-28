@@ -93,30 +93,32 @@ class _CalendarSettingState extends State<CalendarSetting> {
     return Scaffold(
       backgroundColor:Color(0xffF5F5F5) ,
      appBar: AppBar(
+      // automaticallyImplyLeading: false,
        backgroundColor: Color(0xffF5F5F5),
        elevation: 0,
-       leading:
-         Row(children: [
-           SizedBox(width: 10,),
-           Expanded(
-
-           //  margin: EdgeInsets.symmetric(horizontal: 10),
-           child: new OutlinedButton(
-
-
-             style: OutlinedButton.styleFrom(
-               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-             ),
-             child: new Icon(Icons.arrow_back_ios, color: Colors.black,size: 18,),
-             onPressed: () => Navigator.of(context).pop(),
-           ),
-
-         ),],),
+       leading: SvgPicture.asset('assets/back.svg'),
+         // Row(children: [
+         //   SizedBox(width: 10,),
+         //   Expanded(
+         //
+         //   //  margin: EdgeInsets.symmetric(horizontal: 10),
+         //   child: new OutlinedButton(
+         //
+         //
+         //     style: OutlinedButton.styleFrom(
+         //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+         //     ),
+         //     child: new Icon(Icons.arrow_back_ios, color: Colors.black,size: 18,),
+         //     onPressed: () => Navigator.of(context).pop(),
+         //   ),
+         //
+         // ),],),
        title: Text("Calendar Settings",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
    ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
 

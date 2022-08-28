@@ -28,6 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     streamSubscription.listen((event) {
+      print("home_page");
       setState(() {
         calendarEventModel = event;
         print("event is" + event.toString());

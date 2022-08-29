@@ -69,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                      calendarEventModel.headerOptions.monthStringType),
             ),
           ),
+          TextButton(onPressed: (){}, child: Text("add event"))
         ]),
       ),
     );

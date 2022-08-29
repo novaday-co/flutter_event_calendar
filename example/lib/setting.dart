@@ -8,6 +8,7 @@ import 'package:flutter_event_calendar_example/models/expanded_item_model.dart';
 import 'package:flutter_event_calendar_example/widgets/expanded_card_setting.dart';
 import 'package:flutter_event_calendar_example/widgets/radio_button_list.dart';
 import 'package:flutter_event_calendar_example/widgets/calendar_color_item.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CalendarSetting extends StatefulWidget {
   CalendarSetting({
@@ -101,11 +102,11 @@ class _CalendarSettingState extends State<CalendarSetting> {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F5),
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xffF5F5F5),
         elevation: 0,
-        //leading: SvgPicture.asset('assets/back.svg'),
-        //title: Text("Calendar Settings",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
+        leading: Container(padding: EdgeInsets.only(left: 5),child:SvgPicture.asset('assets/back.svg')),
+        title: Text("Calendar Settings",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

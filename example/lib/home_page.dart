@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
               calendarLanguage: calendarEventModel.calendarLanguage ,
               calendarOptions: CalendarOptions(headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,
               ),
-              dayOptions: DayOptions(selectedBackgroundColor:Colors.amber),
+              dayOptions: DayOptions(selectedBackgroundColor:calendarEventModel.dayOptions.selectedBackgroundColor),
               headerOptions: HeaderOptions(
                   monthStringType:
                      calendarEventModel.headerOptions.monthStringType),

@@ -138,7 +138,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
 
   @override
   void dispose() {
-    streamController.close();
+   // streamController.close();
     super.dispose();
   }
 }

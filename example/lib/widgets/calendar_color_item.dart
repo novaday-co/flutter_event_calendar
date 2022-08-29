@@ -1,60 +1,70 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar_example/injection.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
+import 'package:flutter_event_calendar_example/models/calendar_color_model.dart';
 
-class ThemeSetting extends StatefulWidget {
-  const ThemeSetting({Key key}) : super(key: key);
+class CalendarColorItem extends StatefulWidget {
+  const CalendarColorItem({Key key}) : super(key: key);
 
   @override
-  State<ThemeSetting> createState() => _ThemeSettingState();
+  State<CalendarColorItem> createState() => _CalendarColorItemState();
 }
 // create some values
 
-class _ThemeSettingState extends State<ThemeSetting> {
+List<CalendarColorModel> listThemeOptions=[
+  CalendarColorModel(title:"Calendar Background",color: Colors.cyan ),
+  CalendarColorModel(title:"selected BackgroundColor",color: Colors.red),
+
+];
+
+class _CalendarColorItemState extends State<CalendarColorItem> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Container(
-        child: Column(
-          children: [
-            ColorCard(
-              title: "Calendar Background",
-            ),
-            ColorCard(
-              title: "Header Background",
-            ),
-          ],
-        ),
+      child: ListView.builder(
+        itemCount: listThemeOptions.length,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          return  ColorPickerRow(title: listThemeOptions[index].title,
+          color:  listThemeOptions[index].color,
+          );
+        },
+      ),
       ),
     );
   }
 }
 
-class ColorCard extends StatefulWidget {
-  ColorCard({Key key, @required this.title}) : super(key: key);
 
+
+
+
+
+
+class ColorPickerRow extends StatefulWidget {
+  ColorPickerRow({Key key, @required this.title,@required this.color,  @required this.onChanged,}) : super(key: key);
+  final Function onChanged;
   final String title;
-
+  final Color color;
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
-
+  StreamController streamController =getit<StreamController<CalendarEventModel>>();
+  CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
   @override
-  State<ColorCard> createState() => _ColorCardState();
+  State<ColorPickerRow> createState() => _ColorPickerRowState();
 }
 
-class _ColorCardState extends State<ColorCard> {
+class _ColorPickerRowState extends State<ColorPickerRow> {
   StreamController<CalendarEventModel> streamController =
       getit<StreamController<CalendarEventModel>>();
 
   void changeColor(Color color) {
     setState(() => widget.pickerColor = color);
-    // streamController.add(
-    //   CalendarEventModel(calendarLanguage: "Fa", calendarType: CalendarType.JALALI, calendarOptions: CalendarOptions(headerMonthBackColor: widget.currentColor))
-    // );
+
   }
 
   showColorPickerDialog() {
@@ -73,7 +83,14 @@ class _ColorCardState extends State<ColorCard> {
               ElevatedButton(
                 child: const Text('Got it'),
                 onPressed: () {
-                  setState(() => widget.currentColor = widget.pickerColor);
+                  setState(() {
+                    widget.currentColor = widget.pickerColor;
+                  widget.calendarEventModel.calendarOptions.headerMonthBackColor=widget.currentColor;
+                  print(widget.calendarEventModel.props);
+                    streamController.add(widget.calendarEventModel);
+                  }
+
+                  );
 
                   Navigator.of(context).pop();
                 },

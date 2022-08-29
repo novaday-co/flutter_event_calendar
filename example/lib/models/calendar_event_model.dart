@@ -7,15 +7,18 @@ class CalendarEventModel extends Equatable {
   CalendarType calendarType;
   CalendarOptions calendarOptions;
   HeaderOptions headerOptions;
+  DayOptions dayOptions;
 
   CalendarEventModel(
       {@required this.calendarLanguage,
       @required this.calendarType,
       @required this.calendarOptions,
-      @required this.headerOptions});
+      @required this.headerOptions,
+      @required this.dayOptions
+      });
 
   @override
   // TODO: implement props
   List<Object> get props =>
-      [calendarLanguage, calendarType, calendarOptions.headerMonthBackColor];
+      [calendarLanguage, calendarType,calendarOptions.headerMonthBackColor];
 }

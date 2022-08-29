@@ -11,13 +11,11 @@ final getit = GetIt.instance;
 setUp(){
 
  getit.registerLazySingleton<HeaderOptions>(() => HeaderOptions(monthStringType: MonthStringTypes.SHORT));
-  getit.registerLazySingleton(() => CalendarEventModel(calendarLanguage: "fa",calendarType: CalendarType.JALALI,headerOptions: getit()));
-  getit.registerLazySingleton<StreamController<String>>(() => StreamController());
+ getit.registerLazySingleton<CalendarOptions>(() => CalendarOptions());
+ getit.registerLazySingleton<DayOptions>(() => DayOptions());
+  getit.registerLazySingleton(() => CalendarEventModel(calendarLanguage: "fa",calendarType: CalendarType.JALALI,headerOptions: getit(),calendarOptions: getit(),dayOptions: getit()));
   getit.registerLazySingleton<StreamController<CalendarEventModel>>(() => StreamController());
 
-  // sl.registerLazySingleton(() => Stream<String>());
-// Creating a new stream through the controller
- // Stream<String> stream = streamController.stream.asBroadcastStream();
 
 
 }

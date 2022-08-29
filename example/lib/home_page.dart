@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
 import 'package:flutter_event_calendar_example/setting.dart';
-
 import 'injection.dart';
-import 'models/calender_setting_item_model.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -19,30 +16,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String calendarLanguage = "en";
-
-  var streamSubscription = getit<StreamController<CalendarEventModel>>().stream;
-
+  StreamController<CalendarEventModel> streamController=getit<StreamController<CalendarEventModel>>();
+  Stream stream;
+  StreamSubscription<CalendarEventModel> streamSubscription;
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
 
   @override
   void initState() {
-    streamSubscription.listen((event) {
-      print("home_page");
-      setState(() {
-        calendarEventModel = event;
-        print("event is" + event.toString());
-      });
-    });
-
-    // TODO: implement initState
+    stream=streamController.stream;
+   stream.listen((event) {
+     print("listened");
+     setState(() {
+       calendarEventModel=event;
+     });
+   });
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    setState(() {});
-
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -67,12 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
             child: EventCalendar(
               showLoadingForEvent: true,
               calendarType: calendarEventModel.calendarType,
-              calendarLanguage: calendarEventModel.calendarLanguage ?? "fa",
-              //  calendarOptions: CalendarOptions(toggleViewType:calendarEventModel.calendarOptions.toggleViewType),
+              calendarLanguage: calendarEventModel.calendarLanguage ,
+              calendarOptions: CalendarOptions(headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,
+              ),
+              dayOptions: DayOptions(selectedBackgroundColor:Colors.amber),
               headerOptions: HeaderOptions(
                   monthStringType:
-                      calendarEventModel.headerOptions.monthStringType ??
-                          MonthStringTypes.SHORT),
+                     calendarEventModel.headerOptions.monthStringType),
             ),
           ),
         ]),

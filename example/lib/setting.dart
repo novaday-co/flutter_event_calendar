@@ -105,7 +105,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xffF5F5F5),
         elevation: 0,
-        leading: Container(padding: EdgeInsets.only(left: 5),child:SvgPicture.asset('assets/back.svg')),
+        leading: InkWell(onTap:()=>Navigator.pop(context),child: Container(padding: EdgeInsets.only(left: 5),child:SvgPicture.asset('assets/back.svg'))),
         title: Text("Calendar Settings",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
       ),
       body: SafeArea(

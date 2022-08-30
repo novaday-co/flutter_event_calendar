@@ -5,7 +5,7 @@ import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
 import 'package:flutter_event_calendar_example/setting.dart';
 import 'injection.dart';
-
+import 'package:hive/hive.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
     Key? key,

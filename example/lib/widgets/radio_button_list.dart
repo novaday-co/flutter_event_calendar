@@ -5,23 +5,28 @@ class RadioButtonList extends StatefulWidget {
       {Key? key,
      required this.onChanged,
         required this.listItems,
+        required this.initValue
       })
       : super(key: key);
 
   Function(dynamic keyName) onChanged;
   List<String> listItems;
+  final dynamic initValue;
+
   @override
   State<RadioButtonList> createState() => _RadioButtonListState();
 }
 
 
 class _RadioButtonListState extends State<RadioButtonList> {
-  var groubValueKey = "parisima";
+   var groubValueKey ="";
 
 
   @override
   void initState() {
     // TODO: implement initState
+    groubValueKey=widget.initValue;
+
     super.initState();
   }
 
@@ -34,6 +39,7 @@ class _RadioButtonListState extends State<RadioButtonList> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child:
       Column(

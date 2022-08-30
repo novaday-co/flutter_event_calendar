@@ -33,7 +33,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
   Widget build(BuildContext context) {
     List<String> listLanguage = ['Persian', 'English'];
     List<String> calendarTypeList = ['Jalali', 'Miladi'];
-    List<String> calendarMonthTypeList = ['full', 'short'];
+    List<String> calendarMonthTypeList = ['short', 'full'];
 
     streamController = getit<StreamController<CalendarEventModel>>();
     CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
@@ -42,6 +42,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
         icon: 'assets/language_icon.svg',
         title: "calendarLanguage",
         body: RadioButtonList(
+          initValue: "English",
           listItems: listLanguage,
           onChanged: (dynamic keyName) {
             if (keyName == 'Persian') {
@@ -59,6 +60,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
         icon: 'assets/language_icon.svg',
         title: "calendarType",
         body: RadioButtonList(
+          initValue: "Miladi",
           listItems: calendarTypeList,
           onChanged: (dynamic keyName) {
             if (keyName == 'Jalali') {
@@ -75,6 +77,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
           icon: 'assets/calendar.svg',
           title: "Month String Types",
           body: RadioButtonList(
+            initValue:"short" ,
             listItems: calendarMonthTypeList,
             onChanged: (dynamic keyName) {
               if (keyName == 'full') {

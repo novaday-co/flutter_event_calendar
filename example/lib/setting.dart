@@ -32,12 +32,12 @@ class _CalendarSettingState extends State<CalendarSetting> {
   @override
   Widget build(BuildContext context) {
     List<String> listLanguage = ['Persian', 'English'];
-    List<String> listCalendartype = ['Jalali', 'Miladi'];
-    List<String> listMonthStringType = ['full', 'short'];
+    List<String> calendarTypeList = ['Jalali', 'Miladi'];
+    List<String> calendarMonthTypeList = ['full', 'short'];
 
     streamController = getit<StreamController<CalendarEventModel>>();
     CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
-    List<ExpandedItemModel> calendarOptions = [
+    List<ExpandedItemModel> settingItems = [
       ExpandedItemModel(
         icon: 'assets/language_icon.svg',
         title: "calendarLanguage",
@@ -59,7 +59,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
         icon: 'assets/language_icon.svg',
         title: "calendarType",
         body: RadioButtonList(
-          listItems: listCalendartype,
+          listItems: calendarTypeList,
           onChanged: (dynamic keyName) {
             if (keyName == 'Jalali') {
               calendarEventModel.calendarType = CalendarType.JALALI;
@@ -75,7 +75,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
           icon: 'assets/calendar.svg',
           title: "Month String Types",
           body: RadioButtonList(
-            listItems: listMonthStringType,
+            listItems: calendarMonthTypeList,
             onChanged: (dynamic keyName) {
               if (keyName == 'full') {
                 calendarEventModel.headerOptions.monthStringType =
@@ -87,15 +87,12 @@ class _CalendarSettingState extends State<CalendarSetting> {
                 streamController.sink.add(calendarEventModel);
               }
             },
-          )),
+          ),
+      ),
       ExpandedItemModel(
         icon: 'assets/color_filter.svg',
         title: 'Calendar Color',
-        body: Container(
-          child: Column(
-            children: [CalendarColorItem()],
-          ),
-        ),
+        body: ColorPickerList(),
       )
     ];
 
@@ -118,13 +115,13 @@ class _CalendarSettingState extends State<CalendarSetting> {
                   height: 30,
                 ),
                 ListView.builder(
-                  itemCount: calendarOptions.length,
+                  itemCount: settingItems.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: ExpandedWidget(
-                          items: calendarOptions,
+                          items: settingItems,
                           index: index,
                         ),);
                   },
@@ -137,9 +134,5 @@ class _CalendarSettingState extends State<CalendarSetting> {
     );
   }
 
-  @override
-  void dispose() {
-   // streamController.close();
-    super.dispose();
-  }
+
 }

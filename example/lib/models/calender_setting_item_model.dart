@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class CalendarSettingItem {
   CalendarSettingItem({
-    @required this.filed,
-    @required this.id,
-    @required this.expandedValue,
-    @required this.headerValue,
+    required this.filed,
+    required this.id,
+    required this.expandedValue,
+    required this.headerValue,
   });
 
   String filed;
@@ -17,8 +17,8 @@ class CalendarSettingItem {
 
 class Item {
   Item({
-    @required this.title,
-    @required this.id
+    required this.title,
+    required this.id
   });
   String title;
   int id;

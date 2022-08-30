@@ -61,17 +61,20 @@ class _MyHomePageState extends State<MyHomePage> {
               showLoadingForEvent: true,
               calendarType: calendarEventModel.calendarType,
               calendarLanguage: calendarEventModel.calendarLanguage ,
-              calendarOptions: CalendarOptions(headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,
-              ),
+              calendarOptions: CalendarOptions(headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,),
               dayOptions: DayOptions(selectedBackgroundColor:calendarEventModel.dayOptions.selectedBackgroundColor),
               headerOptions: HeaderOptions(
                   monthStringType:
                      calendarEventModel.headerOptions.monthStringType),
             ),
           ),
-          TextButton(onPressed: (){}, child: Text("add event"))
         ]),
       ),
     );
+  }
+  @override
+  void dispose() {
+     streamController.close();
+    super.dispose();
   }
 }

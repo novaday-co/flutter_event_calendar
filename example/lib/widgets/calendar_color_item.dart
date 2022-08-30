@@ -7,18 +7,18 @@ import 'package:flutter_event_calendar_example/widgets/color_picker_row.dart';
 
 
 
-class CalendarColorItem extends StatefulWidget {
-  const CalendarColorItem({Key key}) : super(key: key);
+class ColorPickerList extends StatefulWidget {
+  const ColorPickerList({Key key}) : super(key: key);
 
   @override
-  State<CalendarColorItem> createState() => _CalendarColorItemState();
+  State<ColorPickerList> createState() => _ColorPickerListState();
 }
 // create some values
 StreamController streamController;
 CalendarEventModel calendarEventModel;
 
 
-class _CalendarColorItemState extends State<CalendarColorItem> {
+class _ColorPickerListState extends State<ColorPickerList> {
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +37,12 @@ class _CalendarColorItemState extends State<CalendarColorItem> {
        ),
 
      ];
-    return Container(
-      child: Container(
-      child: ListView.builder(
-        itemCount: listThemeOptions.length,
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
-          return  listThemeOptions[index];
-        },
-      ),
-      ),
+    return ListView.builder(
+      itemCount: listThemeOptions.length,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        return  listThemeOptions[index];
+      },
     );
   }
 }

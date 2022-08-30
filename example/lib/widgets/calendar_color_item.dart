@@ -8,14 +8,14 @@ import 'package:flutter_event_calendar_example/widgets/color_picker_row.dart';
 
 
 class ColorPickerList extends StatefulWidget {
-  const ColorPickerList({Key key}) : super(key: key);
+  const ColorPickerList({Key? key}) : super(key: key);
 
   @override
   State<ColorPickerList> createState() => _ColorPickerListState();
 }
 // create some values
-StreamController streamController;
-CalendarEventModel calendarEventModel;
+late StreamController streamController;
+late CalendarEventModel calendarEventModel;
 
 
 class _ColorPickerListState extends State<ColorPickerList> {

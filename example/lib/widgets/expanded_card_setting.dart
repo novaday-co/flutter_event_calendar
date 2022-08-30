@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 
 class ExpandedWidget extends StatelessWidget {
-  ExpandedWidget({Key key, @required this.items,@required this.index}) : super(key: key);
+  ExpandedWidget({Key? key, required this.items,required this.index}) : super(key: key);
   final List<ExpandedItemModel> items;
   final int index;
   @override

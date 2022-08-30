@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class RadioButtonList extends StatefulWidget {
   RadioButtonList(
-      {Key key,
-     @required this.onChanged,
-        @required this.listItems,
+      {Key? key,
+     required this.onChanged,
+        required this.listItems,
       })
       : super(key: key);
 
@@ -47,10 +47,9 @@ class _RadioButtonListState extends State<RadioButtonList> {
                 title: Text(widget.listItems[index]),
                 value: widget.listItems[index],
                 groupValue: groubValueKey,
-                onChanged: (value) {
+                onChanged: (String? value) {
                   setState(() {
-                    print("value"+value);
-                    groubValueKey = value;
+                    groubValueKey = value!;
                      widget.onChanged(value);
                   });
                 },

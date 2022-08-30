@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 class ColorPickerRow extends StatefulWidget {
-  ColorPickerRow({Key key,  @required this.onChanged,@required this.title}) : super(key: key);
+  ColorPickerRow({Key? key,  required this.onChanged,required this.title}) : super(key: key);
   final Function(dynamic color) onChanged;
   final String title;
   Color pickerColor = Color(0xff443a49);

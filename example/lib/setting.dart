@@ -12,7 +12,7 @@ import 'package:flutter_svg/svg.dart';
 
 class CalendarSetting extends StatefulWidget {
   CalendarSetting({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class CalendarSetting extends StatefulWidget {
 }
 
 class _CalendarSettingState extends State<CalendarSetting> {
-  StreamController streamController;
+  late StreamController streamController;
 
   @override
   void initState() {

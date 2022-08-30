@@ -8,7 +8,7 @@ import 'injection.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -17,8 +17,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   StreamController<CalendarEventModel> streamController=getit<StreamController<CalendarEventModel>>();
-  Stream stream;
-  StreamSubscription<CalendarEventModel> streamSubscription;
+  late Stream stream;
+  late StreamSubscription<CalendarEventModel> streamSubscription;
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
 
   @override

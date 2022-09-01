@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
 class RadioButtonList extends StatefulWidget {
   RadioButtonList(
@@ -19,20 +20,16 @@ class RadioButtonList extends StatefulWidget {
 
 
 class _RadioButtonListState extends State<RadioButtonList> {
-   var groubValueKey ="";
-
-
+   late var groubValueKey ="";
   @override
   void initState() {
     // TODO: implement initState
     groubValueKey=widget.initValue;
-
     super.initState();
   }
 
   @override
   void dispose() {
-    // streamController.close();
     // TODO: implement dispose
     super.dispose();
   }
@@ -53,7 +50,7 @@ class _RadioButtonListState extends State<RadioButtonList> {
                 title: Text(widget.listItems[index]),
                 value: widget.listItems[index],
                 groupValue: groubValueKey,
-                onChanged: (String? value) {
+                onChanged: (dynamic? value) {
                   setState(() {
                     groubValueKey = value!;
                      widget.onChanged(value);

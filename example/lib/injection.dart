@@ -13,8 +13,8 @@ setUp(){
  getit.registerLazySingleton<HeaderOptions>(() => HeaderOptions(monthStringType: MonthStringTypes.SHORT));
  getit.registerLazySingleton<CalendarOptions>(() => CalendarOptions());
  getit.registerLazySingleton<DayOptions>(() => DayOptions());
-  getit.registerLazySingleton(() => CalendarEventModel(calendarLanguage: "en",calendarType: CalendarType.JALALI,headerOptions: getit(),calendarOptions: getit(),dayOptions: getit()));
-  getit.registerLazySingleton<StreamController<CalendarEventModel>>(() => StreamController());
+  getit.registerLazySingleton(() => CalendarEventModel(calendarLanguage: "en",calendarType:CalendarType.JALALI,headerOptions: getit(),calendarOptions: getit(),dayOptions: getit()));
+  getit.registerLazySingleton<StreamController<CalendarEventModel>>(() => StreamController.broadcast());
 
 
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
 import 'package:flutter_event_calendar_example/setting.dart';
+import 'package:flutter_event_calendar_example/widgets/code_preview.dart';
 import 'injection.dart';
 import 'package:hive/hive.dart';
 class MyHomePage extends StatefulWidget {
@@ -20,11 +21,10 @@ class _MyHomePageState extends State<MyHomePage> {
   late Stream stream;
   late StreamSubscription<CalendarEventModel> streamSubscription;
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
-
   @override
   void initState() {
-    stream=streamController.stream;
-   stream.listen((event) {
+
+   streamController.stream.listen((event) {
      print("listened");
      setState(() {
        calendarEventModel=event;
@@ -36,28 +36,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Container(
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CalendarSetting()),
-                );
-              },
-              icon: Icon(Icons.settings),
-            ),
-          ),
-          Icon(Icons.add)
-        ],
-      ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Column(children: [
-          Expanded(
-            child: EventCalendar(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom:TabBar(tabs: [
+            Tab(text: "preview",icon: Icon(Icons.calendar_month),),
+            Tab(text:"code",icon: Icon(Icons.code)),
+            Tab(text:"setting",icon: Icon(Icons.settings))
+          ],) ,
+        ),
+        body: TabBarView(
+        children: [
+            EventCalendar(
               showLoadingForEvent: true,
               calendarType: calendarEventModel.calendarType,
               calendarLanguage: calendarEventModel.calendarLanguage ,
@@ -67,8 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   monthStringType:
                      calendarEventModel.headerOptions.monthStringType),
             ),
-          ),
-        ]),
+          CodePreview(),
+          CalendarSetting()
+          ]
+        ),
       ),
     );
   }

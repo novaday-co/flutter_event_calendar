@@ -31,36 +31,36 @@ class _CalendarSettingState extends State<CalendarSetting> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> listLanguage = ['Persian', 'English'];
-    List<String> calendarTypeList = ['Jalali', 'Miladi'];
+    List<String> listLanguage = ['fa', 'en'];
+    List<String> calendarTypeList = ['Jalali', 'GREGORIAN'];
     List<String> calendarMonthTypeList = ['short', 'full'];
 
     streamController = getit<StreamController<CalendarEventModel>>();
     CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
     List<ExpandedItemModel> settingItems = [
-      ExpandedItemModel(
-        icon: 'assets/language_icon.svg',
-        title: "calendarLanguage",
-        body: RadioButtonList(
-          initValue: "English",
-          listItems: listLanguage,
-          onChanged: (dynamic keyName) {
-            if (keyName == 'Persian') {
-              calendarEventModel.calendarLanguage = "fa";
-              streamController.sink.add(calendarEventModel);
-            } else {
-              calendarEventModel.calendarLanguage = "en";
-              print(calendarEventModel.props);
-              streamController.sink.add(calendarEventModel);
-            }
-          },
-        ),
-      ),
+      // ExpandedItemModel(
+      //   icon: 'assets/language_icon.svg',
+      //   title: "calendarLanguage",
+      //   body: RadioButtonList(
+      //     initValue: calendarEventModel.calendarLanguage,
+      //     listItems: listLanguage,
+      //     onChanged: (dynamic keyName) {
+      //       if (keyName == 'fa') {
+      //         calendarEventModel.calendarLanguage = "fa";
+      //         streamController.sink.add(calendarEventModel);
+      //       } else {
+      //         calendarEventModel.calendarLanguage = "en";
+      //         print(calendarEventModel.props);
+      //         streamController.sink.add(calendarEventModel);
+      //       }
+      //     },
+      //   ),
+      // ),
       ExpandedItemModel(
         icon: 'assets/language_icon.svg',
         title: "calendarType",
         body: RadioButtonList(
-          initValue: "Miladi",
+          initValue: calendarEventModel.calendarType.calendarTypeToString(calendarEventModel.calendarType),
           listItems: calendarTypeList,
           onChanged: (dynamic keyName) {
             if (keyName == 'Jalali') {
@@ -73,25 +73,25 @@ class _CalendarSettingState extends State<CalendarSetting> {
           },
         ),
       ),
-      ExpandedItemModel(
-          icon: 'assets/calendar.svg',
-          title: "Month String Types",
-          body: RadioButtonList(
-            initValue:"short" ,
-            listItems: calendarMonthTypeList,
-            onChanged: (dynamic keyName) {
-              if (keyName == 'full') {
-                calendarEventModel.headerOptions.monthStringType =
-                    MonthStringTypes.FULL;
-                streamController.sink.add(calendarEventModel);
-              } else {
-                calendarEventModel.headerOptions.monthStringType =
-                    MonthStringTypes.SHORT;
-                streamController.sink.add(calendarEventModel);
-              }
-            },
-          ),
-      ),
+      //ExpandedItemModel(
+      //     icon: 'assets/calendar.svg',
+      //     title: "Month String Types",
+      //     body: RadioButtonList(
+      //       initValue:"short" ,
+      //       listItems: calendarMonthTypeList,
+      //       onChanged: (dynamic keyName) {
+      //         if (keyName == 'full') {
+      //           calendarEventModel.headerOptions.monthStringType =
+      //               MonthStringTypes.FULL;
+      //           streamController.sink.add(calendarEventModel);
+      //         } else {
+      //           calendarEventModel.headerOptions.monthStringType =
+      //               MonthStringTypes.SHORT;
+      //           streamController.sink.add(calendarEventModel);
+      //         }
+      //       },
+      //     ),
+      // ),
       ExpandedItemModel(
         icon: 'assets/color_filter.svg',
         title: 'Calendar Color',
@@ -101,13 +101,6 @@ class _CalendarSettingState extends State<CalendarSetting> {
 
     return Scaffold(
       backgroundColor: Color(0xffF5F5F5),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Color(0xffF5F5F5),
-        elevation: 0,
-        leading: InkWell(onTap:()=>Navigator.pop(context),child: Container(padding: EdgeInsets.only(left: 5),child:SvgPicture.asset('assets/back.svg'))),
-        title: Text("Calendar Settings",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),),
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -122,7 +115,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.symmetric(vertical: 5),
                         child: ExpandedWidget(
                           items: settingItems,
                           index: index,

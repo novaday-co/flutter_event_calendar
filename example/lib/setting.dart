@@ -32,7 +32,7 @@ class _CalendarSettingState extends State<CalendarSetting> {
   @override
   Widget build(BuildContext context) {
     List<String> listLanguage = ['fa', 'en'];
-    List<String> calendarTypeList = ['Jalali', 'GREGORIAN'];
+    List<String> calendarTypeList = [CalendarType.JALALI.name, CalendarType.GREGORIAN.name];
     List<String> calendarMonthTypeList = ['short', 'full'];
 
     streamController = getit<StreamController<CalendarEventModel>>();
@@ -60,10 +60,15 @@ class _CalendarSettingState extends State<CalendarSetting> {
         icon: 'assets/language_icon.svg',
         title: "calendarType",
         body: RadioButtonList(
-          initValue: calendarEventModel.calendarType.calendarTypeToString(calendarEventModel.calendarType),
+          initValue:calendarEventModel.calendarType.name,
           listItems: calendarTypeList,
           onChanged: (dynamic keyName) {
-            if (keyName == 'Jalali') {
+
+            print(keyName.toString());
+            print(CalendarType.JALALI);
+            CalendarType.values.forEach((v) => print('value: $v, index: ${v.index}'));
+            //  calendarEventModel.calendarType=keyName;
+            if (keyName == 'JALALI') {
               calendarEventModel.calendarType = CalendarType.JALALI;
               streamController.sink.add(calendarEventModel);
             } else {

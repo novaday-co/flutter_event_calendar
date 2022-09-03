@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
 
    streamController.stream.listen((event) {
-     print("listened");
+
      setState(() {
        calendarEventModel=event;
      });

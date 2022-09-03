@@ -50,7 +50,7 @@ class _ColorPickerRowState extends State<ColorPickerRow> {
 
   @override
   void initState() {
-    pickerColor=widget.currentColor;
+    //pickerColor=widget.currentColor;
     // TODO: implement initState
     super.initState();
   }

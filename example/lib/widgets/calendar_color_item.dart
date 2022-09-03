@@ -24,7 +24,7 @@ class _ColorPickerListState extends State<ColorPickerList> {
   Widget build(BuildContext context) {
      streamController =getit<StreamController<CalendarEventModel>>();
      calendarEventModel = getit<CalendarEventModel>();
-     List<ColorPickerRow> listThemeOptions=[
+     List<ColorPickerRow> settingColorItems=[
        ColorPickerRow(title: "backgoround",currentColor: calendarEventModel.calendarOptions.headerMonthBackColor
            ,onChanged:  (dynamic colorSelected){
         calendarEventModel.calendarOptions.headerMonthBackColor=colorSelected;
@@ -40,10 +40,10 @@ class _ColorPickerListState extends State<ColorPickerList> {
 
      ];
     return ListView.builder(
-      itemCount: listThemeOptions.length,
+      itemCount: settingColorItems.length,
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
-        return  listThemeOptions[index];
+        return  settingColorItems[index];
       },
     );
   }

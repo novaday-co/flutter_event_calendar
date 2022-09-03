@@ -69,11 +69,9 @@ class _CalendarSettingState extends State<CalendarSetting> {
             initValue:calendarEventModel.headerOptions.monthStringType.name,
             listItems: calendarMonthTypeList,
             onChanged: (dynamic keyName) {
-              calendarEventModel.headerOptions.monthStringType =
-                  MonthStringTypes.values.firstWhere((element) => element
-                      .name == keyName);
-              streamController.sink.add(calendarEventModel);
-            }
+                calendarEventModel.headerOptions.monthStringType =MonthStringTypes.values.firstWhere((element) => element.name==keyName);
+                streamController.sink.add(calendarEventModel);
+                }
           ),
       ),
       ExpandedItemModel(

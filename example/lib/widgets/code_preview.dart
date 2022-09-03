@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+
 import 'package:flutter_event_calendar_example/injection.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
 import 'package:flutter_syntax_view/flutter_syntax_view.dart';
-
+import 'package:clipboard/clipboard.dart';
 //codepreview
 class CodePreview extends StatefulWidget {
   @override
@@ -19,7 +19,6 @@ class CodePreviewState extends State<CodePreview> {
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
   @override
   void initState() {
-
     streamController.stream.listen((event) {
       print("listened");
       setState(() {
@@ -43,10 +42,19 @@ class CodePreviewState extends State<CodePreview> {
           monthStringType:
           ${calendarEventModel.headerOptions.monthStringType}),
     )""";
+
+    void copyCodePreview(){
+      FlutterClipboard.copy(code).then(( value ) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("copied"),
+        backgroundColor: Colors.grey,
+      )));
+
+    }
+
     SyntaxView syntaxView =SyntaxView(
     code: code,
     syntax: Syntax.DART,
-    syntaxTheme: SyntaxTheme.vscodeDark(),
+    syntaxTheme: SyntaxTheme.vscodeLight(),
     fontSize: 12.0,
     withZoom: true,
     withLinesCount: true,
@@ -54,9 +62,23 @@ class CodePreviewState extends State<CodePreview> {
     return Scaffold(
       body:
 
-               Container(
-                   height: MediaQuery.of(context).size.height,
-                   child: syntaxView)
+               Stack(
+                alignment: AlignmentDirectional.topEnd,
+                 children: [
+
+
+                   Container(
+                       height: MediaQuery.of(context).size.height,
+                       child: syntaxView),
+                   ElevatedButton(
+                     child: const Icon(Icons.copy),
+                     onPressed: () {
+
+                       copyCodePreview();
+                     },
+                   ),
+                 ],
+               )
 
 
 

@@ -5,17 +5,17 @@ class ColorPickerRow extends StatefulWidget {
   ColorPickerRow({Key? key,  required this.onChanged,required this.title}) : super(key: key);
   final Function(dynamic color) onChanged;
   final String title;
-  Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
+
 
   @override
   State<ColorPickerRow> createState() => _ColorPickerRowState();
 }
 
 class _ColorPickerRowState extends State<ColorPickerRow> {
-
+  Color pickerColor = Color(0xff443a49);
+  Color currentColor = Color(0xff443a49);
   void changeColor(Color color) {
-    setState(() => widget.pickerColor = color);
+    setState(() =>pickerColor = color);
   }
 
   showColorPickerDialog() {
@@ -26,7 +26,7 @@ class _ColorPickerRowState extends State<ColorPickerRow> {
             title: Text('Pick a color!'),
             content: SingleChildScrollView(
               child: ColorPicker(
-                pickerColor: widget.pickerColor,
+                pickerColor: pickerColor,
                 onColorChanged: changeColor,
               ),
             ),
@@ -34,13 +34,7 @@ class _ColorPickerRowState extends State<ColorPickerRow> {
               ElevatedButton(
                 child: const Text('Got it'),
                 onPressed: () {
-                  setState(() {
-                    widget.currentColor = widget.pickerColor;
-                    widget.onChanged(widget.currentColor);
-                  }
-
-                  );
-
+                    widget.onChanged(pickerColor);
                   Navigator.of(context).pop();
                 },
               ),
@@ -52,7 +46,6 @@ class _ColorPickerRowState extends State<ColorPickerRow> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         height: 30,
         child: Row(
@@ -74,7 +67,7 @@ class _ColorPickerRowState extends State<ColorPickerRow> {
                   child: Card(
                       margin: EdgeInsets.only(right: 8,),
 
-                      color: widget.pickerColor,
+                      color: pickerColor,
                       child: Text(""))),
             )
           ],

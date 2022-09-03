@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar_example/injection.dart';
@@ -95,17 +94,16 @@ class _CalendarSettingState extends State<CalendarSetting> {
             initValue:calendarEventModel.headerOptions.weekDayStringType.name,
             listItems: calendarweekDayStringTypeList,
             onChanged: (dynamic keyName) {
-
               calendarEventModel.headerOptions.weekDayStringType=WeekDayStringTypes.values.firstWhere((element) => element.name==keyName);
               streamController.sink.add(calendarEventModel);
             }
         ),
       ),
-      // ExpandedItemModel(
-      //   icon: 'assets/color_filter.svg',
-      //   title: 'Calendar Color',
-      //   body: ColorPickerList(),
-      // )
+      ExpandedItemModel(
+        icon: 'assets/color_filter.svg',
+        title: 'Calendar Color',
+        body: ColorPickerList(),
+      )
     ];
 
     return Scaffold(

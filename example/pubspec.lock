@@ -30,7 +30,7 @@ packages:
     source: hosted
     version: "1.3.1"
   clipboard:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: clipboard
       url: "https://pub.dartlang.org"
@@ -65,14 +65,14 @@ packages:
     source: hosted
     version: "0.1.3"
   equatable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
   expandable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: expandable
       url: "https://pub.dartlang.org"
@@ -105,7 +105,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_colorpicker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_colorpicker
       url: "https://pub.dartlang.org"
@@ -133,7 +133,7 @@ packages:
     source: hosted
     version: "1.1.4"
   flutter_syntax_view:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_syntax_view
       url: "https://pub.dartlang.org"
@@ -157,14 +157,14 @@ packages:
     source: hosted
     version: "4.6.5"
   get_it:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: get_it
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.2.0"
   get_storage:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: get_storage
       url: "https://pub.dartlang.org"
@@ -178,7 +178,7 @@ packages:
     source: hosted
     version: "2.3.3"
   hive:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: hive
       url: "https://pub.dartlang.org"
@@ -456,7 +456,7 @@ packages:
     source: hosted
     version: "2.1.2"
   widget_with_codeview:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: widget_with_codeview
       url: "https://pub.dartlang.org"

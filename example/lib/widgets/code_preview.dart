@@ -48,7 +48,7 @@ class CodePreviewState extends State<CodePreview> {
     void copyCodePreview() {
       FlutterClipboard.copy(code)
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("copied"),
+                content: Text("Copied"),
                 backgroundColor: Colors.grey,
               )));
     }

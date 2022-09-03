@@ -30,7 +30,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -46,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
         body: TabBarView(
         children: [
             EventCalendar(
-
               showLoadingForEvent: true,
               calendarType: calendarEventModel.calendarType,
               calendarLanguage: calendarEventModel.calendarLanguage ,

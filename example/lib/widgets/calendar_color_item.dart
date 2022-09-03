@@ -31,7 +31,7 @@ class _ColorPickerListState extends State<ColorPickerList> {
         streamController.sink.add(calendarEventModel);
        }
        ),
-       ColorPickerRow(title: "color selected",currentColor: calendarEventModel.dayOptions.selectedBackgroundColor
+       ColorPickerRow(title: "selected day",currentColor: calendarEventModel.dayOptions.selectedBackgroundColor
            ,onChanged:  (dynamic colorSelected){
         calendarEventModel.dayOptions.selectedBackgroundColor=colorSelected;
         streamController.sink.add(calendarEventModel);

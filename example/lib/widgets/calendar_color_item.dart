@@ -38,6 +38,17 @@ class _ColorPickerListState extends State<ColorPickerList> {
        }
        ),
 
+       ColorPickerRow(title: "navigation",currentColor: calendarEventModel.headerOptions.navigationColor
+           ,onChanged:  (dynamic colorSelected){
+             calendarEventModel.headerOptions.navigationColor=colorSelected;
+             streamController.sink.add(calendarEventModel);
+           }
+       ),   ColorPickerRow(title: "headerText",currentColor: calendarEventModel.headerOptions.headerTextColor
+           ,onChanged:  (dynamic colorSelected){
+             calendarEventModel.headerOptions.headerTextColor=colorSelected;
+             streamController.sink.add(calendarEventModel);
+           }
+       ),
      ];
     return ListView.builder(
       itemCount: settingColorItems.length,

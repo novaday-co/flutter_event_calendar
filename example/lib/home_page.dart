@@ -6,7 +6,6 @@ import 'package:flutter_event_calendar_example/models/calendar_event_model.dart'
 import 'package:flutter_event_calendar_example/setting.dart';
 import 'package:flutter_event_calendar_example/widgets/code_preview.dart';
 import 'injection.dart';
-import 'package:hive/hive.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
     Key? key,
@@ -23,9 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
   @override
   void initState() {
-
    streamController.stream.listen((event) {
-
      setState(() {
        calendarEventModel=event;
      });
@@ -49,25 +46,29 @@ class _MyHomePageState extends State<MyHomePage> {
         body: TabBarView(
         children: [
             EventCalendar(
+
               showLoadingForEvent: true,
               calendarType: calendarEventModel.calendarType,
               calendarLanguage: calendarEventModel.calendarLanguage ,
               calendarOptions: CalendarOptions(headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,toggleViewType: calendarEventModel.calendarOptions.toggleViewType),
               dayOptions: DayOptions(selectedBackgroundColor:calendarEventModel.dayOptions.selectedBackgroundColor),
               headerOptions: HeaderOptions(
+                headerTextColor:calendarEventModel.headerOptions.headerTextColor,
+                navigationColor:calendarEventModel.headerOptions.navigationColor,
                   monthStringType:
-                     calendarEventModel.headerOptions.monthStringType,weekDayStringType: calendarEventModel.headerOptions.weekDayStringType),
+                     calendarEventModel.headerOptions.monthStringType,weekDayStringType: calendarEventModel.headerOptions.weekDayStringType,
+              ),
             ),
           CodePreview(),
-          CalendarSetting()
+          Setting()
           ]
         ),
       ),
     );
   }
-  // @override
-  // void dispose() {
-  //    streamController.close();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+     streamController.close();
+    super.dispose();
+  }
 }

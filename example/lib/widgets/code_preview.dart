@@ -28,17 +28,22 @@ class CodePreviewState extends State<CodePreview> {
 
   @override
   Widget build(BuildContext context) {
-    String code = """
-     EventCalendar(
+    String code = """         
+                EventCalendar(
+
               showLoadingForEvent: true,
               calendarType: ${calendarEventModel.calendarType},
-              calendarLanguage: ${calendarEventModel.calendarLanguage},
-              calendarOptions:CalendarOptions(headerMonthBackColor: ${calendarEventModel.calendarOptions.headerMonthBackColor},toggleViewType: ${calendarEventModel.calendarOptions.toggleViewType}),
+              calendarLanguage: ${calendarEventModel.calendarLanguage} ,
+              calendarOptions: CalendarOptions(headerMonthBackColor: ${calendarEventModel.calendarOptions.headerMonthBackColor},toggleViewType: ${calendarEventModel.calendarOptions.toggleViewType}),
               dayOptions: DayOptions(selectedBackgroundColor:${calendarEventModel.dayOptions.selectedBackgroundColor}),
               headerOptions: HeaderOptions(
+                headerTextColor:${calendarEventModel.headerOptions.headerTextColor},
+                navigationColor:${calendarEventModel.headerOptions.navigationColor},
                   monthStringType:
-                     ${calendarEventModel.headerOptions.monthStringType},weekDayStringType: ${calendarEventModel.headerOptions.weekDayStringType}),
-            ),""";
+                     ${calendarEventModel.headerOptions.monthStringType},weekDayStringType: ${calendarEventModel.headerOptions.weekDayStringType},
+              ),
+            ),
+            """;
 
     void copyCodePreview() {
       FlutterClipboard.copy(code)

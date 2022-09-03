@@ -29,16 +29,16 @@ class CodePreviewState extends State<CodePreview> {
   Widget build(BuildContext context) {
 
     String code = """
- EventCalendar(
-      showLoadingForEvent: true,
-      calendarType: ${calendarEventModel.calendarType},
-      calendarLanguage: ${calendarEventModel.calendarLanguage} ,
-      calendarOptions: CalendarOptions(headerMonthBackColor: ${calendarEventModel.calendarOptions.headerMonthBackColor},),
-      dayOptions: DayOptions(selectedBackgroundColor:${calendarEventModel.dayOptions.selectedBackgroundColor}),
-      headerOptions: HeaderOptions(
-          monthStringType:
-          ${calendarEventModel.headerOptions.monthStringType}),
-    )""";
+     EventCalendar(
+              showLoadingForEvent: true,
+              calendarType: ${calendarEventModel.calendarType},
+              calendarLanguage: ${calendarEventModel.calendarLanguage },
+              calendarOptions:CalendarOptions(headerMonthBackColor: ${calendarEventModel.calendarOptions.headerMonthBackColor},toggleViewType: ${calendarEventModel.calendarOptions.toggleViewType}),
+              dayOptions: DayOptions(selectedBackgroundColor:${calendarEventModel.dayOptions.selectedBackgroundColor}),
+              headerOptions: HeaderOptions(
+                  monthStringType:
+                     ${calendarEventModel.headerOptions.monthStringType},weekDayStringType: ${calendarEventModel.headerOptions.weekDayStringType}),
+            ),""";
 
     void copyCodePreview(){
       FlutterClipboard.copy(code).then(( value ) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -65,9 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-  @override
-  void dispose() {
-     streamController.close();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //    streamController.close();
+  //   super.dispose();
+  // }
 }

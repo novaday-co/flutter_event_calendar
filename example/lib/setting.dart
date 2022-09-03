@@ -8,7 +8,7 @@ import 'package:flutter_event_calendar_example/models/expanded_item_model.dart';
 import 'package:flutter_event_calendar_example/widgets/expanded_card_setting.dart';
 import 'package:flutter_event_calendar_example/widgets/radio_button_list.dart';
 import 'package:flutter_event_calendar_example/widgets/calendar_color_item.dart';
-import 'package:flutter_svg/svg.dart';
+
 
 class CalendarSetting extends StatefulWidget {
   CalendarSetting({
@@ -101,11 +101,11 @@ class _CalendarSettingState extends State<CalendarSetting> {
             }
         ),
       ),
-      ExpandedItemModel(
-        icon: 'assets/color_filter.svg',
-        title: 'Calendar Color',
-        body: ColorPickerList(),
-      )
+      // ExpandedItemModel(
+      //   icon: 'assets/color_filter.svg',
+      //   title: 'Calendar Color',
+      //   body: ColorPickerList(),
+      // )
     ];
 
     return Scaffold(

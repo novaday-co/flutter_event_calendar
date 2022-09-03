@@ -51,10 +51,8 @@ class _RadioButtonListState extends State<RadioButtonList> {
                 value: widget.listItems[index],
                 groupValue: groubValueKey,
                 onChanged: (dynamic? value) {
-                  setState(() {
                     groubValueKey = value!;
-                     widget.onChanged(value);
-                  });
+                      widget.onChanged(value);
                 },
               );
             },

@@ -20,10 +20,7 @@ class CodePreviewState extends State<CodePreview> {
   @override
   void initState() {
     streamController.stream.listen((event) {
-      print("listened");
-      setState(() {
         calendarEventModel=event;
-      });
     });
     super.initState();
   }
@@ -70,12 +67,15 @@ class CodePreviewState extends State<CodePreview> {
                    Container(
                        height: MediaQuery.of(context).size.height,
                        child: syntaxView),
-                   ElevatedButton(
-                     child: const Icon(Icons.copy),
-                     onPressed: () {
+                   Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                     child: ElevatedButton(
+                       child: const Icon(Icons.copy),
+                       onPressed: () {
 
-                       copyCodePreview();
-                     },
+                         copyCodePreview();
+                       },
+                     ),
                    ),
                  ],
                )

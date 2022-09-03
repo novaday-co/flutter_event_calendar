@@ -74,7 +74,7 @@ class _ColorPickerRowState extends State<ColorPickerRow> {
                   child: Card(
                       margin: EdgeInsets.only(right: 8,),
 
-                      color: widget.currentColor,
+                      color: widget.pickerColor,
                       child: Text(""))),
             )
           ],

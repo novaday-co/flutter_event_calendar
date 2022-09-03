@@ -25,12 +25,14 @@ class _ColorPickerListState extends State<ColorPickerList> {
      streamController =getit<StreamController<CalendarEventModel>>();
      calendarEventModel = getit<CalendarEventModel>();
      List<ColorPickerRow> listThemeOptions=[
-       ColorPickerRow(title: "backgoround",onChanged:  (dynamic colorSelected){
+       ColorPickerRow(title: "backgoround",currentColor: calendarEventModel.calendarOptions.headerMonthBackColor
+           ,onChanged:  (dynamic colorSelected){
         calendarEventModel.calendarOptions.headerMonthBackColor=colorSelected;
         streamController.sink.add(calendarEventModel);
        }
        ),
-       ColorPickerRow(title: "color selected",onChanged:  (dynamic colorSelected){
+       ColorPickerRow(title: "color selected",currentColor: calendarEventModel.dayOptions.selectedBackgroundColor
+           ,onChanged:  (dynamic colorSelected){
         calendarEventModel.dayOptions.selectedBackgroundColor=colorSelected;
         streamController.sink.add(calendarEventModel);
        }

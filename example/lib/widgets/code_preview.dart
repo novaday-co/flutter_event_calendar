@@ -70,6 +70,9 @@ class CodePreviewState extends State<CodePreview> {
                    Container(
                       margin: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
                      child: ElevatedButton(
+    style: ElevatedButton.styleFrom(
+    shape: const CircleBorder(),
+    ),
                        child: const Icon(Icons.copy),
                        onPressed: () {
 

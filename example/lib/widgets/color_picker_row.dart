@@ -32,7 +32,10 @@ class _ColorPickerRowState extends State<ColorPickerRow> {
             ),
             actions: <Widget>[
               ElevatedButton(
-                child: const Text('Got it'),
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                ),
+                child: const Icon(Icons.palette_outlined),
                 onPressed: () {
                     widget.onChanged(pickerColor);
                   Navigator.of(context).pop();

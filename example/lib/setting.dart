@@ -33,29 +33,23 @@ class _CalendarSettingState extends State<CalendarSetting> {
   Widget build(BuildContext context) {
     List<String> listLanguage = ['fa', 'en'];
     List<String> calendarTypeList = [CalendarType.JALALI.name, CalendarType.GREGORIAN.name];
-    List<String> calendarMonthTypeList = ['short', 'full'];
+    List<String> calendarMonthTypeList = [MonthStringTypes.SHORT.name, MonthStringTypes.FULL.name];
 
     streamController = getit<StreamController<CalendarEventModel>>();
     CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
     List<ExpandedItemModel> settingItems = [
-      // ExpandedItemModel(
-      //   icon: 'assets/language_icon.svg',
-      //   title: "calendarLanguage",
-      //   body: RadioButtonList(
-      //     initValue: calendarEventModel.calendarLanguage,
-      //     listItems: listLanguage,
-      //     onChanged: (dynamic keyName) {
-      //       if (keyName == 'fa') {
-      //         calendarEventModel.calendarLanguage = "fa";
-      //         streamController.sink.add(calendarEventModel);
-      //       } else {
-      //         calendarEventModel.calendarLanguage = "en";
-      //         print(calendarEventModel.props);
-      //         streamController.sink.add(calendarEventModel);
-      //       }
-      //     },
-      //   ),
-      // ),
+      ExpandedItemModel(
+        icon: 'assets/language_icon.svg',
+        title: "calendarLanguage",
+        body: RadioButtonList(
+          initValue: calendarEventModel.calendarLanguage,
+          listItems: listLanguage,
+          onChanged: (dynamic keyName) {
+              calendarEventModel.calendarLanguage = keyName;
+              streamController.sink.add(calendarEventModel);
+          },
+        ),
+      ),
       ExpandedItemModel(
         icon: 'assets/language_icon.svg',
         title: "calendarType",
@@ -63,40 +57,25 @@ class _CalendarSettingState extends State<CalendarSetting> {
           initValue:calendarEventModel.calendarType.name,
           listItems: calendarTypeList,
           onChanged: (dynamic keyName) {
-
-            print(keyName.toString());
-            print(CalendarType.JALALI);
-            CalendarType.values.forEach((v) => print('value: $v, index: ${v.index}'));
-            //  calendarEventModel.calendarType=keyName;
-            if (keyName == 'JALALI') {
-              calendarEventModel.calendarType = CalendarType.JALALI;
-              streamController.sink.add(calendarEventModel);
-            } else {
-              calendarEventModel.calendarType = CalendarType.GREGORIAN;
-              streamController.sink.add(calendarEventModel);
-            }
+            calendarEventModel.calendarType=CalendarType.values.firstWhere((element) => element.name==keyName);
+            streamController.sink.add(calendarEventModel);
           },
         ),
       ),
-      //ExpandedItemModel(
-      //     icon: 'assets/calendar.svg',
-      //     title: "Month String Types",
-      //     body: RadioButtonList(
-      //       initValue:"short" ,
-      //       listItems: calendarMonthTypeList,
-      //       onChanged: (dynamic keyName) {
-      //         if (keyName == 'full') {
-      //           calendarEventModel.headerOptions.monthStringType =
-      //               MonthStringTypes.FULL;
-      //           streamController.sink.add(calendarEventModel);
-      //         } else {
-      //           calendarEventModel.headerOptions.monthStringType =
-      //               MonthStringTypes.SHORT;
-      //           streamController.sink.add(calendarEventModel);
-      //         }
-      //       },
-      //     ),
-      // ),
+      ExpandedItemModel(
+          icon: 'assets/calendar.svg',
+          title: "Month String Types",
+          body: RadioButtonList(
+            initValue:calendarEventModel.headerOptions.monthStringType.name,
+            listItems: calendarMonthTypeList,
+            onChanged: (dynamic keyName) {
+              calendarEventModel.headerOptions.monthStringType =
+                  MonthStringTypes.values.firstWhere((element) => element
+                      .name == keyName);
+              streamController.sink.add(calendarEventModel);
+            }
+          ),
+      ),
       ExpandedItemModel(
         icon: 'assets/color_filter.svg',
         title: 'Calendar Color',

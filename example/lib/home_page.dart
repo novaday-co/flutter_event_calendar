@@ -52,11 +52,11 @@ class _MyHomePageState extends State<MyHomePage> {
               showLoadingForEvent: true,
               calendarType: calendarEventModel.calendarType,
               calendarLanguage: calendarEventModel.calendarLanguage ,
-              calendarOptions: CalendarOptions(headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,),
+              calendarOptions: CalendarOptions(headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,toggleViewType: calendarEventModel.calendarOptions.toggleViewType),
               dayOptions: DayOptions(selectedBackgroundColor:calendarEventModel.dayOptions.selectedBackgroundColor),
               headerOptions: HeaderOptions(
                   monthStringType:
-                     calendarEventModel.headerOptions.monthStringType),
+                     calendarEventModel.headerOptions.monthStringType,weekDayStringType: calendarEventModel.headerOptions.weekDayStringType),
             ),
           CodePreview(),
           CalendarSetting()

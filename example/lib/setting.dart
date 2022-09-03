@@ -34,7 +34,8 @@ class _CalendarSettingState extends State<CalendarSetting> {
     List<String> listLanguage = ['fa', 'en'];
     List<String> calendarTypeList = [CalendarType.JALALI.name, CalendarType.GREGORIAN.name];
     List<String> calendarMonthTypeList = [MonthStringTypes.SHORT.name, MonthStringTypes.FULL.name];
-
+    List<String> toggleViewTypeList = ['true', 'false'];
+    List<String> calendarweekDayStringTypeList = [WeekDayStringTypes.SHORT.name, WeekDayStringTypes.FULL.name];
     streamController = getit<StreamController<CalendarEventModel>>();
     CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
     List<ExpandedItemModel> settingItems = [
@@ -57,8 +58,8 @@ class _CalendarSettingState extends State<CalendarSetting> {
           initValue:calendarEventModel.calendarType.name,
           listItems: calendarTypeList,
           onChanged: (dynamic keyName) {
-            calendarEventModel.calendarType=CalendarType.values.firstWhere((element) => element.name==keyName);
-            streamController.sink.add(calendarEventModel);
+           calendarEventModel.calendarType=CalendarType.values.firstWhere((element) => element.name==keyName);
+           streamController.sink.add(calendarEventModel);
           },
         ),
       ),
@@ -73,6 +74,32 @@ class _CalendarSettingState extends State<CalendarSetting> {
                 streamController.sink.add(calendarEventModel);
                 }
           ),
+      ),
+      ExpandedItemModel(
+        icon: 'assets/calendar.svg',
+        title: "toggleViewType",
+        body: RadioButtonList(
+            initValue:calendarEventModel.calendarOptions.toggleViewType.toString(),
+            listItems: toggleViewTypeList,
+            onChanged: (dynamic keyName) {
+
+              calendarEventModel.calendarOptions.toggleViewType =keyName.toLowerCase() =='true';
+              streamController.sink.add(calendarEventModel);
+            }
+        ),
+      ),
+      ExpandedItemModel(
+        icon: 'assets/calendar.svg',
+        title: "weekDayStringType",
+        body: RadioButtonList(
+            initValue:calendarEventModel.headerOptions.weekDayStringType.name,
+            listItems: calendarweekDayStringTypeList,
+            onChanged: (dynamic keyName) {
+
+              calendarEventModel.headerOptions.weekDayStringType=WeekDayStringTypes.values.firstWhere((element) => element.name==keyName);
+              streamController.sink.add(calendarEventModel);
+            }
+        ),
       ),
       ExpandedItemModel(
         icon: 'assets/color_filter.svg',

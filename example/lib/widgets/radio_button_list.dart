@@ -11,7 +11,7 @@ class RadioButtonList extends StatefulWidget {
       : super(key: key);
 
   Function(dynamic keyName) onChanged;
-  List<String> listItems;
+  List<dynamic> listItems;
   final dynamic initValue;
 
   @override

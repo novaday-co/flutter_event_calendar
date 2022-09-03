@@ -25,22 +25,3 @@ class CalendarEventModel extends Equatable {
       [calendarLanguage, calendarType,calendarOptions];
 }
 
-extension CalendarTypes on CalendarType{
-    String calendarTypeToString(CalendarType calendarType){
-      switch ( calendarType){
-        case CalendarType.JALALI:   return "Jalali";
-        case CalendarType.GREGORIAN:  return "GREGORIAN";
-        default: return "errorOnCalendarType";
-      }
-  }
-
-  //groupKey => coli
-
-    CalendarType strignToCalendarType(String calendarTypeStrign){
-      switch ( calendarTypeStrign){
-        case "Jalali":   return CalendarType.JALALI;
-        case "GREGORIAN":  return CalendarType.JALALI;
-        default: return CalendarType.values.first;
-      }
-    }
-}

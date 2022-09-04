@@ -30,17 +30,18 @@ class CodePreviewState extends State<CodePreview> {
   Widget build(BuildContext context) {
     String code = """         
                 EventCalendar(
-
               showLoadingForEvent: true,
               calendarType: ${calendarEventModel.calendarType},
               calendarLanguage: ${calendarEventModel.calendarLanguage} ,
-              calendarOptions: CalendarOptions(headerMonthBackColor: ${calendarEventModel.calendarOptions.headerMonthBackColor},toggleViewType: ${calendarEventModel.calendarOptions.toggleViewType}),
+              calendarOptions: CalendarOptions(headerMonthBackColor: ${calendarEventModel.calendarOptions.headerMonthBackColor},
+              toggleViewType: ${calendarEventModel.calendarOptions.toggleViewType}),
               dayOptions: DayOptions(selectedBackgroundColor:${calendarEventModel.dayOptions.selectedBackgroundColor}),
               headerOptions: HeaderOptions(
                 headerTextColor:${calendarEventModel.headerOptions.headerTextColor},
                 navigationColor:${calendarEventModel.headerOptions.navigationColor},
                   monthStringType:
-                     ${calendarEventModel.headerOptions.monthStringType},weekDayStringType: ${calendarEventModel.headerOptions.weekDayStringType},
+                     ${calendarEventModel.headerOptions.monthStringType},
+                     weekDayStringType: ${calendarEventModel.headerOptions.weekDayStringType},
               ),
             ),
             """;

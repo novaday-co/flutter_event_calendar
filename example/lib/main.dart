@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar_example/home_page.dart';
-import 'package:flutter_event_calendar_example/setting.dart';
+import 'package:flutter_event_calendar_example/widgets/event_calendar/home_page.dart';
+import 'package:flutter_event_calendar_example/widgets/setting/setting.dart';
 import 'injection.dart';
 
 void main() {

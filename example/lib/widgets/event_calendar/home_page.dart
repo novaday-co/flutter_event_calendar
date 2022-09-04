@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
-import 'package:flutter_event_calendar_example/setting.dart';
-import 'package:flutter_event_calendar_example/widgets/code_preview.dart';
-import 'injection.dart';
+import 'package:flutter_event_calendar_example/widgets/setting/setting.dart';
+import 'package:flutter_event_calendar_example/widgets/code_preview/code_preview.dart';
+import '../../injection.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
     Key? key,
@@ -45,10 +45,12 @@ class _MyHomePageState extends State<MyHomePage> {
         body: TabBarView(
         children: [
             EventCalendar(
+
+              specialDays: [CalendarDateTime(year: 1401, month: 6, day: 12, calendarType: CalendarType.JALALI)],
               showLoadingForEvent: true,
               calendarType: calendarEventModel.calendarType,
               calendarLanguage: calendarEventModel.calendarLanguage ,
-              calendarOptions: CalendarOptions(headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,toggleViewType: calendarEventModel.calendarOptions.toggleViewType),
+              calendarOptions: CalendarOptions(viewType: calendarEventModel.calendarOptions.viewType,headerMonthBackColor: calendarEventModel.calendarOptions.headerMonthBackColor,toggleViewType: calendarEventModel.calendarOptions.toggleViewType,font: calendarEventModel.calendarOptions.font),
               dayOptions: DayOptions(selectedBackgroundColor:calendarEventModel.dayOptions.selectedBackgroundColor),
               headerOptions: HeaderOptions(
                 headerTextColor:calendarEventModel.headerOptions.headerTextColor,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_event_calendar_example/injection.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
-import 'package:flutter_event_calendar_example/widgets/color_picker_row.dart';
+import 'package:flutter_event_calendar_example/widgets/color/color_picker_row.dart';
 
 
 

@@ -10,13 +10,14 @@ class CalendarEventModel extends Equatable {
   CalendarOptions calendarOptions;
   HeaderOptions headerOptions;
   DayOptions dayOptions;
-
+  List<CalendarDateTime> specialDays;
   CalendarEventModel(
       {required this.calendarLanguage,
       required this.calendarType,
       required this.calendarOptions,
       required this.headerOptions,
-      required this.dayOptions
+      required this.dayOptions,
+        required this.specialDays
       });
 
   @override

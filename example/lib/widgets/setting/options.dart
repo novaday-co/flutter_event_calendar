@@ -44,8 +44,8 @@ class _OptionsState extends State<Options> {
           title: "Special Days",
           body: SelectDatePicker(
             onDayChanged: () {
-              widget.onDayChanged?.call(EventCalendar.dateTime!);
-              setState(() {});
+             widget.onDayChanged?.call(EventCalendar.dateTime!);
+             setState(() {});
             },
             onYearChanged: () {
               widget.onMonthChanged?.call(EventCalendar.dateTime!);

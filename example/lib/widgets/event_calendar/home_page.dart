@@ -63,9 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
               CalendarDateTime(
                   year: 1401,
                   month: 6,
-                  day: 13,
+                  day: 2,
                   calendarType: CalendarType.JALALI,
-                  color: Colors.green)
+                  color: Colors.green),
+
             ],
             showLoadingForEvent: true,
             calendarType: calendarEventModel.calendarType,

@@ -40,9 +40,13 @@ class CalendarUtils {
   }
 
   static List getYears() => EventCalendar.calendarProvider.getYears();
+  static List getDaysAmount() => EventCalendar.calendarProvider.getDayAmount();
 
-  static Map getDays(WeekDayStringTypes type, int monthIndex) =>
-      EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
+  static Map getDays(WeekDayStringTypes type, int monthIndex) {
+     return EventCalendar.calendarProvider.getMonthDays(type, monthIndex);
+
+
+  }
 
   static Map getMonthDays(WeekDayStringTypes type, int monthIndex) =>
       EventCalendar.calendarProvider.getMonthDays(type, monthIndex);

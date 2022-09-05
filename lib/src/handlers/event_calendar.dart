@@ -131,6 +131,7 @@ class _EventCalendarState extends State<EventCalendar> {
                     },
                     onYearChanged: () {
                       widget.onYearChanged?.call(EventCalendar.dateTime!);
+
                       setState(() {});
                     },
                   ),
@@ -140,6 +141,7 @@ class _EventCalendarState extends State<EventCalendar> {
                           onCalendarChanged: () {
                             widget.onChangeDateTime
                                 ?.call(EventCalendar.dateTime!);
+
                             setState(() {});
                           })
                       : CalendarDaily(

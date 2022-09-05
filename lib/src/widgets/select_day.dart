@@ -5,13 +5,13 @@ import 'package:flutter_event_calendar/src/handlers/translator.dart';
 import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
 
 class SelectDay extends StatelessWidget {
-  late List Days;
+  late List days;
 
   Function onHeaderChanged;
 
-  YearOptions? yearStyle;
+  YearOptions? dayStyle;
 
-  SelectDay({required this.onHeaderChanged, this.yearStyle});
+  SelectDay({required this.onHeaderChanged, this.dayStyle});
 
   ScrollController _scrollController = ScrollController();
 
@@ -23,12 +23,12 @@ class SelectDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    animateToCurrentYear();
+    animateToCurrentDay();
 
-    Days = CalendarUtils.getYears();
+    days = CalendarUtils.getDaysAmount();
 
     selectedDecoration = BoxDecoration(
-      color: yearStyle?.selectedColor,
+      color: dayStyle?.selectedColor,
       borderRadius: BorderRadius.circular(8),
     );
 
@@ -45,11 +45,11 @@ class SelectDay extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              '${Translator.getTranslation('year_selector')}',
+              '${Translator.getTranslation('day_selector')}',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w500,
-                fontFamily: yearStyle?.font,
+              //  fontFamily:dayStyle?.font,
               ),
             ),
             SizedBox(
@@ -60,11 +60,11 @@ class SelectDay extends StatelessWidget {
                 color: Colors.transparent,
                 child: GridView.builder(
                     controller: _scrollController,
-                    itemCount: years.length,
+                    itemCount: days.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, mainAxisExtent: 50),
                     itemBuilder: (context, index) =>
-                        yearWidgetMaker(years[index], context)),
+                        dayWidgetMaker(days[index], context)),
               ),
             ),
           ],
@@ -73,23 +73,23 @@ class SelectDay extends StatelessWidget {
     );
   }
 
-  Widget yearWidgetMaker(year, context) {
+  Widget dayWidgetMaker(day, context) {
     return InkWell(
       onTap: (() {
         Navigator.pop(context);
-        CalendarUtils.goToYear(year);
+        CalendarUtils.goToDay(day);
         onHeaderChanged.call();
       }),
       child: Center(
         child: Container(
           padding: EdgeInsets.all(8),
-          decoration: year == selectedYear ? selectedDecoration : null,
+          decoration: day == selectedDay ? selectedDecoration : null,
           child: Text(
-            '$year',
+            '$day',
             style: TextStyle(
               fontSize: 16,
-              color: year == selectedYear ? Colors.white : null,
-              fontFamily: yearStyle?.font,
+              color: day == selectedDay ? Colors.white : null,
+             // fontFamily: DayStyle?.font,
             ),
           ),
         ),
@@ -97,16 +97,16 @@ class SelectDay extends StatelessWidget {
     );
   }
 
-  double findSelectedYearOffset() {
+  double findSelectedDayOffset() {
     final size =
-        _scrollController.position.maxScrollExtent / (years.length / 3);
-    return size * (years.indexOf(selectedYear)) / 3;
+        _scrollController.position.maxScrollExtent / (days.length / 3);
+    return size * (days.indexOf(selectedDay)) / 3;
   }
 
-  void animateToCurrentYear() {
+  void animateToCurrentDay() {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (_scrollController.hasClients)
-        _scrollController.animateTo(findSelectedYearOffset(),
+        _scrollController.animateTo(findSelectedDayOffset(),
             duration: Duration(milliseconds: 500), curve: Curves.ease);
     });
   }

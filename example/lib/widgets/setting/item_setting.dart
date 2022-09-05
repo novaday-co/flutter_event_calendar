@@ -41,12 +41,13 @@ class _itemSettingState extends State<itemSetting> {
             return Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: EdgeInsets.symmetric(vertical: 15),
                   child: ExpandedWidget(
                     items: widget.expandeditemModelList,
                     index: index,
                   ),
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

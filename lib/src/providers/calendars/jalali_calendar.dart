@@ -77,7 +77,9 @@ class JalaliCalendar extends CalendarProvider {
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
           days[i] = Translator.getFullNameOfDays()[dayIndex % 7];
           dayIndex++;
+
         }
+
         break;
       case WeekDayStringTypes.SHORT:
         for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
@@ -86,6 +88,7 @@ class JalaliCalendar extends CalendarProvider {
         }
         break;
     }
+
     return days;
   }
 
@@ -96,7 +99,14 @@ class JalaliCalendar extends CalendarProvider {
     for (var i = -100; i <= 50; i++) years.add(year + i);
     return years;
   }
-
+  @override
+  List<int> getDayAmount() {
+    int month=_getSelectedDate().month;
+    int daysInCurrentMonth=getMonthDays(WeekDayStringTypes.FULL, month).length;
+    List<int> days=[];
+    for (var i = 1; i <= daysInCurrentMonth; i++) days.add(i);
+    return days;
+  }
   Jalali _getSelectedDate() {
     Jalali jv = Jalali(
       EventCalendar.dateTime!.year,
@@ -160,6 +170,7 @@ class JalaliCalendar extends CalendarProvider {
     for (var i = 1; i <= firstDayOfMonth.monthLength; i++) {
       days[i] = Translator.getShortNameOfDays()[dayIndex % 7];
       dayIndex++;
+
     }
     return days;
   }
@@ -179,4 +190,6 @@ class JalaliCalendar extends CalendarProvider {
   CalendarType getCalendarType() {
     return CalendarType.JALALI;
   }
+
+
 }

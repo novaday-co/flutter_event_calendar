@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_event_calendar_example/models/expanded_item_model.dart';
@@ -12,6 +14,7 @@ class ExpandedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ExpandableNotifier(
+      initialExpanded: true,
         child: ScrollOnExpand(
           child: Card(
             elevation: 0,
@@ -24,7 +27,7 @@ class ExpandedWidget extends StatelessWidget {
                   theme: const ExpandableThemeData(
                     headerAlignment: ExpandablePanelHeaderAlignment.center,
                     tapBodyToExpand: true,
-                    tapBodyToCollapse: true,
+                    tapBodyToCollapse: false,
                     hasIcon: false,
                   ),
                   header: Container(

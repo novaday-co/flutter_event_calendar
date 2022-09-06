@@ -26,12 +26,12 @@ class _SelectDatePickerState extends State<SelectDatePicker> {
   late StreamController streamController;
 
   bool existElement = false;
-  int day = 1;
-  int month = 6;
-  int year = 1401;
-  late CalendarDateTime calendarDateTime=CalendarDateTime(year: year, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
+  int day = CalendarUtils.getPartByInt(format: PartFormat.DAY);
+  int month = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
+  int year = CalendarUtils.getPartByInt(format: PartFormat.YEAR);
   late CalendarEventModel calendarEventModel;
   late List<CalendarDateTime> specialDayList;
+
   @override
   void initState() {
 
@@ -42,39 +42,38 @@ class _SelectDatePickerState extends State<SelectDatePicker> {
   @override
   Widget build(BuildContext context) {
     streamController = getit<StreamController<CalendarEventModel>>();
+    CalendarDateTime calendarDateTime=CalendarDateTime(year: year, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
 
 
-     return Column(
+    return Column(
        children: [
          HeaderSpecialDays(
            calendarDateTime:calendarDateTime
-       ,speacialDate: (CalendarDateTime calendarDateTime){
-           setState(() {
-             calendarDateTime=calendarDateTime;
-           });
-
-
+       ,speacialDate: (CalendarDateTime calendarDateTimee){
+             year=calendarDateTimee.year;
+             day=calendarDateTimee.day;
+             month=calendarDateTimee.month;
+           calendarDateTime=calendarDateTimee;
          },),
-         Row(
-           children: [
-             TextButton(
-               onPressed: () {
+         Container(
+           margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+           child: TextButton(
+             style: ElevatedButton.styleFrom(
+               primary: Colors.blue,
+             minimumSize: const Size.fromHeight(10),
+             ),
+             onPressed: () {
 
-                 //existElement= linearSearch(specialDayList,calendarDateTime,context);
-                 //if(!existElement){
-                   streamController.sink.add(calendarEventModel);
+              existElement= linearSearch(specialDayList,calendarDateTime,context);
+              if(!existElement){
+                 streamController.sink.add(calendarEventModel);
+                 specialDayList.add(calendarDateTime);
 
-                     specialDayList.add(calendarDateTime);
-                      // setState(() {
-                      //
-                      // });
+             }
 
-                // }
-
-               },
-               child: Text("Add"),
-             )
-           ],
+             },
+             child: Text("Add",style: TextStyle(color: Colors.white),),
+           ),
          ),
          specialDayList.length>0? ListView.separated(
            itemCount: specialDayList.length,
@@ -83,13 +82,13 @@ class _SelectDatePickerState extends State<SelectDatePicker> {
              return Row(
                mainAxisAlignment: MainAxisAlignment.spaceAround,
                children: [
-                 Text(calendarDateTime.day.toString()),
+                 Text(specialDayList[index].day.toString()),
                  Text(specialDayList[index].month.toString()),
                  Text(specialDayList[index].year.toString()),
                  IconButton(onPressed: (){
-                  // setState(() {
+                   setState(() {
                      specialDayList.removeAt(index);
-                 //  });
+                 });
                  }, icon: Icon(Icons.delete))
                ],
              );

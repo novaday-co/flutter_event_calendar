@@ -27,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
     streamController.stream.listen((event) {
       setState(() {
         calendarEventModel = event;
+        print('calendarEventModel'+calendarEventModel.props.toString());
       });
     });
     super.initState();
@@ -53,21 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
           EventCalendar(
             // events: [Event(child: Text("osmfosdf"), dateTime:     CalendarDateTime(year: 1401, month: 06, day: 1, calendarType: CalendarType.JALALI,
             //     isEnableDay: true),)],
-            specialDays: [
-              CalendarDateTime(
-                  year: 1401,
-                  month: 6,
-                  day: 2,
-                  calendarType: CalendarType.JALALI,
-                  color: Colors.green),
-              CalendarDateTime(
-                  year: 1401,
-                  month: 6,
-                  day: 2,
-                  calendarType: CalendarType.JALALI,
-                  color: Colors.green),
-
-            ],
+            specialDays:calendarEventModel.specialDays,
             showLoadingForEvent: true,
             calendarType: calendarEventModel.calendarType,
             calendarLanguage: calendarEventModel.calendarLanguage,
@@ -98,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
-    streamController.close();
+   // streamController.close();
     super.dispose();
   }
 }

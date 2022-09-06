@@ -15,29 +15,24 @@ final PartFormat nameSelectDate;
 class _DataPickerItemState extends State<DataPickerItem> {
   @override
   void initState() {
-
-
-
-
     super.initState();
   }
 //Function(int n) changeDate;
 @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextButton(
-            onPressed: () {
-              showModalBottomSheet(
-                backgroundColor: Colors.transparent,
-                context: context,
-                builder: (BuildContext mmm) {
-                  return widget.selectDate;
-                },
-              );
-            },
-            child: Text(widget.nameSelectDate.name)),
-      ],
+    return Container(
+      width: MediaQuery.of(context).size.width/3,
+      child: TextButton(
+          onPressed: () {
+            showModalBottomSheet(
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (BuildContext mmm) {
+                return widget.selectDate;
+              },
+            );
+          },
+          child: Text(widget.nameSelectDate.name)),
     );
   }
 }

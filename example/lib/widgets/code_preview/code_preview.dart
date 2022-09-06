@@ -13,55 +13,61 @@ class CodePreview extends StatefulWidget {
 }
 
 class CodePreviewState extends State<CodePreview> {
-  // late Stream stream;
-  // late StreamSubscription<CalendarEventModel> streamSubscription;
-  // StreamController<CalendarEventModel> streamController =
-  //     getit<StreamController<CalendarEventModel>>();
-  // CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
+  late Stream stream;
+  late StreamSubscription<CalendarEventModel> streamSubscription;
+  StreamController<CalendarEventModel> streamController =
+      getit<StreamController<CalendarEventModel>>();
+  CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
   @override
   void initState() {
-    // streamController.stream.listen((event) {
-    //   calendarEventModel = event;
-    // });
+    streamController.stream.listen((event) {
+      calendarEventModel = event;
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // String code = """
-    //             EventCalendar(
-    //           showLoadingForEvent: true,
-    //           calendarType: ${calendarEventModel.calendarType},
-    //           calendarLanguage: ${calendarEventModel.calendarLanguage} ,
-    //           calendarOptions: CalendarOptions(headerMonthBackColor: ${calendarEventModel.calendarOptions.headerMonthBackColor},
-    //           toggleViewType: ${calendarEventModel.calendarOptions.toggleViewType}),
-    //           dayOptions: DayOptions(selectedBackgroundColor:${calendarEventModel.dayOptions.selectedBackgroundColor}),
-    //           headerOptions: HeaderOptions(
-    //             headerTextColor:${calendarEventModel.headerOptions.headerTextColor},
-    //             navigationColor:${calendarEventModel.headerOptions.navigationColor},
-    //               monthStringType:
-    //                  ${calendarEventModel.headerOptions.monthStringType},
-    //                  weekDayStringType: ${calendarEventModel.headerOptions.weekDayStringType},
-    //           ),
-    //         ),
-    //         """;
+    String code = """
+                EventCalendar(
+              showLoadingForEvent: true,
+              specialDays:${calendarEventModel.specialDays},
+              calendarType: ${calendarEventModel.calendarType},
+              calendarLanguage: ${calendarEventModel.calendarLanguage} ,
+                   calendarOptions: CalendarOptions(
+                viewType: ${calendarEventModel.calendarOptions.viewType},
+                headerMonthBackColor:
+                    ${calendarEventModel.calendarOptions.headerMonthBackColor},
+                toggleViewType:
+                    ${calendarEventModel.calendarOptions.toggleViewType},
+                font: ${calendarEventModel.calendarOptions.font}),
+              dayOptions: DayOptions(selectedBackgroundColor:${calendarEventModel.dayOptions.selectedBackgroundColor}),
+              headerOptions: HeaderOptions(
+                headerTextColor:${calendarEventModel.headerOptions.headerTextColor},
+                navigationColor:${calendarEventModel.headerOptions.navigationColor},
+                  monthStringType:
+                     ${calendarEventModel.headerOptions.monthStringType},
+                     weekDayStringType: ${calendarEventModel.headerOptions.weekDayStringType},
+              ),
+            ),
+            """;
 
-    // void copyCodePreview() {
-    //   FlutterClipboard.copy(code)
-    //       .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //             content: Text("Copied"),
-    //             backgroundColor: Colors.grey,
-    //           )));
-    // }
-    //
-    // SyntaxView syntaxView = SyntaxView(
-    //     code: code,
-    //     syntax: Syntax.DART,
-    //     syntaxTheme: SyntaxTheme.vscodeLight(),
-    //     fontSize: 12.0,
-    //     withZoom: true,
-    //     withLinesCount: true,
-    //     expanded: true);
+    void copyCodePreview() {
+      FlutterClipboard.copy(code)
+          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Copied"),
+                backgroundColor: Colors.grey,
+              )));
+    }
+
+    SyntaxView syntaxView = SyntaxView(
+        code: code,
+        syntax: Syntax.DART,
+        syntaxTheme: SyntaxTheme.vscodeLight(),
+        fontSize: 12.0,
+        withZoom: true,
+        withLinesCount: true,
+        expanded: true);
 
     return Scaffold(
         body: Stack(
@@ -70,7 +76,7 @@ class CodePreviewState extends State<CodePreview> {
         Container(
             margin: EdgeInsets.only(bottom: 10, left: 10),
             height: MediaQuery.of(context).size.height,
-            child: Text('sdfasdf'),),
+            child: syntaxView,),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: ElevatedButton(
@@ -79,7 +85,7 @@ class CodePreviewState extends State<CodePreview> {
             ),
             child: const Icon(Icons.copy),
             onPressed: () {
-           //   copyCodePreview();
+             copyCodePreview();
             },
           ),
         ),

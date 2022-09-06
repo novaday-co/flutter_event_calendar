@@ -19,7 +19,9 @@ class SelectDatePicker extends StatefulWidget {
   Function onMonthChanged;
   Function onYearChanged;
   Function onDayChanged;
-
+  int day=1;
+  int month=6;
+  int year=1401;
   @override
   State<SelectDatePicker> createState() => _SelectDatePickerState();
 }
@@ -27,43 +29,44 @@ class SelectDatePicker extends StatefulWidget {
 class _SelectDatePickerState extends State<SelectDatePicker> {
   List<CalendarDateTime> specialDayList = [];
   bool existElement=false;
+
   @override
   Widget build(BuildContext context) {
 
     CalendarDateTime calendarDateTime;
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              ("day"),
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text("month", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text("year", style: TextStyle(fontWeight: FontWeight.bold))
-          ],
-        ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             DataPickerItem(
               selectDate: SelectDay(
-                onHeaderChanged: widget.onDayChanged,
+                onHeaderChanged: (int day){
+                  setState(() {
+                    widget.day=day;
+                  });
+                },
                 dayStyle: YearOptions(selectedColor: Colors.blue),
               ),
               nameSelectDate: PartFormat.DAY,
             ),
             DataPickerItem(
               selectDate: SelectMonth(
-                onHeaderChanged: widget.onMonthChanged,
+                onHeaderChanged:(int selectedMonth){
+                  setState(() {
+                    widget.month=selectedMonth;
+                  });
+                },
                 monthStyle: MonthOptions(selectedColor: Colors.blue),
               ),
               nameSelectDate: PartFormat.MONTH,
             ),
             DataPickerItem(
               selectDate: SelectYear(
-                onHeaderChanged: widget.onYearChanged,
+                onHeaderChanged: (int selectedYear){
+                  widget.year=selectedYear;
+                },
                 yearStyle: YearOptions(selectedColor: Colors.blue),
               ),
               nameSelectDate: PartFormat.YEAR,
@@ -71,35 +74,31 @@ class _SelectDatePickerState extends State<SelectDatePicker> {
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Expanded(
-                child: TextButton(
+            Text('${widget.day}', style: TextStyle(fontWeight: FontWeight.bold),),
+            Text('${widget.month}', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('${widget.year}', style: TextStyle(fontWeight: FontWeight.bold))
+          ],
+        ),
+        Row(
+          children: [
+            TextButton(
               onPressed: () {
-                calendarDateTime = CalendarDateTime(
-                    day: CalendarUtils.getPartByInt(
-                      format: PartFormat.DAY,
-                    ),
-                    month: CalendarUtils.getPartByInt(
-                      format: PartFormat.MONTH,
-                    ),
-                    year: CalendarUtils.getPartByInt(
-                      format: PartFormat.YEAR,
-                    ),
-                    calendarType: CalendarUtils.getCalendarType());
-
-
-                existElement= linearSearch(specialDayList,calendarDateTime,context);
-
+            calendarDateTime = CalendarDateTime(
+                day: widget.day,
+                month: widget.month,
+                year: widget.year,
+                calendarType: CalendarUtils.getCalendarType());
+            existElement= linearSearch(specialDayList,calendarDateTime,context);
                if(!existElement){
-                 setState(() {
-                   specialDayList.add(calendarDateTime);
-                 });
+             setState(() {
+               specialDayList.add(calendarDateTime);
+             });
                }
-
-
               },
               child: Text("Add"),
-            ))
+            )
           ],
         ),
        specialDayList.length>0? ListView.separated(
@@ -131,7 +130,6 @@ class _SelectDatePickerState extends State<SelectDatePicker> {
 bool linearSearch(List<CalendarDateTime> array, CalendarDateTime calendarDateTime,BuildContext context) {
   for(int i = 0; i< array.length; i++){
     if(array[i].year == calendarDateTime.year && array[i].month== calendarDateTime.month&& array[i].day== calendarDateTime.day){
-
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("this date already exist"),
       ));
@@ -139,7 +137,6 @@ bool linearSearch(List<CalendarDateTime> array, CalendarDateTime calendarDateTim
       return true;
 
     }
-
   }
 return false;
 }

@@ -13,6 +13,8 @@ import 'package:flutter_event_calendar/src/widgets/events.dart';
 import 'package:flutter_event_calendar/src/widgets/header.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'calendar_utils.dart';
+
 typedef CalendarChangeCallback = Function(CalendarDateTime);
 
 class EventCalendar extends StatefulWidget {
@@ -122,16 +124,17 @@ class _EventCalendarState extends State<EventCalendar> {
                       widget.onDateTimeReset?.call(EventCalendar.dateTime!);
                       setState(() {});
                     },
-                    onMonthChanged: () {
+                    onMonthChanged: (int selectedMonth) {
                       widget.onMonthChanged?.call(EventCalendar.dateTime!);
+                      CalendarUtils.goToMonth(selectedMonth);
                       setState(() {});
                     },
                     onViewTypeChanged: () {
                       setState(() {});
                     },
-                    onYearChanged: () {
+                    onYearChanged: (int selectedYear) {
                       widget.onYearChanged?.call(EventCalendar.dateTime!);
-
+                      CalendarUtils.goToYear(selectedYear);
                       setState(() {});
                     },
                   ),

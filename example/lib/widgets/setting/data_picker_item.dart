@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 class DataPickerItem extends StatefulWidget {
    DataPickerItem({Key? key,required this.selectDate,required this.nameSelectDate,
@@ -25,7 +24,6 @@ class _DataPickerItemState extends State<DataPickerItem> {
 //Function(int n) changeDate;
 @override
   Widget build(BuildContext context) {
-    var showw=CalendarUtils.getPartByInt(format:widget.nameSelectDate);
     return Column(
       children: [
         TextButton(
@@ -38,7 +36,7 @@ class _DataPickerItemState extends State<DataPickerItem> {
                 },
               );
             },
-            child: Text("${CalendarUtils.getPartByInt(format:widget.nameSelectDate)}")),
+            child: Text(widget.nameSelectDate.name)),
       ],
     );
   }

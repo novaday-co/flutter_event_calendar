@@ -29,12 +29,12 @@ class _SelectDatePickerState extends State<SelectDatePicker> {
   int day = 1;
   int month = 6;
   int year = 1401;
-  late CalendarDateTime calendarDateTime;
+  late CalendarDateTime calendarDateTime=CalendarDateTime(year: year, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
   late CalendarEventModel calendarEventModel;
   late List<CalendarDateTime> specialDayList;
   @override
   void initState() {
-  calendarDateTime=CalendarDateTime(year: year, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
+
    calendarEventModel = getit<CalendarEventModel>();
   specialDayList = calendarEventModel.specialDays;
     super.initState();
@@ -60,13 +60,16 @@ class _SelectDatePickerState extends State<SelectDatePicker> {
              TextButton(
                onPressed: () {
 
-                 existElement= linearSearch(specialDayList,calendarDateTime,context);
-                 if(!existElement){
+                 //existElement= linearSearch(specialDayList,calendarDateTime,context);
+                 //if(!existElement){
                    streamController.sink.add(calendarEventModel);
-                   setState(() {
+
                      specialDayList.add(calendarDateTime);
-                   });
-                 }
+                      // setState(() {
+                      //
+                      // });
+
+                // }
 
                },
                child: Text("Add"),
@@ -80,13 +83,13 @@ class _SelectDatePickerState extends State<SelectDatePicker> {
              return Row(
                mainAxisAlignment: MainAxisAlignment.spaceAround,
                children: [
-                 Text(specialDayList[index].day.toString()),
+                 Text(calendarDateTime.day.toString()),
                  Text(specialDayList[index].month.toString()),
                  Text(specialDayList[index].year.toString()),
                  IconButton(onPressed: (){
-                   setState(() {
+                  // setState(() {
                      specialDayList.removeAt(index);
-                   });
+                 //  });
                  }, icon: Icon(Icons.delete))
                ],
              );

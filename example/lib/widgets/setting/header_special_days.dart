@@ -24,8 +24,10 @@ class HeaderSpecialDays extends StatefulWidget {
 class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> selectBottomSheetDate = [
+    //listbuilder generator
+    List<DataPickerItem> selectBottomSheetDate = [
       DataPickerItem(
+        date: widget.calendarDateTime.day,
         selectDate: SelectDay(
           onHeaderChanged: (int selectedDay) {
             setState(() {
@@ -38,6 +40,7 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
         nameSelectDate: PartFormat.DAY,
       ),
       DataPickerItem(
+        date: widget.calendarDateTime.month,
         selectDate: SelectMonth(
           onHeaderChanged: (int selectedMonth) {
             setState(() {
@@ -51,6 +54,7 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
         nameSelectDate: PartFormat.MONTH,
       ),
       DataPickerItem(
+        date: widget.calendarDateTime.year,
         selectDate: SelectYear(
           onHeaderChanged: (int selectedYear) {
             setState(() {
@@ -64,43 +68,22 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
       ),
     ];
 
-    List<int> date = [widget.calendarDateTime.day, widget.calendarDateTime.month, widget.calendarDateTime.year];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 50,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: selectBottomSheetDate.length,
-              itemBuilder: (BuildContext context, int index) {
-                return selectBottomSheetDate[index];
-              }),
-        ),
-        Container(
-          height: 50,
 
-          child: ListView.builder(
-              itemCount: date.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  padding: EdgeInsets.only(left: 30),
-                  color: Colors.blue,
-                  width: MediaQuery.of(context).size.width/3,
-                  child: Text(
-
-                   '${date[index]}',
-                   textAlign: TextAlign.start,
-                   style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                );
-
-              }),
+    return GridView.count(
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        children: List.generate(selectBottomSheetDate.length, (index) {
+          return Column(
+            children: [
+              selectBottomSheetDate[index],
+              Center(
+                child:Text(selectBottomSheetDate[index].date.toString()),
+              ),
+            ],
+          );
+        }
         )
-      ],
     );
   }
 }

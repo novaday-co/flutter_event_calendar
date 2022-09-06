@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
 import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
+import 'package:flutter_event_calendar/src/models/style/selected_day_options.dart';
 import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/widgets/select_month.dart';
@@ -35,7 +36,7 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
               widget.speacialDate(widget.calendarDateTime);
             });
           },
-          dayStyle: YearOptions(selectedColor: Colors.blue),
+          dayStyle: DayOptions(selectedColor: Colors.blue),
         ),
         nameSelectDate: PartFormat.DAY,
       ),
@@ -67,8 +68,6 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
         nameSelectDate: PartFormat.YEAR,
       ),
     ];
-
-
 
     return GridView.count(
         shrinkWrap: true,

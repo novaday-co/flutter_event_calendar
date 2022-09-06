@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
+import 'package:flutter_event_calendar/src/models/style/selected_day_options.dart';
+import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 
 class SelectDay extends StatelessWidget {
   late List days;
 
   Function(int day) onHeaderChanged;
 
-  YearOptions? dayStyle;
+  DayOptions? dayStyle;
 
   SelectDay({required this.onHeaderChanged, this.dayStyle});
 

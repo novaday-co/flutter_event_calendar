@@ -6,8 +6,6 @@ import 'package:flutter_event_calendar_example/models/calendar_event_model.dart'
 import 'package:flutter_event_calendar_example/models/expanded_item_model.dart';
 import 'package:flutter_event_calendar_example/widgets/color/color_picker_row.dart';
 import 'package:flutter_event_calendar_example/widgets/setting/item_setting.dart';
-
-import 'package:flutter_event_calendar_example/widgets/color/calendar_color_item.dart';
 import 'package:flutter_event_calendar_example/widgets/setting/radio_button_list.dart';
 
 class CalendarOptions extends StatefulWidget {

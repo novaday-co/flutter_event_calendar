@@ -6,7 +6,7 @@ import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:flutter_event_calendar/src/widgets/select_month.dart';
 import 'package:flutter_event_calendar/src/widgets/select_year.dart';
 import 'package:flutter_event_calendar/src/widgets/select_day.dart';
-import 'package:flutter_event_calendar_example/widgets/setting/data_picker_item.dart';
+import 'package:flutter_event_calendar_example/widgets/setting/date_picker_item.dart';
 import 'package:flutter_event_calendar/src/models/datetime.dart';
 
 class HeaderSpecialDays extends StatefulWidget {

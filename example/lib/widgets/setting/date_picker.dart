@@ -7,8 +7,8 @@ import 'package:flutter_event_calendar_example/injection.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
 import 'package:flutter_event_calendar_example/widgets/setting/header_special_days.dart';
 
-class SelectDatePicker extends StatefulWidget {
-  SelectDatePicker(
+class DatePicker extends StatefulWidget {
+  DatePicker(
       {Key? key,
       required this.onMonthChanged,
       required this.onYearChanged,
@@ -19,10 +19,10 @@ class SelectDatePicker extends StatefulWidget {
   Function onDayChanged;
 
   @override
-  State<SelectDatePicker> createState() => _SelectDatePickerState();
+  State<DatePicker> createState() => _DatePickerState();
 }
 
-class _SelectDatePickerState extends State<SelectDatePicker> {
+class _DatePickerState extends State<DatePicker> {
   late StreamController streamController;
 
   bool existElement = false;

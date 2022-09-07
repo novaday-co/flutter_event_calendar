@@ -14,7 +14,7 @@ class ExpandedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ExpandableNotifier(
-      initialExpanded: true,
+
         child: ScrollOnExpand(
           child: Card(
             elevation: 0,

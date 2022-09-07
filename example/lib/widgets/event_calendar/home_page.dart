@@ -27,7 +27,6 @@ class _MyHomePageState extends State<MyHomePage> {
     streamController.stream.listen((event) {
       setState(() {
         calendarEventModel = event;
-        print('calendarEventModel'+calendarEventModel.props.toString());
       });
     });
     super.initState();
@@ -52,8 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: TabBarView(children: [
           EventCalendar(
-            // events: [Event(child: Text("osmfosdf"), dateTime:     CalendarDateTime(year: 1401, month: 06, day: 1, calendarType: CalendarType.JALALI,
-            //     isEnableDay: true),)],
+
             specialDays:calendarEventModel.specialDays,
             showLoadingForEvent: true,
             calendarType: calendarEventModel.calendarType,
@@ -61,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
             calendarOptions: CalendarOptions(
                 viewType: calendarEventModel.calendarOptions.viewType,
                 headerMonthBackColor:
-                    calendarEventModel.calendarOptions.headerMonthBackColor,
+                  calendarEventModel.calendarOptions.headerMonthBackColor,
                 toggleViewType:
                     calendarEventModel.calendarOptions.toggleViewType,
                 font: calendarEventModel.calendarOptions.font),

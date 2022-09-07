@@ -26,9 +26,10 @@ class _DatePickerState extends State<DatePicker> {
   late StreamController streamController;
 
   bool existElement = false;
-  int day = CalendarUtils.getPartByInt(format: PartFormat.DAY);
-  int month = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
-  int year = CalendarUtils.getPartByInt(format: PartFormat.YEAR);
+  bool emptyField=false;
+  int day = 0;
+  int month = 0;
+  int year = 0;
   late CalendarEventModel calendarEventModel;
   late List<CalendarDateTime> specialDayList;
 
@@ -65,7 +66,8 @@ class _DatePickerState extends State<DatePicker> {
              onPressed: () {
 
               existElement= linearSearch(specialDayList,calendarDateTime,context);
-              if(!existElement){
+              emptyField=emptyDatePicker(calendarDateTime,context);
+              if(!existElement && !emptyField){
                  streamController.sink.add(calendarEventModel);
                  specialDayList.add(calendarDateTime);
 
@@ -112,6 +114,16 @@ bool linearSearch(List<CalendarDateTime> array,
 
       return true;
     }
+  }
+  return false;
+}
+
+bool emptyDatePicker(CalendarDateTime calendarDateTime, BuildContext context){
+  if(calendarDateTime.year==0 || calendarDateTime.month==0 || calendarDateTime.day==0){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("please enter a valid date "),
+    ));
+    return true;
   }
   return false;
 }

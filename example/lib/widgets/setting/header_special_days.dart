@@ -22,6 +22,10 @@ class HeaderSpecialDays extends StatefulWidget {
 
 class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
   @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     //listbuilder generator
     List<DataPickerItem> selectBottomSheetDate = [
@@ -78,7 +82,7 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
           return Column(
             children: [
         selectBottomSheetDate[index],
-              Container(padding:EdgeInsets.only(top: 10) ,child: Text(selectBottomSheetDate[index].date.toString(), )),
+              Container(padding:EdgeInsets.only(top: 10) ,child: Text(selectBottomSheetDate[index].date==0 ?'_ _ _':selectBottomSheetDate[index].date.toString())),
             ],
           );
         }

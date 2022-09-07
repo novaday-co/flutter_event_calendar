@@ -21,21 +21,18 @@ class _DataPickerItemState extends State<DataPickerItem> {
 
 @override
   Widget build(BuildContext context) {
-    return Container(
-      
-      child: Card(
-        child: TextButton(
-            onPressed: () {
-              showModalBottomSheet(
-                backgroundColor: Colors.transparent,
-                context: context,
-                builder: (BuildContext mmm) {
-                  return widget.selectDate;
-                },
-              );
-            },
-            child: Text(widget.nameSelectDate.name)),
-      ),
+    return Card(
+      child: TextButton(
+          onPressed: () {
+            showModalBottomSheet(
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (BuildContext mmm) {
+                return widget.selectDate;
+              },
+            );
+          },
+          child: Text(widget.nameSelectDate.name)),
     );
   }
 }

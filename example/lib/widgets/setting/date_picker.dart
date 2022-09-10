@@ -43,7 +43,7 @@ class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     streamController = getit<StreamController<CalendarEventModel>>();
-    CalendarDateTime calendarDateTime=CalendarDateTime(year: year, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
+    CalendarDateTime calendarDateTime=CalendarDateTime(year: day, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
 
 
     return Column(
@@ -65,8 +65,8 @@ class _DatePickerState extends State<DatePicker> {
              ),
              onPressed: () {
 
-              existElement= linearSearch(specialDayList,calendarDateTime,context);
-              emptyField=emptyDatePicker(calendarDateTime,context);
+              existElement= searchForDuplicateDate(specialDayList,calendarDateTime,context);
+              emptyField=showToastNotchooseDate(calendarDateTime,context);
               if(!existElement && !emptyField){
                  streamController.sink.add(calendarEventModel);
                  specialDayList.add(calendarDateTime);
@@ -102,7 +102,7 @@ class _DatePickerState extends State<DatePicker> {
   }
 }
 
-bool linearSearch(List<CalendarDateTime> array,
+bool searchForDuplicateDate(List<CalendarDateTime> array,
     CalendarDateTime calendarDateTime, BuildContext context) {
   for (int i = 0; i < array.length; i++) {
     if (array[i].year == calendarDateTime.year &&
@@ -111,14 +111,13 @@ bool linearSearch(List<CalendarDateTime> array,
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("this date already exist"),
       ));
-
       return true;
     }
   }
   return false;
 }
 
-bool emptyDatePicker(CalendarDateTime calendarDateTime, BuildContext context){
+bool showToastNotchooseDate(CalendarDateTime calendarDateTime, BuildContext context){
   if(calendarDateTime.year==0 || calendarDateTime.month==0 || calendarDateTime.day==0){
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("please enter a valid date "),

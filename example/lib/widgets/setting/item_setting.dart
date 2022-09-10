@@ -41,7 +41,7 @@ class _itemSettingState extends State<itemSetting> {
             return Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  margin: EdgeInsets.symmetric(vertical: 10),
                   child: ExpandedWidget(
                     items: widget.expandeditemModelList,
                     index: index,
@@ -55,11 +55,14 @@ class _itemSettingState extends State<itemSetting> {
                       width: 15,
                     ),
                     Expanded(
-                        child: Text(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 15),
+                          child: Text(
                       widget.expandeditemModelList[index].definition,
                       style: TextStyle(fontSize: 12),
                       textAlign: TextAlign.start,
-                    )),
+                    ),
+                        )),
                   ],
                 ),
               ],

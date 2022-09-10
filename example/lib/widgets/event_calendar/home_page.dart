@@ -51,7 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: TabBarView(children: [
           EventCalendar(
-
             specialDays:calendarEventModel.specialDays,
             showLoadingForEvent: true,
             calendarType: calendarEventModel.calendarType,

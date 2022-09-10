@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          title: Text("Flutter Event Calendar"),
           bottom: TabBar(
             tabs: [
               Tab(
@@ -49,7 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-        body: TabBarView(children: [
+        body: TabBarView(
+            children: [
           EventCalendar(
             specialDays:calendarEventModel.specialDays,
             showLoadingForEvent: true,

@@ -121,7 +121,7 @@ bool searchForDuplicateDate(List<CalendarDateTime> array,
 bool showToastNotchooseDate(CalendarDateTime calendarDateTime, BuildContext context){
   if(calendarDateTime.year==0 || calendarDateTime.month==0 || calendarDateTime.day==0){
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("please enter a valid date "),
+      content: Text("please enter a valid date  bxz"),
       duration: const Duration(seconds: 1),
     ));
     return true;

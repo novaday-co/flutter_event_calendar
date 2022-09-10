@@ -57,6 +57,7 @@ class CodePreviewState extends State<CodePreview> {
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text("Copied"),
                 backgroundColor: Colors.grey,
+        duration: const Duration(seconds: 1),
               )));
     }
 

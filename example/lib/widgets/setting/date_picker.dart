@@ -43,7 +43,7 @@ class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     streamController = getit<StreamController<CalendarEventModel>>();
-    CalendarDateTime calendarDateTime=CalendarDateTime(year: day, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
+    CalendarDateTime calendarDateTime=CalendarDateTime(year: year, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
 
 
     return Column(
@@ -110,6 +110,7 @@ bool searchForDuplicateDate(List<CalendarDateTime> array,
         array[i].day == calendarDateTime.day) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("this date already exist"),
+       duration: const Duration(seconds: 1),
       ));
       return true;
     }
@@ -121,6 +122,7 @@ bool showToastNotchooseDate(CalendarDateTime calendarDateTime, BuildContext cont
   if(calendarDateTime.year==0 || calendarDateTime.month==0 || calendarDateTime.day==0){
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("please enter a valid date "),
+      duration: const Duration(seconds: 1),
     ));
     return true;
   }

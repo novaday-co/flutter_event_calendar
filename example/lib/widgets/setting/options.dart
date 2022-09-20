@@ -66,6 +66,8 @@ class _OptionsState extends State<Options> {
             onChanged: (dynamic keyName) {
               calendarEventModel.calendarLanguage = keyName;
               streamController.sink.add(calendarEventModel);
+              setState(() {
+              });
             },
           ),
           definition:
@@ -80,6 +82,8 @@ class _OptionsState extends State<Options> {
               calendarEventModel.calendarType = CalendarType.values
                   .firstWhere((element) => element.name == keyName);
               streamController.sink.add(calendarEventModel);
+              setState(() {
+              });
             },
           ),
           definition:

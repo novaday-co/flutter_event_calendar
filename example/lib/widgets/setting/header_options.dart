@@ -20,24 +20,31 @@ class HeaderOptions extends StatefulWidget {
 class _HeaderOptionsState extends State<HeaderOptions> {
   late StreamController streamController;
 
+  CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
+  List<String> calendarMonthTypeList = [
+    MonthStringTypes.SHORT.name,
+    MonthStringTypes.FULL.name
+  ];
+  List<String> calendarWeekDayTypeList = [
+    WeekDayStringTypes.SHORT.name,
+    WeekDayStringTypes.FULL.name
+  ];
   @override
   void initState() {
+    streamController = getit<StreamController<CalendarEventModel>>();
+    streamController.stream.listen((event) {
+    //  setState(() {
+       calendarEventModel = event;
+    //  });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> calendarMonthTypeList = [
-      MonthStringTypes.SHORT.name,
-      MonthStringTypes.FULL.name
-    ];
-    List<String> calendarWeekDayTypeList = [
-      WeekDayStringTypes.SHORT.name,
-      WeekDayStringTypes.FULL.name
-    ];
 
-    streamController = getit<StreamController<CalendarEventModel>>();
-    CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
+
+
     List<ExpandedItemModel> settingItemsHeaderOptions = [
       ExpandedItemModel(
           icon: 'assets/calendar.svg',
@@ -51,6 +58,8 @@ class _HeaderOptionsState extends State<HeaderOptions> {
                     WeekDayStringTypes.values
                         .firstWhere((element) => element.name == keyName);
                 streamController.sink.add(calendarEventModel);
+                setState(() {
+                });
               }),
           definition: "WeekDayType:abbreviate days of the week"),
       ExpandedItemModel(
@@ -64,6 +73,8 @@ class _HeaderOptionsState extends State<HeaderOptions> {
                     MonthStringTypes.values
                         .firstWhere((element) => element.name == keyName);
                 streamController.sink.add(calendarEventModel);
+                setState(() {
+                });
               }),
           definition: "Monthtype:abbreviate months of the year"),
       ExpandedItemModel(
@@ -76,6 +87,8 @@ class _HeaderOptionsState extends State<HeaderOptions> {
                 calendarEventModel.headerOptions.navigationColor =
                     colorSelected;
                 streamController.sink.add(calendarEventModel);
+                setState(() {
+                });
               }),
           definition: "navigationColor:The color of Header navigation icons"),
       ExpandedItemModel(
@@ -88,6 +101,8 @@ class _HeaderOptionsState extends State<HeaderOptions> {
                 calendarEventModel.headerOptions.headerTextColor =
                     colorSelected;
                 streamController.sink.add(calendarEventModel);
+                setState(() {
+                });
               }),
           definition: "headerTextColor:The color of Header Text"),
     ];

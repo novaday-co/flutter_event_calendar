@@ -22,6 +22,7 @@ class _ColorPickerRowState extends State<ColorPickerRow> {
 
   showColorPickerDialog() {
     return showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(

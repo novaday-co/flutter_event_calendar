@@ -19,9 +19,15 @@ class CalendarOptions extends StatefulWidget {
 
 class _CalendarOptionsState extends State<CalendarOptions> {
   late StreamController streamController;
-
+  CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
   @override
   void initState() {
+    streamController = getit<StreamController<CalendarEventModel>>();
+    streamController.stream.listen((event) {
+     //   setState(() {
+      calendarEventModel = event;
+     //   });
+    });
     super.initState();
   }
 
@@ -31,8 +37,8 @@ class _CalendarOptionsState extends State<CalendarOptions> {
 
     List<String> toggleViewTypeList = ['true', 'false'];
     List<String> viewTypeList = ['DAILY', 'MONTHLY'];
-    streamController = getit<StreamController<CalendarEventModel>>();
-    CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
+
+
     List<ExpandedItemModel> settingItemsCalendarOptions = [
       ExpandedItemModel(
           icon: 'assets/language_icon.svg',
@@ -44,6 +50,9 @@ class _CalendarOptionsState extends State<CalendarOptions> {
               calendarEventModel.calendarOptions.viewType = ViewType.values
                   .firstWhere((element) => element.name == keyName);
               streamController.sink.add(calendarEventModel);
+              setState(() {
+
+              });
             },
           ),
           definition:
@@ -59,6 +68,9 @@ class _CalendarOptionsState extends State<CalendarOptions> {
                 calendarEventModel.calendarOptions.toggleViewType =
                     keyName.toLowerCase() == 'true';
                 streamController.sink.add(calendarEventModel);
+                setState(() {
+
+                });
               }),
           definition:
               "ToggleView:It adds an icon that clicking on it helps to switch between Monthly and Daily"),
@@ -73,6 +85,9 @@ class _CalendarOptionsState extends State<CalendarOptions> {
               onChanged: (dynamic keyName) {
                 calendarEventModel.calendarOptions.font = keyName;
                 streamController.sink.add(calendarEventModel);
+                setState(() {
+
+                });
               }),
           definition: "Font: permits calendar font customization."),
       ExpandedItemModel(
@@ -86,6 +101,9 @@ class _CalendarOptionsState extends State<CalendarOptions> {
                 calendarEventModel.calendarOptions.headerMonthBackColor =
                     colorSelected;
                 streamController.sink.add(calendarEventModel);
+                setState(() {
+
+                });
               }),
           definition: "Calendar Color: The color of the Calendar's backgoround")
     ];

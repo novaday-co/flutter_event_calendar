@@ -17,10 +17,10 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  late StreamController streamController;
 
   @override
   void initState() {
+
     super.initState();
   }
 

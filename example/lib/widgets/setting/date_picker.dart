@@ -69,7 +69,10 @@ class _DatePickerState extends State<DatePicker> {
               emptyField=showToastNotchooseDate(calendarDateTime,context);
               if(!existElement && !emptyField){
                  streamController.sink.add(calendarEventModel);
-                 specialDayList.add(calendarDateTime);
+                 setState(() {
+                   specialDayList.add(calendarDateTime);
+                 });
+
 
              }
 
@@ -121,7 +124,7 @@ bool searchForDuplicateDate(List<CalendarDateTime> array,
 bool showToastNotchooseDate(CalendarDateTime calendarDateTime, BuildContext context){
   if(calendarDateTime.year==0 || calendarDateTime.month==0 || calendarDateTime.day==0){
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("please enter a valid date  bxz"),
+      content: Text("please enter a valid date "),
       duration: const Duration(seconds: 1),
     ));
     return true;

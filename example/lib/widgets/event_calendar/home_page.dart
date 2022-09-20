@@ -30,11 +30,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.calendar_month),
               ),
               Tab(text: "code", icon: Icon(Icons.code)),
-              Tab(text: "setting", icon: Icon(Icons.settings))
+             Tab(text: "setting", icon: Icon(Icons.settings))
             ],
           ),
         ),
         body: TabBarView(
+          physics: BouncingScrollPhysics(),
             children: [
           EventCalendarPage(),
           CodePreview(),
@@ -44,9 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  @override
-  void dispose() {
-   // streamController.close();
-    super.dispose();
-  }
+
+
 }

@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             backgroundColor: Colors.blue,
@@ -45,7 +46,6 @@ class _HomePageState extends State<HomePage> {
             label: 'preview',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Colors.blue,
             icon: Icon(Icons.code),
             label: 'code',
           ),
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.blue,
         onTap: _onItemTapped,
       ),
     );

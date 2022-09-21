@@ -19,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   static  List<Widget> _widgetOptions = <Widget>[
     EventCalendarPage(),
     CodePreview(),
+
+
     Setting()
   ];
 

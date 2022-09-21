@@ -7,7 +7,7 @@ import 'package:flutter_event_calendar/src/models/style/select_year_options.dart
 class SelectYear extends StatelessWidget {
   late List years;
 
-  Function onHeaderChanged;
+  Function(int year) onHeaderChanged;
 
   YearOptions? yearStyle;
 
@@ -77,8 +77,7 @@ class SelectYear extends StatelessWidget {
     return InkWell(
       onTap: (() {
         Navigator.pop(context);
-        CalendarUtils.goToYear(year);
-        onHeaderChanged.call();
+        onHeaderChanged.call(year);
       }),
       child: Center(
         child: Container(

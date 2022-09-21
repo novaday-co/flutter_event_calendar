@@ -1,35 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar_example/injection.dart';
+import 'package:flutter_event_calendar_example/widgets/event_calendar/home_page.dart';
+
 
 void main() {
+  setUp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
+  const MyApp({
+    Key? key,
+  }) : super(key: key);
 
-class MyHomePage extends StatelessWidget {
+
+
+
   @override
   Widget build(BuildContext context) {
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      body: EventCalendar(
-        calendarType: CalendarType.JALALI,
-        calendarLanguage: 'fa',
-        calendarOptions: CalendarOptions(viewType: ViewType.MONTHLY),
-      ),
+    return const MaterialApp(
+      home: HomePage(),
     );
   }
 }

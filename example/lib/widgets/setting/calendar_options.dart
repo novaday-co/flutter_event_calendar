@@ -34,10 +34,8 @@ class _CalendarOptionsState extends State<CalendarOptions> {
   @override
   Widget build(BuildContext context) {
     List<String> fontList = ['Dancing', 'IRanSans', 'Default'];
-
     List<String> toggleViewTypeList = ['true', 'false'];
     List<String> viewTypeList = ['DAILY', 'MONTHLY'];
-
 
     List<ExpandedItemModel> settingItemsCalendarOptions = [
       ExpandedItemModel(
@@ -50,9 +48,7 @@ class _CalendarOptionsState extends State<CalendarOptions> {
               calendarEventModel.calendarOptions.viewType = ViewType.values
                   .firstWhere((element) => element.name == keyName);
               streamController.sink.add(calendarEventModel);
-              setState(() {
-
-              });
+              setState(() {});
             },
           ),
           definition:
@@ -85,9 +81,7 @@ class _CalendarOptionsState extends State<CalendarOptions> {
               onChanged: (dynamic keyName) {
                 calendarEventModel.calendarOptions.font = keyName;
                 streamController.sink.add(calendarEventModel);
-                setState(() {
-
-                });
+                setState(() {});
               }),
           definition: "Font: permits calendar font customization."),
       ExpandedItemModel(
@@ -101,9 +95,7 @@ class _CalendarOptionsState extends State<CalendarOptions> {
                 calendarEventModel.calendarOptions.headerMonthBackColor =
                     colorSelected;
                 streamController.sink.add(calendarEventModel);
-                setState(() {
-
-                });
+                setState(() {});
               }),
           definition: "Calendar Color: The color of the Calendar's backgoround")
     ];

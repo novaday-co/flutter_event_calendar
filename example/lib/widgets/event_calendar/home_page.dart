@@ -2,50 +2,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar_example/widgets/event_calendar/eventCalendar.dart';
 import 'package:flutter_event_calendar_example/widgets/setting/setting.dart';
 import 'package:flutter_event_calendar_example/widgets/code_preview/code_preview.dart';
-
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({
+class HomePage extends StatefulWidget {
+  const HomePage({
     Key? key,
   }) : super(key: key);
 
+
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static  List<Widget> _widgetOptions = <Widget>[
+    EventCalendarPage(),
+    CodePreview(),
+    Setting()
+  ];
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Flutter Event Calendar"),
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                text: "preview",
-                icon: Icon(Icons.calendar_month),
-              ),
-              Tab(text: "code", icon: Icon(Icons.code)),
-             Tab(text: "setting", icon: Icon(Icons.settings))
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Event Calendar'),
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            backgroundColor: Colors.blue,
+            icon: Icon(Icons.calendar_month),
+            label: 'preview',
           ),
-        ),
-        body:  TabBarView(
-          physics: BouncingScrollPhysics(),
-            children: [
-          EventCalendarPage(),
-          CodePreview(),
-          Setting()
-        ]),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.blue,
+            icon: Icon(Icons.code),
+            label: 'code',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Colors.blue,
+            icon: Icon(Icons.settings),
+            label: 'setting',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
-
-
-
 }
+

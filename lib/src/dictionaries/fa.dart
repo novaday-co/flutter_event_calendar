@@ -98,7 +98,6 @@ class Fa {
       'empty': 'خالی',
       'month_selector': 'یک ماه را انتخاب کنید',
       'year_selector': 'یک سال را انتخاب کنید',
-      'day_selector':'یک روز را انتخاب کنید'
     }
   };
 

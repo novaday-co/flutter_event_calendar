@@ -13,8 +13,8 @@ import 'package:flutter_event_calendar/src/widgets/select_year.dart';
 class Header extends StatelessWidget {
   Function onViewTypeChanged;
   Function onDateTimeReset;
-  Function(int selectedYear) onYearChanged;
-  Function(int selectedMonth) onMonthChanged;
+  Function onYearChanged;
+  Function onMonthChanged;
   Header({required this.onViewTypeChanged,required this.onYearChanged,required this.onMonthChanged,required this.onDateTimeReset});
 
   @override
@@ -37,7 +37,7 @@ class Header extends StatelessWidget {
                     onTap: () {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.previousMonth();
-                      onMonthChanged.call(CalendarUtils.getPartByInt(format:PartFormat.MONTH));
+                      onMonthChanged.call();
                     },
                     customBorder: CircleBorder(),
                     child: Padding(
@@ -138,7 +138,7 @@ class Header extends StatelessWidget {
                     onTap: () {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.nextMonth();
-                      onMonthChanged.call(CalendarUtils.getPartByInt(format:PartFormat.MONTH));
+                      onMonthChanged.call();
                     },
                     child: Padding(
                       padding: EdgeInsets.all(8),

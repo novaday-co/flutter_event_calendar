@@ -86,7 +86,7 @@ class Events extends StatelessWidget {
         children: [
           Icon(
             eventStyle.emptyIcon,
-            size: 75,
+            size: 95,
             color: eventStyle.emptyIconColor,
           ),
           Text(

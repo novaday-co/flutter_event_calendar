@@ -29,7 +29,6 @@ class CalendarMonthlyUtils extends CalendarUtils {
 
   static int getLastDayOfMonth(HeaderOptions headersStyle) {
     final currentMonth = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
-
     return CalendarUtils.getDays(headersStyle.weekDayStringType, currentMonth)
         .keys
         .last;

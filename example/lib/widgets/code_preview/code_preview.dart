@@ -30,7 +30,6 @@ class CodePreviewState extends State<CodePreview> {
   Widget build(BuildContext context) {
     String code = """
                 EventCalendar(
-              showLoadingForEvent: true,
               specialDays:${calendarEventModel.specialDays},
               calendarType: ${calendarEventModel.calendarType},
               calendarLanguage: ${calendarEventModel.calendarLanguage} ,

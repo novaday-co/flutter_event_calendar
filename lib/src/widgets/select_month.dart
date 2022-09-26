@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
 import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
 
 class SelectMonth extends StatelessWidget {
   late List months;
 
-  Function onHeaderChanged;
+  Function(int selectedMonth) onHeaderChanged;
 
   MonthOptions? monthStyle;
 
@@ -79,7 +78,7 @@ class SelectMonth extends StatelessWidget {
     List<Widget> _buildRowCells(int rowIndex) {
       List<TableCell> widgets = [];
       for (var j = 0; j < 3; j++) {
-        final mMonth = (rowIndex * 3) + j + 1;
+        final int mMonth = (rowIndex * 3) + j + 1;
         widgets.add(
           TableCell(
             verticalAlignment: TableCellVerticalAlignment.middle,
@@ -88,8 +87,7 @@ class SelectMonth extends StatelessWidget {
               child: InkWell(
                 onTap: (() {
                   Navigator.pop(context);
-                  CalendarUtils.goToMonth(mMonth);
-                  onHeaderChanged.call();
+                  onHeaderChanged.call(mMonth);
                 }),
                 child: Container(
                   padding: EdgeInsets.all(15),

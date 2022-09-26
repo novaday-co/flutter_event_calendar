@@ -13,6 +13,8 @@ import 'package:flutter_event_calendar/src/widgets/events.dart';
 import 'package:flutter_event_calendar/src/widgets/header.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'calendar_utils.dart';
+
 typedef CalendarChangeCallback = Function(CalendarDateTime);
 
 class EventCalendar extends StatefulWidget {
@@ -108,57 +110,69 @@ class _EventCalendarState extends State<EventCalendar> {
   Widget build(BuildContext context) {
     return buildScopeModels(
       child: (context) {
-        return Column(
-          children: [
-            Card(
-              color: CalendarOptions.of(context).headerMonthBackColor,
-              shadowColor: CalendarOptions.of(context).headerMonthShadowColor,
-              shape: CalendarOptions.of(context).headerMonthShape,
-              elevation: CalendarOptions.of(context).headerMonthElevation,
-              child: Column(
-                children: [
-                  Header(
-                    onDateTimeReset: () {
-                      widget.onDateTimeReset?.call(EventCalendar.dateTime!);
-                      setState(() {});
-                    },
-                    onMonthChanged: () {
-                      widget.onMonthChanged?.call(EventCalendar.dateTime!);
-                      setState(() {});
-                    },
-                    onViewTypeChanged: () {
-                      setState(() {});
-                    },
-                    onYearChanged: () {
-                      widget.onYearChanged?.call(EventCalendar.dateTime!);
-                      setState(() {});
-                    },
+        return SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              
+             mainAxisSize: MainAxisSize.max,
+              children: [
+                Card(
+                  color: CalendarOptions.of(context).headerMonthBackColor,
+                  shadowColor: CalendarOptions.of(context).headerMonthShadowColor,
+                  shape: CalendarOptions.of(context).headerMonthShape,
+                  elevation: CalendarOptions.of(context).headerMonthElevation,
+                  child: Column(
+                    children: [
+                      Header(
+                        onDateTimeReset: () {
+                          widget.onDateTimeReset?.call(EventCalendar.dateTime!);
+                          setState(() {});
+                        },
+                        onMonthChanged: (int selectedMonth) {
+                          widget.onMonthChanged?.call(EventCalendar.dateTime!);
+                          CalendarUtils.goToMonth(selectedMonth);
+                          setState(() {});
+                        },
+                        onViewTypeChanged: () {
+                          setState(() {});
+                        },
+                        onYearChanged: (int selectedYear) {
+                          widget.onYearChanged?.call(EventCalendar.dateTime!);
+                          CalendarUtils.goToYear(selectedYear);
+                          setState(() {});
+                        },
+                      ),
+                      isMonthlyView()
+                          ? SingleChildScrollView(
+                            child: CalendarMonthly(
+                                specialDays: widget.specialDays,
+                                onCalendarChanged: () {
+                                  widget.onChangeDateTime
+                                      ?.call(EventCalendar.dateTime!);
+
+                                  setState(() {});
+                                }),
+                          )
+                          : CalendarDaily(
+                              specialDays: widget.specialDays,
+                              onCalendarChanged: () {
+                                widget.onChangeDateTime
+                                    ?.call(EventCalendar.dateTime!);
+                                setState(() {});
+                              }),
+                    ],
                   ),
-                  isMonthlyView()
-                      ? CalendarMonthly(
-                          specialDays: widget.specialDays,
-                          onCalendarChanged: () {
-                            widget.onChangeDateTime
-                                ?.call(EventCalendar.dateTime!);
-                            setState(() {});
-                          })
-                      : CalendarDaily(
-                          specialDays: widget.specialDays,
-                          onCalendarChanged: () {
-                            widget.onChangeDateTime
-                                ?.call(EventCalendar.dateTime!);
-                            setState(() {});
-                          }),
-                ],
-              ),
+                ),
+                if (widget.middleWidget != null)
+                  widget.middleWidget!.call(EventCalendar.dateTime!)!,
+                Events(onEventsChanged: () {
+                  widget.onChangeDateTime?.call(EventCalendar.dateTime!);
+                  setState(() {});
+                }),
+              ],
             ),
-            if (widget.middleWidget != null)
-              widget.middleWidget!.call(EventCalendar.dateTime!)!,
-            Events(onEventsChanged: () {
-              widget.onChangeDateTime?.call(EventCalendar.dateTime!);
-              setState(() {});
-            }),
-          ],
+          ),
         );
       },
     );

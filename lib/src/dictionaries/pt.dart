@@ -69,7 +69,7 @@ class Pt {
   static Map fullDayNames = const {
     'pt': {
       CalendarType.JALALI: [
-        'Sabado',
+        'Sábado',
         'Domingo',
         'Segunda',
         'Terça',

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
-import 'package:flutter_event_calendar/src/utils/style_provider.dart';
-import 'package:flutter_event_calendar/src/widgets/day.dart';
+
+import '../../flutter_event_calendar.dart';
+import '../handlers/calendar_utils.dart';
+
+import '../handlers/event_selector.dart';
+
+import '../utils/style_provider.dart';
+import 'day.dart';
 
 class CalendarDaily extends StatelessWidget {
   Function? onCalendarChanged;
@@ -120,7 +121,11 @@ class CalendarDaily extends StatelessWidget {
       days.add(Day(
         day: index,
         dayEvents: selector.getEventsByDayMonthYear(
-          CalendarDateTime(year: currentYear, month: currentMonth, day: index, calendarType: CalendarUtils.getCalendarType()),
+          CalendarDateTime(
+              year: currentYear,
+              month: currentMonth,
+              day: index,
+              calendarType: CalendarUtils.getCalendarType()),
         ),
         dayStyle: DayStyle(
           compactMode: DayOptions.of(context).compactMode,
@@ -183,7 +188,7 @@ class CalendarDaily extends StatelessWidget {
   }
 
   void executeAsync(context) async {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (animatedTo.hasClients) {
         final animateOffset = (DayOptions.of(context).compactMode
                 ? 40.0

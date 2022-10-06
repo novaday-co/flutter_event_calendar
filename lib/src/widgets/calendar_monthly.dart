@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_monthly_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
-import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
-import 'package:flutter_event_calendar/src/utils/style_provider.dart';
-import 'package:flutter_event_calendar/src/widgets/day.dart';
+
+import '../../flutter_event_calendar.dart';
+import '../handlers/calendar_monthly_utils.dart';
+import '../handlers/calendar_utils.dart';
+import '../handlers/event_selector.dart';
+import '../handlers/translator.dart';
+import '../utils/style_provider.dart';
+import 'day.dart';
 
 class CalendarMonthly extends StatefulWidget {
   Function onCalendarChanged;
@@ -34,7 +32,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   @override
   void initState() {
     headersStyle = HeaderOptions.of(context);
-    dayOptions=DayOptions.of(context);
+    dayOptions = DayOptions.of(context);
     dayNames = Translator.getNameOfDay(headersStyle.weekDayStringType);
     super.initState();
   }
@@ -61,7 +59,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if(!dayOptions.compactMode)...[
+          if (!dayOptions.compactMode) ...[
             _buildDayName(),
           ],
           SizedBox(

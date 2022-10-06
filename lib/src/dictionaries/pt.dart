@@ -91,7 +91,7 @@ class Pt {
   static Map shortDayNames = const {
     'pt': {
       CalendarType.JALALI: ['Sab', 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
-      CalendarType.GREGORIAN: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex' 'Sab']
+      CalendarType.GREGORIAN: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
     }
   };
   static Map titles = const {

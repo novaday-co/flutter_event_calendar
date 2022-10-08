@@ -7,15 +7,21 @@ import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
 import 'package:flutter_event_calendar/src/handlers/translator.dart';
 import 'package:flutter_event_calendar/src/models/calendar_options.dart';
 import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
+import 'package:flutter_event_calendar/src/models/style/highlight_painter.dart';
 import 'package:flutter_event_calendar/src/utils/style_provider.dart';
 import 'package:flutter_event_calendar/src/widgets/day.dart';
 
 class CalendarMonthly extends StatefulWidget {
   Function onCalendarChanged;
   List<CalendarDateTime> specialDays;
-
+  bool multiSelection;
+  Function(List<CalendarDateTime> selectedRange) selectedDaysRangeCallBack;
   CalendarMonthly(
-      {required this.specialDays, required this.onCalendarChanged, Key? key})
+      {required this.specialDays,
+        required this.onCalendarChanged,
+        required this.multiSelection,
+        required this.selectedDaysRangeCallBack,
+        Key? key})
       : super();
 
   @override
@@ -23,34 +29,93 @@ class CalendarMonthly extends StatefulWidget {
 }
 
 class _CalendarMonthlyState extends State<CalendarMonthly> {
+
+
   EventSelector eventSelector = EventSelector();
   late DayOptions dayOptions;
-
   late List<String> dayNames;
   late HeaderOptions headersStyle;
-  int currDay = -1;
   int currMonth = -1;
+  int currYear = -1;
+  List<CalendarDateTime> selectedDaysRange = [];
+  bool full = false;
+  late CalendarDateTime selectedDayStart;
+  String selectedDaysRangeListString = '';
+  late CalendarDateTime selectedDayEnd ;
 
   @override
   void initState() {
     headersStyle = HeaderOptions.of(context);
-    dayOptions=DayOptions.of(context);
+    dayOptions = DayOptions.of(context);
     dayNames = Translator.getNameOfDay(headersStyle.weekDayStringType);
+    selectedDayStart = CalendarDateTime(
+        year: CalendarUtils.getPartByInt(format: PartFormat.YEAR),
+        month: CalendarUtils.getPartByInt(format: PartFormat.MONTH),
+        day: CalendarUtils.getPartByInt(format: PartFormat.DAY),
+        calendarType: CalendarUtils.getCalendarType());
+    selectedDayEnd = CalendarDateTime(year: -1,
+    month: CalendarUtils.getPartByInt(format: PartFormat.MONTH),
+    day: -1,
+    calendarType: CalendarUtils.getCalendarType());
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    currDay = CalendarUtils.getPartByInt(format: PartFormat.DAY);
     currMonth = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
+    currYear = CalendarUtils.getPartByInt(format: PartFormat.YEAR);
     super.didChangeDependencies();
+  }
+
+
+
+  void changeSelectDayEnd() {
+    if (widget.multiSelection == false) {
+      selectedDaysRange.clear();
+      _activeSingleSelection();
+    }else if (widget.multiSelection == true) {
+      _activeMultiSelection();
+      listSelectedDays();
+    }
+  }
+
+  void multiSelectionCheck() {
+    if (widget.multiSelection == false) {
+      selectedDaysRange.clear();
+      _activeSingleSelection();
+    }
+  }
+
+  listSelectedDays() {
+    selectedDaysRange.clear();
+    selectedDaysRange = CalendarDateTime.getDayListCurrentMonth(selectedDayStart, selectedDayEnd );
+     (selectedDaysRange.length == 0) ?selectedDayStartPointToSelectedDayEnd(): widget.selectedDaysRangeCallBack(selectedDaysRange);
+  }
+
+
+
+
+
+  _activeSingleSelection()  {
+    _disableSelectedEnd();
+    selectedDayStart.day = CalendarUtils.getPartByInt(format: PartFormat.DAY);
+    selectedDayStart.month = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
+    selectedDayStart.year = CalendarUtils.getPartByInt(format: PartFormat.YEAR);
+    selectedDayStart.daysInMonth = CalendarMonthlyUtils.getLastDayOfMonth(headersStyle);
+  }
+  _activeMultiSelection()  {
+    selectedDayEnd.day = CalendarUtils.getPartByInt(format: PartFormat.DAY);
+    selectedDayEnd.month =
+        CalendarUtils.getPartByInt(format: PartFormat.MONTH);
+    selectedDayEnd.year = CalendarUtils.getPartByInt(format: PartFormat.YEAR);
   }
 
   @override
   void didUpdateWidget(covariant CalendarMonthly oldWidget) {
     dayNames = Translator.getNameOfDay(headersStyle.weekDayStringType);
-    currDay = CalendarUtils.getPartByInt(format: PartFormat.DAY);
     currMonth = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
+    currYear= CalendarUtils.getPartByInt(format: PartFormat.YEAR);
+    multiSelectionCheck();
     super.didUpdateWidget(oldWidget);
   }
 
@@ -61,7 +126,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if(!dayOptions.compactMode)...[
+          if (!dayOptions.compactMode) ...[
             _buildDayName(),
           ],
           SizedBox(
@@ -87,15 +152,17 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             heightFactor: 1,
             child: RotatedBox(
               quarterTurns:
-                  headersStyle.weekDayStringType == WeekDayStringTypes.FULL
-                      ? 3
-                      : 0,
+              headersStyle.weekDayStringType == WeekDayStringTypes.FULL
+                  ? 3
+                  : 0,
               child: Text(
                 dayNames[index],
                 style: TextStyle(
                     color: dayNames[index] == dayName ? Colors.red : null,
                     fontSize: 15,
-                    fontFamily: CalendarOptions.of(context).font),
+                    fontFamily: CalendarOptions
+                        .of(context)
+                        .font),
               ),
             ),
           ),
@@ -106,12 +173,11 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
   _buildMonthView() {
     final int firstDayIndex =
-        CalendarMonthlyUtils.getFirstDayOfMonth(dayNames, headersStyle);
+    CalendarMonthlyUtils.getFirstDayOfMonth(dayNames, headersStyle);
     final int lastDayIndex =
         firstDayIndex + CalendarMonthlyUtils.getLastDayOfMonth(headersStyle);
     final lastMonthLastDay =
-        CalendarMonthlyUtils.getLastMonthLastDay(headersStyle);
-
+    CalendarMonthlyUtils.getLastMonthLastDay(headersStyle);
     return SizedBox(
       height: 7 * 40,
       child: Directionality(
@@ -123,14 +189,16 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             itemCount: 42,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 7, mainAxisExtent: 45, mainAxisSpacing: 5),
-            itemBuilder: (context, index) => _buildItem(
-                index, firstDayIndex, lastDayIndex, lastMonthLastDay)),
+            itemBuilder: (context, index) {
+              return _buildItem(
+                  index, firstDayIndex, lastDayIndex, lastMonthLastDay);
+            }),
       ),
     );
   }
 
-  _buildItem(
-      int index, int firstDayIndex, int lastDayIndex, int lastMonthLastDay) {
+  _buildItem(int index, int firstDayIndex, int lastDayIndex,
+      int lastMonthLastDay) {
     int day = -1;
 
     final isCurrentMonthDays = index >= firstDayIndex && index < lastDayIndex;
@@ -153,36 +221,87 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     return SizedBox();
   }
 
-  buildCurrentMonthDay(day) {
-    final curYear = CalendarMonthlyUtils.getYear(currMonth);
 
+  Widget rangeSelectionRationale(int day, List list) {
+    HighlightPainter highlightPainterStart = HighlightPainter(
+      color: Colors.blue,
+      style: HighlightPainterStyle.highlightTrailing,
+    );
+    HighlightPainter highlightPainterEnd = HighlightPainter(
+      color: Colors.blue,
+      style: HighlightPainterStyle.highlightLeading,
+    );
+    HighlightPainter highlightPainterRange = HighlightPainter(
+      color: Colors.blue,
+      style: HighlightPainterStyle.highlightAll,
+    );
+
+
+    if (selectedDayStart.day == day && selectedDayStart.month == currMonth &&
+        selectedDayStart.year == currYear)
+      return CustomPaint(
+        painter: highlightPainterStart,
+      );
+
+    if (selectedDayEnd.day == day && selectedDayEnd.month == currMonth &&
+        selectedDayEnd.year == currYear)
+      return CustomPaint(
+        painter: highlightPainterEnd,
+      );
+
+
+    for (int i = 1; i < list.length; i++) {
+      if (list[i].day == day && list[i].month == currMonth &&
+          list[i].year == currYear)
+        return CustomPaint(
+          painter: highlightPainterRange,
+        );
+    }
+
+
+    return SizedBox();
+  }
+
+  buildCurrentMonthDay(day) {
     final CalendarDateTime? specialDay = CalendarUtils.getFromSpecialDay(
-        widget.specialDays, curYear, currMonth, day);
+        widget.specialDays, currYear, currMonth, day);
 
     BoxDecoration? decoration = StyleProvider.getSpecialDayDecoration(
-        specialDay, curYear, currMonth, day);
+        specialDay, currYear, currMonth, day);
 
-    return Day(
-      dayEvents: eventSelector.getEventsByDayMonthYear(
-        CalendarDateTime(
-          year: curYear,
-          month: currMonth,
+    return Stack(
+      fit: StackFit.passthrough,
+      children: [
+        (widget.multiSelection && selectedDaysRange.length >= 2) ?
+        rangeSelectionRationale(day, selectedDaysRange)
+            : Container(),
+
+        Day(
+          dayEvents: eventSelector.getEventsByDayMonthYear(
+            CalendarDateTime(
+              year: currYear,
+              month: currMonth,
+              day: day,
+              calendarType: CalendarUtils.getCalendarType(),
+            ),
+          ),
           day: day,
-          calendarType: CalendarUtils.getCalendarType(),
+          weekDay: '',
+          dayStyle: DayStyle(
+              compactMode: DayOptions
+                  .of(context)
+                  .compactMode,
+              enabled: specialDay?.isEnableDay ?? true,
+              selected: checkSelect(day),
+              useUnselectedEffect: false,
+              decoration: decoration),
+          onCalendarChanged: () {
+            CalendarUtils.goToDay(day);
+            changeSelectDayEnd();
+            widget.onCalendarChanged.call();
+          },
         ),
-      ),
-      day: day,
-      weekDay: '',
-      dayStyle: DayStyle(
-          compactMode: DayOptions.of(context).compactMode,
-          enabled: specialDay?.isEnableDay ?? true,
-          selected: day == currDay,
-          useUnselectedEffect: false,
-          decoration: decoration),
-      onCalendarChanged: () {
-        CalendarUtils.goToDay(day);
-        widget.onCalendarChanged.call();
-      },
+      ],
     );
   }
 
@@ -191,10 +310,10 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     final month = CalendarMonthlyUtils.getMonth(currMonth + 1);
 
     final CalendarDateTime? specialDay =
-        CalendarUtils.getFromSpecialDay(widget.specialDays, year, month, day);
+    CalendarUtils.getFromSpecialDay(widget.specialDays, year, month, day);
 
     BoxDecoration? decoration =
-        StyleProvider.getSpecialDayDecoration(specialDay, year, month, day);
+    StyleProvider.getSpecialDayDecoration(specialDay, year, month, day);
 
     return Day(
       day: day,
@@ -207,7 +326,9 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             calendarType: CalendarUtils.getCalendarType()),
       ),
       dayStyle: DayStyle(
-        compactMode: DayOptions.of(context).compactMode,
+        compactMode: DayOptions
+            .of(context)
+            .compactMode,
         enabled: specialDay?.isEnableDay ?? true,
         decoration: decoration,
         selected: false,
@@ -217,6 +338,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
         // reset to first to fix switching between 31/30/29 month lengths
         CalendarUtils.nextMonth();
         CalendarUtils.goToDay(day);
+        changeSelectDayEnd();
         widget.onCalendarChanged.call();
       },
     );
@@ -227,10 +349,10 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     final month = CalendarMonthlyUtils.getMonth(currMonth - 1);
 
     final CalendarDateTime? specialDay =
-        CalendarUtils.getFromSpecialDay(widget.specialDays, year, month, day);
+    CalendarUtils.getFromSpecialDay(widget.specialDays, year, month, day);
 
     BoxDecoration? decoration =
-        StyleProvider.getSpecialDayDecoration(specialDay, year, month, day);
+    StyleProvider.getSpecialDayDecoration(specialDay, year, month, day);
 
     return Day(
       day: day,
@@ -251,8 +373,64 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
         // reset to first to fix switching between 31/30/29 month lengths
         CalendarUtils.previousMonth();
         CalendarUtils.goToDay(day);
+        changeSelectDayEnd();
         widget.onCalendarChanged.call();
       },
     );
   }
+
+  void _disableSelectedEnd() {
+    selectedDayEnd.day = -1;
+    selectedDayEnd.month = currMonth;
+    selectedDayEnd.year = -1;
+  }
+
+  void selectedDayStartPointToSelectedDayEnd() {
+    selectedDayStart.day = selectedDayEnd.day;
+    selectedDayStart.month = selectedDayEnd.month;
+    selectedDayStart.year = selectedDayEnd.year;
+  }
+
+
+
+  bool checkSelect(int day) {
+    if (selectedDayEndAndSelectedDayStartAreInCurrentMonth()) {
+      return (selectedDayEnd.day == day || selectedDayStart.day == day);
+    }
+    if (selectedDayStartIsInCurrentMonth()) {
+      return (selectedDayStart.day == day);
+    }
+    else if (selectedDayEndIsInCurrentMonth()) {
+      return selectedDayEnd.day == day;
+    }
+    else {
+      return false;
+    }
+  }
+  bool selectedDayEndAndSelectedDayStartAreInCurrentMonth(){
+    late bool result;
+    (selectedDayEnd.month == currMonth &&
+        selectedDayStart.month == currMonth && selectedDayStart.year == currYear && selectedDayEnd.year == currYear)?result=true:result=false;
+    return result;
+  }
+  bool selectedDayStartIsInCurrentMonth(){
+    late bool result;
+    (selectedDayStart.month == currMonth &&
+        selectedDayStart.year == currYear)?result=true:result=false;
+    return result;
+  }
+  bool selectedDayEndIsInCurrentMonth(){
+    late bool result;
+    (selectedDayEnd.month == currMonth && selectedDayEnd.year == currYear)?result=true:result=false;
+    return result;
+  }
 }
+
+
+
+
+
+
+
+
+

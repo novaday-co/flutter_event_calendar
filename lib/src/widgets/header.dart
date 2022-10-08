@@ -15,7 +15,9 @@ class Header extends StatelessWidget {
   Function onDateTimeReset;
   Function onYearChanged;
   Function onMonthChanged;
-  Header({required this.onViewTypeChanged,required this.onYearChanged,required this.onMonthChanged,required this.onDateTimeReset});
+
+  Function(bool isMultiSelection) onSelectionChanged;
+  Header({required this.onViewTypeChanged,required this.onYearChanged,required this.onMonthChanged,required this.onDateTimeReset,required this.onSelectionChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class Header extends StatelessWidget {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.previousMonth();
                       onMonthChanged.call();
+
                     },
                     customBorder: CircleBorder(),
                     child: Padding(
@@ -124,6 +127,7 @@ class Header extends StatelessWidget {
                           ),
                         ),
                       ),
+                      buildMultiSelection(context),
                     ],
                   ),
                 ),
@@ -133,6 +137,7 @@ class Header extends StatelessWidget {
                 children: [
                   buildRefreshView(context),
                   buildSelectViewType(context),
+
                   InkWell(
                     customBorder: CircleBorder(),
                     onTap: () {
@@ -211,4 +216,22 @@ class Header extends StatelessWidget {
     }
     return const SizedBox();
   }
+  buildMultiSelection(BuildContext context) {
+
+    return InkWell(
+      onTap: () {
+        CalendarOptions.of(context).isMultiSelection = !CalendarOptions.of(context).isMultiSelection ;
+        onSelectionChanged(CalendarOptions.of(context).isMultiSelection);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: Icon(
+          Icons.multiple_stop_rounded,
+          size: 24,
+        ),
+      ),
+    );
+  }
+
+
 }

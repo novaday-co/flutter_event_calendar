@@ -10,7 +10,7 @@ class CalendarOptions extends Model {
   Color? headerMonthShadowColor;
   double? headerMonthElevation;
   ShapeBorder? headerMonthShape;
-
+  bool isMultiSelection=false;
   CalendarOptions(
       {this.toggleViewType = false,
       this.viewType = ViewType.MONTHLY,

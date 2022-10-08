@@ -25,7 +25,7 @@ class EventCalendar extends StatefulWidget {
   // static late HeaderWeekDayStringTypes headerWeekDayStringType;
   static late String calendarLanguage;
   static  CalendarType? calendarType;
-
+  Function(List<CalendarDateTime>)? selectedDaysRangeCallBack;
   CalendarChangeCallback? onChangeDateTime;
   CalendarChangeCallback? onMonthChanged;
   CalendarChangeCallback? onYearChanged;
@@ -45,7 +45,6 @@ class EventCalendar extends StatefulWidget {
   HeaderOptions? headerOptions;
 
   Widget? Function(CalendarDateTime)? middleWidget;
-
   EventCalendar({
     GlobalKey? key,
     List<Event>? events,
@@ -55,6 +54,7 @@ class EventCalendar extends StatefulWidget {
     this.dayOptions,
     this.eventOptions,
     this.headerOptions,
+    this.selectedDaysRangeCallBack,
     this.showLoadingForEvent = false,
     this.specialDays = const [],
     this.onChangeDateTime,
@@ -133,9 +133,17 @@ class _EventCalendarState extends State<EventCalendar> {
                       widget.onYearChanged?.call(EventCalendar.dateTime!);
                       setState(() {});
                     },
+                    onSelectionChanged: (bool isMultiSelection) {
+                      CalendarOptions.of(context).isMultiSelection = isMultiSelection;
+                      setState(() {});
+                    },
                   ),
                   isMonthlyView()
                       ? CalendarMonthly(
+       selectedDaysRangeCallBack:(List<CalendarDateTime> selectedRange){
+         widget.selectedDaysRangeCallBack!(selectedRange);
+        },
+                      multiSelection: CalendarOptions.of(context).isMultiSelection,
                           specialDays: widget.specialDays,
                           onCalendarChanged: () {
                             widget.onChangeDateTime

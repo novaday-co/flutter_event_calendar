@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
+
 void main() {
+
   runApp(MyApp());
+
+
 }
 
 class MyApp extends StatelessWidget {
@@ -25,10 +29,15 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // than having to individually change instances of widgets.
     return Scaffold(
-      body: EventCalendar(
-        calendarType: CalendarType.JALALI,
-        calendarLanguage: 'fa',
-        calendarOptions: CalendarOptions(viewType: ViewType.MONTHLY),
+      body: SafeArea(
+        child: EventCalendar(
+          selectedDaysRangeCallBack: (List<CalendarDateTime> selectedRange){
+            print(selectedRange);
+          },
+          calendarType: CalendarType.GREGORIAN,
+          calendarLanguage: 'fa',
+          calendarOptions: CalendarOptions(viewType: ViewType.MONTHLY),
+        ),
       ),
     );
   }

@@ -119,27 +119,27 @@ class CalendarDateTime {
     return DateTime(year, month, day);
   }
 
-  static List<CalendarDateTime> getDayListCurrentMonth(
+   List<CalendarDateTime> daysRange(
       CalendarDateTime startDate,
       CalendarDateTime endDate,
       ) {
     if (startDate.calendarType == CalendarType.JALALI) {
-      return getDayListJalaliDays(
+      return jalaliDaysRange(
           startDate, endDate);
     } else {
-      return getDayListGregorianDays(startDate,endDate);
+      return gregorianDaysRange(startDate,endDate);
     }
   }
 
 
-  static List<CalendarDateTime> getDayListJalaliDays(CalendarDateTime startDate,
+   List<CalendarDateTime> jalaliDaysRange(CalendarDateTime startDate,
       CalendarDateTime endDate) {
     List<CalendarDateTime> days = [];
     int counter = 0;
     int day = startDate.day;
     int year = startDate.year;
     int month = startDate.month;
-    int currentMonthDays = monthLength(month, year);
+    int currentMonthDays = jalaliMonthLength(month, year);
     int difference= Jalali(startDate.year, startDate.month, startDate.day).distanceTo(Jalali(endDate.year, endDate.month, endDate.day));
     for (int index = day; counter <= difference; index++) {
       counter++;
@@ -149,10 +149,10 @@ class CalendarDateTime {
           month=1;
           year=year+1;
           index=1;
-          currentMonthDays = monthLength(month,year);
+          currentMonthDays = jalaliMonthLength(month,year);
         }else if(month<=12 ){
           index=1;
-          currentMonthDays = monthLength(month,year);
+          currentMonthDays = jalaliMonthLength(month,year);
         }
 
       }
@@ -170,9 +170,9 @@ class CalendarDateTime {
 
   }
 
-  static List<CalendarDateTime> getDayListGregorianDays(
+   List<CalendarDateTime> gregorianDaysRange(
       CalendarDateTime startDate,
-      CalendarDateTime endDate,) {
+      CalendarDateTime endDate) {
     List<CalendarDateTime> days = [];
 
     for (int i = 0; i <= endDate.toDateTime().difference(startDate.toDateTime()).inDays; i++) {
@@ -183,7 +183,7 @@ class CalendarDateTime {
   }
 
 
-  static int  monthLength(int month,int year ) {
+   int  jalaliMonthLength(int month,int year ) {
     if (month <= 6) {
       return 31;
     } else if (month <= 11) {

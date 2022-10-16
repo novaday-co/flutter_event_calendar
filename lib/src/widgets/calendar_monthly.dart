@@ -69,7 +69,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
 
 
-  void changeSelectDayEnd() {
+  void changeDay() {
     if (widget.multiSelection == false) {
       selectedDaysRange.clear();
       _activeSingleSelection();
@@ -79,7 +79,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     }
   }
 
-  void multiSelectionCheck() {
+  void activeSingleSelectionInMonthChange() {
     if (widget.multiSelection == false) {
       selectedDaysRange.clear();
       _activeSingleSelection();
@@ -88,7 +88,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
   listSelectedDays() {
     selectedDaysRange.clear();
-    selectedDaysRange = CalendarDateTime.getDayListCurrentMonth(selectedDayStart, selectedDayEnd );
+    selectedDaysRange = selectedDayStart.daysRange(selectedDayStart, selectedDayEnd );
      (selectedDaysRange.length == 0) ?selectedDayStartPointToSelectedDayEnd(): widget.selectedDaysRangeCallBack(selectedDaysRange);
   }
 
@@ -115,7 +115,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
     dayNames = Translator.getNameOfDay(headersStyle.weekDayStringType);
     currMonth = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
     currYear= CalendarUtils.getPartByInt(format: PartFormat.YEAR);
-    multiSelectionCheck();
+    activeSingleSelectionInMonthChange();
     super.didUpdateWidget(oldWidget);
   }
 
@@ -222,7 +222,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
   }
 
 
-  Widget rangeSelectionRationale(int day, List list) {
+  Widget rangeSelectionHighlightPainter(int day, List list) {
     HighlightPainter highlightPainterStart = HighlightPainter(
       color: Colors.blue,
       style: HighlightPainterStyle.highlightTrailing,
@@ -273,7 +273,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       fit: StackFit.passthrough,
       children: [
         (widget.multiSelection && selectedDaysRange.length >= 2) ?
-        rangeSelectionRationale(day, selectedDaysRange)
+        rangeSelectionHighlightPainter(day, selectedDaysRange)
             : Container(),
 
         Day(
@@ -292,12 +292,12 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
                   .of(context)
                   .compactMode,
               enabled: specialDay?.isEnableDay ?? true,
-              selected: checkSelect(day),
+              selected: checkSelected(day),
               useUnselectedEffect: false,
               decoration: decoration),
           onCalendarChanged: () {
             CalendarUtils.goToDay(day);
-            changeSelectDayEnd();
+            changeDay();
             widget.onCalendarChanged.call();
           },
         ),
@@ -338,7 +338,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
         // reset to first to fix switching between 31/30/29 month lengths
         CalendarUtils.nextMonth();
         CalendarUtils.goToDay(day);
-        changeSelectDayEnd();
+        changeDay();
         widget.onCalendarChanged.call();
       },
     );
@@ -373,7 +373,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
         // reset to first to fix switching between 31/30/29 month lengths
         CalendarUtils.previousMonth();
         CalendarUtils.goToDay(day);
-        changeSelectDayEnd();
+        changeDay();
         widget.onCalendarChanged.call();
       },
     );
@@ -393,7 +393,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
 
 
-  bool checkSelect(int day) {
+  bool checkSelected(int day) {
     if (selectedDayEndAndSelectedDayStartAreInCurrentMonth()) {
       return (selectedDayEnd.day == day || selectedDayStart.day == day);
     }

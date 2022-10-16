@@ -31,10 +31,10 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: EventCalendar(
-          selectedDaysRangeCallBack: (List<CalendarDateTime> selectedRange){
+          selectedDaysRangeChanged: (List<CalendarDateTime> selectedRange){
             print(selectedRange);
           },
-          calendarType: CalendarType.GREGORIAN,
+          calendarType: CalendarType.JALALI,
           calendarLanguage: 'fa',
           calendarOptions: CalendarOptions(viewType: ViewType.MONTHLY),
         ),

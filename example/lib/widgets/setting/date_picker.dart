@@ -26,7 +26,7 @@ class _DatePickerState extends State<DatePicker> {
   late StreamController streamController;
 
   bool existElement = false;
-  bool emptyField=false;
+  bool emptyField = false;
   int day = 0;
   int month = 0;
   int year = 0;
@@ -35,73 +35,83 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   void initState() {
-
-   calendarEventModel = getit<CalendarEventModel>();
-  specialDayList = calendarEventModel.specialDays;
+    calendarEventModel = getit<CalendarEventModel>();
+    specialDayList = calendarEventModel.specialDays;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     streamController = getit<StreamController<CalendarEventModel>>();
-    CalendarDateTime calendarDateTime=CalendarDateTime(year: year, month: month, day: day, calendarType: CalendarUtils.getCalendarType(),color: Colors.green);
-
+    CalendarDateTime calendarDateTime = CalendarDateTime(
+        year: year,
+        month: month,
+        day: day,
+        calendarType: CalendarUtils.getCalendarType(),
+        color: Colors.green);
 
     return Column(
-       children: [
-         HeaderSpecialDays(
-           calendarDateTime:calendarDateTime
-       ,speacialDate: (CalendarDateTime calendarDateTimee){
-             year=calendarDateTimee.year;
-             day=calendarDateTimee.day;
-             month=calendarDateTimee.month;
-           calendarDateTime=calendarDateTimee;
-         },),
-         Container(
-           margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-           child: TextButton(
-             style: ElevatedButton.styleFrom(
-               primary: Colors.blue,
-             minimumSize: const Size.fromHeight(10),
-             ),
-             onPressed: () {
-
-              existElement= searchForDuplicateDate(specialDayList,calendarDateTime,context);
-              emptyField=showToastNotchooseDate(calendarDateTime,context);
-              if(!existElement && !emptyField){
-                 streamController.sink.add(calendarEventModel);
-                 setState(() {
-                   specialDayList.add(calendarDateTime);
-                 });
-
-
-             }
-
-             },
-             child: Text("Add",style: TextStyle(color: Colors.white),),
-           ),
-         ),
-         specialDayList.length>0? ListView.separated(
-           itemCount: specialDayList.length,
-           shrinkWrap: true,
-           itemBuilder: (BuildContext context, int index) {
-             return Row(
-               mainAxisAlignment: MainAxisAlignment.spaceAround,
-               children: [
-                 Text(specialDayList[index].day.toString()),
-                 Text(specialDayList[index].month.toString()),
-                 Text(specialDayList[index].year.toString()),
-                 IconButton(onPressed: (){
-                   setState(() {
-                     specialDayList.removeAt(index);
-                 });
-                 }, icon: Icon(Icons.delete))
-               ],
-             );
-           },
-           separatorBuilder: (BuildContext context, int index) => Divider(),
-         ): Container()
-       ],
-     );
+      children: [
+        HeaderSpecialDays(
+          calendarDateTime: calendarDateTime,
+          speacialDate: (CalendarDateTime calendarDateTimee) {
+            year = calendarDateTimee.year;
+            day = calendarDateTimee.day;
+            month = calendarDateTimee.month;
+            calendarDateTime = calendarDateTimee;
+          },
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: TextButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue,
+              minimumSize: const Size.fromHeight(10),
+            ),
+            onPressed: () {
+              existElement = searchForDuplicateDate(
+                  specialDayList, calendarDateTime, context);
+              emptyField = showToastNotchooseDate(calendarDateTime, context);
+              if (!existElement && !emptyField) {
+                streamController.sink.add(calendarEventModel);
+                setState(() {
+                  specialDayList.add(calendarDateTime);
+                });
+              }
+            },
+            child: Text(
+              "Add",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+        specialDayList.length > 0
+            ? ListView.separated(
+                itemCount: specialDayList.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(specialDayList[index].day.toString()),
+                      Text(specialDayList[index].month.toString()),
+                      Text(specialDayList[index].year.toString()),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              specialDayList.removeAt(index);
+                            });
+                          },
+                          icon: Icon(Icons.delete))
+                    ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    Divider(),
+              )
+            : SizedBox()
+      ],
+    );
   }
 }
 
@@ -113,7 +123,7 @@ bool searchForDuplicateDate(List<CalendarDateTime> array,
         array[i].day == calendarDateTime.day) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("this date already exist"),
-       duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
       ));
       return true;
     }
@@ -121,8 +131,11 @@ bool searchForDuplicateDate(List<CalendarDateTime> array,
   return false;
 }
 
-bool showToastNotchooseDate(CalendarDateTime calendarDateTime, BuildContext context){
-  if(calendarDateTime.year==0 || calendarDateTime.month==0 || calendarDateTime.day==0){
+bool showToastNotchooseDate(
+    CalendarDateTime calendarDateTime, BuildContext context) {
+  if (calendarDateTime.year == 0 ||
+      calendarDateTime.month == 0 ||
+      calendarDateTime.day == 0) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("please enter a valid date "),
       duration: const Duration(seconds: 1),

@@ -19,36 +19,28 @@ class CalendarOptions extends StatefulWidget {
 
 class _CalendarOptionsState extends State<CalendarOptions> {
   late StreamController streamController;
+  late List<String> fontList;
+  late List<String> toggleViewTypeList;
+  late List<String> viewTypeList;
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
+  late List<ExpandedItemModel> settingItemsCalendarOptions;
   @override
   void initState() {
     streamController = getit<StreamController<CalendarEventModel>>();
-    streamController.stream.listen((event) {
-     //   setState(() {
-      calendarEventModel = event;
-     //   });
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    List<String> fontList = ['Dancing', 'IRanSans', 'Default'];
-    List<String> toggleViewTypeList = ['true', 'false'];
-    List<String> viewTypeList = ['DAILY', 'MONTHLY'];
-
-    List<ExpandedItemModel> settingItemsCalendarOptions = [
+    fontList = ['Dancing', 'IRanSans', 'Default'];
+    toggleViewTypeList = ['true', 'false'];
+    viewTypeList = ['DAILY', 'MONTHLY'];
+    settingItemsCalendarOptions = [
       ExpandedItemModel(
           icon: 'assets/language_icon.svg',
           title: "View Type",
           body: RadioButtonList(
             initValue: calendarEventModel.calendarOptions.viewType.name,
             listItems: viewTypeList,
-            onChanged: (dynamic keyName) {
+            onChanged: (keyName) {
               calendarEventModel.calendarOptions.viewType = ViewType.values
                   .firstWhere((element) => element.name == keyName);
               streamController.sink.add(calendarEventModel);
-              setState(() {});
             },
           ),
           definition:
@@ -60,13 +52,10 @@ class _CalendarOptionsState extends State<CalendarOptions> {
               initValue:
                   calendarEventModel.calendarOptions.toggleViewType.toString(),
               listItems: toggleViewTypeList,
-              onChanged: (dynamic keyName) {
+              onChanged: (keyName) {
                 calendarEventModel.calendarOptions.toggleViewType =
                     keyName.toLowerCase() == 'true';
                 streamController.sink.add(calendarEventModel);
-                setState(() {
-
-                });
               }),
           definition:
               "ToggleView:It adds an icon that clicking on it helps to switch between Monthly and Daily"),
@@ -78,29 +67,31 @@ class _CalendarOptionsState extends State<CalendarOptions> {
                   ? 'Default'
                   : calendarEventModel.calendarOptions.font,
               listItems: fontList,
-              onChanged: (dynamic keyName) {
+              onChanged: (keyName) {
                 calendarEventModel.calendarOptions.font = keyName;
                 streamController.sink.add(calendarEventModel);
-                setState(() {});
               }),
           definition: "Font: permits calendar font customization."),
       ExpandedItemModel(
           icon: 'assets/color_filter.svg',
           title: 'Calendar Color',
           body: ColorPickerRow(
-              title: "backgoround",
+              title: "background",
               currentColor:
                   calendarEventModel.calendarOptions.headerMonthBackColor,
-              onChanged: (dynamic colorSelected) {
+              onChanged: (colorSelected) {
                 calendarEventModel.calendarOptions.headerMonthBackColor =
                     colorSelected;
                 streamController.sink.add(calendarEventModel);
-                setState(() {});
               }),
-          definition: "Calendar Color: The color of the Calendar's backgoround")
+          definition: "Calendar Color: The color of the Calendar's background")
     ];
+    super.initState();
+  }
 
-    return itemSetting(
+  @override
+  Widget build(BuildContext context) {
+    return ItemSetting(
         title: "Calendar Options",
         expandeditemModelList: settingItemsCalendarOptions);
   }

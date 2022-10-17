@@ -1,39 +1,33 @@
 import 'package:flutter/material.dart';
 
-
 class RadioButtonList extends StatefulWidget {
   RadioButtonList(
       {Key? key,
-     required this.onChanged,
-        required this.listItems,
-        required this.initValue
-      })
+      required this.onChanged,
+      required this.listItems,
+      required this.initValue})
       : super(key: key);
 
-  Function(dynamic keyName) onChanged;
-  List<dynamic> listItems;
-  final dynamic initValue;
+  Function(String keyName) onChanged;
+  List<String> listItems;
+  final String initValue;
 
   @override
   State<RadioButtonList> createState() => _RadioButtonListState();
 }
 
-
 class _RadioButtonListState extends State<RadioButtonList> {
-   late var groubValueKey ="";
+  late String groubValueKey;
   @override
   void initState() {
-    groubValueKey=widget.initValue;
+    groubValueKey = widget.initValue;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
-      child:
-      Column(
-
+      child: Column(
         children: [
           ListView.builder(
             itemCount: widget.listItems.length,
@@ -43,15 +37,14 @@ class _RadioButtonListState extends State<RadioButtonList> {
                 title: Text(widget.listItems[index]),
                 value: widget.listItems[index],
                 groupValue: groubValueKey,
-                onChanged: (dynamic? value) {
-                    groubValueKey = value!;
-                      widget.onChanged(value);
+                onChanged: (value) {
+                  groubValueKey = value as String;
+                  widget.onChanged(value);
+                  setState(() {});
                 },
               );
             },
           ),
-
-
         ],
       ),
     );

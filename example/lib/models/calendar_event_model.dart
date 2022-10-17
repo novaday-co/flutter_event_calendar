@@ -14,12 +14,8 @@ class CalendarEventModel extends Equatable {
       required this.calendarOptions,
       required this.headerOptions,
       required this.dayOptions,
-        required this.specialDays
-      });
+      required this.specialDays});
 
   @override
-
-  List<Object> get props =>
-      [specialDays];
+  List<Object> get props => [specialDays];
 }
-

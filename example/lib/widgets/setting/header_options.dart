@@ -21,31 +21,21 @@ class _HeaderOptionsState extends State<HeaderOptions> {
   late StreamController streamController;
 
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
-  List<String> calendarMonthTypeList = [
-    MonthStringTypes.SHORT.name,
-    MonthStringTypes.FULL.name
-  ];
-  List<String> calendarWeekDayTypeList = [
-    WeekDayStringTypes.SHORT.name,
-    WeekDayStringTypes.FULL.name
-  ];
+  late List<String> calendarMonthTypeList;
+  late List<String> calendarWeekDayTypeList;
+  late List<ExpandedItemModel> settingItemsHeaderOptions;
   @override
   void initState() {
     streamController = getit<StreamController<CalendarEventModel>>();
-    streamController.stream.listen((event) {
-    //  setState(() {
-       calendarEventModel = event;
-    //  });
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-
-
-    List<ExpandedItemModel> settingItemsHeaderOptions = [
+    calendarMonthTypeList = [
+      MonthStringTypes.SHORT.name,
+      MonthStringTypes.FULL.name
+    ];
+    calendarWeekDayTypeList = [
+      WeekDayStringTypes.SHORT.name,
+      WeekDayStringTypes.FULL.name
+    ];
+    settingItemsHeaderOptions = [
       ExpandedItemModel(
           icon: 'assets/calendar.svg',
           title: "WeekDay Type",
@@ -53,13 +43,12 @@ class _HeaderOptionsState extends State<HeaderOptions> {
               initValue:
                   calendarEventModel.headerOptions.weekDayStringType.name,
               listItems: calendarWeekDayTypeList,
-              onChanged: (dynamic keyName) {
+              onChanged: (keyName) {
                 calendarEventModel.headerOptions.weekDayStringType =
                     WeekDayStringTypes.values
                         .firstWhere((element) => element.name == keyName);
                 streamController.sink.add(calendarEventModel);
-                setState(() {
-                });
+                setState(() {});
               }),
           definition: "WeekDayType:abbreviate days of the week"),
       ExpandedItemModel(
@@ -68,13 +57,12 @@ class _HeaderOptionsState extends State<HeaderOptions> {
           body: RadioButtonList(
               initValue: calendarEventModel.headerOptions.monthStringType.name,
               listItems: calendarMonthTypeList,
-              onChanged: (dynamic keyName) {
+              onChanged: (keyName) {
                 calendarEventModel.headerOptions.monthStringType =
                     MonthStringTypes.values
                         .firstWhere((element) => element.name == keyName);
                 streamController.sink.add(calendarEventModel);
-                setState(() {
-                });
+                setState(() {});
               }),
           definition: "Monthtype:abbreviate months of the year"),
       ExpandedItemModel(
@@ -83,12 +71,11 @@ class _HeaderOptionsState extends State<HeaderOptions> {
           body: ColorPickerRow(
               title: "navigation",
               currentColor: calendarEventModel.headerOptions.navigationColor,
-              onChanged: (dynamic colorSelected) {
+              onChanged: (colorSelected) {
                 calendarEventModel.headerOptions.navigationColor =
                     colorSelected;
                 streamController.sink.add(calendarEventModel);
-                setState(() {
-                });
+                setState(() {});
               }),
           definition: "navigationColor:The color of Header navigation icons"),
       ExpandedItemModel(
@@ -101,13 +88,16 @@ class _HeaderOptionsState extends State<HeaderOptions> {
                 calendarEventModel.headerOptions.headerTextColor =
                     colorSelected;
                 streamController.sink.add(calendarEventModel);
-                setState(() {
-                });
+                setState(() {});
               }),
           definition: "headerTextColor:The color of Header Text"),
     ];
+    super.initState();
+  }
 
-    return itemSetting(
+  @override
+  Widget build(BuildContext context) {
+    return ItemSetting(
       title: "Header Options",
       expandeditemModelList: settingItemsHeaderOptions,
     );

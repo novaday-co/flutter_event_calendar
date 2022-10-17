@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar_example/models/expanded_item_model.dart';
 import 'package:flutter_event_calendar_example/widgets/setting/expanded_card_setting.dart';
 
-class itemSetting extends StatefulWidget {
-  itemSetting(
+class ItemSetting extends StatefulWidget {
+  ItemSetting(
       {Key? key, required this.expandeditemModelList, required this.title})
       : super(key: key);
   List<ExpandedItemModel> expandeditemModelList;
   String title;
   @override
-  State<itemSetting> createState() => _itemSettingState();
+  State<ItemSetting> createState() => _ItemSettingState();
 }
 
-class _itemSettingState extends State<itemSetting> {
+class _ItemSettingState extends State<ItemSetting> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,7 +47,6 @@ class _itemSettingState extends State<itemSetting> {
                     index: index,
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -56,13 +55,13 @@ class _itemSettingState extends State<itemSetting> {
                     ),
                     Expanded(
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 15),
-                          child: Text(
-                      widget.expandeditemModelList[index].definition,
-                      style: TextStyle(fontSize: 12),
-                      textAlign: TextAlign.start,
-                    ),
-                        )),
+                      margin: EdgeInsets.only(bottom: 15),
+                      child: Text(
+                        widget.expandeditemModelList[index].definition,
+                        style: TextStyle(fontSize: 12),
+                        textAlign: TextAlign.start,
+                      ),
+                    )),
                   ],
                 ),
               ],

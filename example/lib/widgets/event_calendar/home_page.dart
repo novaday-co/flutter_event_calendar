@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar_example/widgets/event_calendar/eventCalendar.dart';
+import 'package:flutter_event_calendar_example/widgets/event_calendar/event_calendar.dart';
 import 'package:flutter_event_calendar_example/widgets/setting/setting.dart';
 import 'package:flutter_event_calendar_example/widgets/code_preview/code_preview.dart';
 class HomePage extends StatefulWidget {

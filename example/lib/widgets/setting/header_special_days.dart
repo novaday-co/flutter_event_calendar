@@ -10,12 +10,12 @@ import 'package:flutter_event_calendar_example/widgets/setting/date_picker_item.
 import 'package:flutter_event_calendar/src/models/datetime.dart';
 
 class HeaderSpecialDays extends StatefulWidget {
-  HeaderSpecialDays({Key? key,required this.speacialDate,required this.calendarDateTime}) : super(key: key);
-  Function(CalendarDateTime calendarDateTime)  speacialDate;
+  HeaderSpecialDays(
+      {Key? key, required this.speacialDate, required this.calendarDateTime})
+      : super(key: key);
+  Function(CalendarDateTime calendarDateTime) speacialDate;
 
-
-
-   CalendarDateTime calendarDateTime;
+  CalendarDateTime calendarDateTime;
   @override
   State<HeaderSpecialDays> createState() => _HeaderSpecialDaysState();
 }
@@ -25,6 +25,7 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     //listbuilder generator
@@ -33,12 +34,10 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
         date: widget.calendarDateTime.day,
         selectDate: SelectDay(
           onHeaderChanged: (int selectedDay) {
-              setState(() {
-                widget.calendarDateTime.day=selectedDay;
-
-              });
-              widget.speacialDate(widget.calendarDateTime);
-
+            setState(() {
+              widget.calendarDateTime.day = selectedDay;
+            });
+            widget.speacialDate(widget.calendarDateTime);
           },
           dayStyle: DayOptions(selectedColor: Colors.blue),
         ),
@@ -49,9 +48,8 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
         selectDate: SelectMonth(
           onHeaderChanged: (int selectedMonth) {
             setState(() {
-
-              widget.calendarDateTime.month=selectedMonth;
-           widget.speacialDate(widget.calendarDateTime);
+              widget.calendarDateTime.month = selectedMonth;
+              widget.speacialDate(widget.calendarDateTime);
             });
           },
           monthStyle: MonthOptions(selectedColor: Colors.blue),
@@ -63,7 +61,7 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
         selectDate: SelectYear(
           onHeaderChanged: (int selectedYear) {
             setState(() {
-              widget.calendarDateTime.year=selectedYear;
+              widget.calendarDateTime.year = selectedYear;
               widget.speacialDate(widget.calendarDateTime);
             });
           },
@@ -81,14 +79,14 @@ class _HeaderSpecialDaysState extends State<HeaderSpecialDays> {
         children: List.generate(selectBottomSheetDate.length, (index) {
           return Column(
             children: [
-        selectBottomSheetDate[index],
-              Container(padding:EdgeInsets.only(top: 10) ,child: Text(selectBottomSheetDate[index].date==0 ?'_ _ _':selectBottomSheetDate[index].date.toString())),
+              selectBottomSheetDate[index],
+              Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(selectBottomSheetDate[index].date == 0
+                      ? '_ _ _'
+                      : selectBottomSheetDate[index].date.toString())),
             ],
           );
-        }
-        )
-    );
-
-
+        }));
   }
 }

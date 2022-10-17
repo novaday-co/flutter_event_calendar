@@ -13,22 +13,18 @@ class CodePreview extends StatefulWidget {
 }
 
 class CodePreviewState extends State<CodePreview> {
-  late Stream stream;
-  late StreamSubscription<CalendarEventModel> streamSubscription;
   StreamController<CalendarEventModel> streamController =
       getit<StreamController<CalendarEventModel>>();
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
+  late String code;
   @override
   void initState() {
     streamController.stream.listen((event) {
       calendarEventModel = event;
     });
     super.initState();
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    String code = """
+    code = """
                 EventCalendar(
               specialDays:${calendarEventModel.specialDays},
               calendarType: ${calendarEventModel.calendarType},
@@ -50,17 +46,10 @@ class CodePreviewState extends State<CodePreview> {
               ),
             ),
             """;
+  }
 
-    void copyCodePreview() {
-      FlutterClipboard.copy(code)
-          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Copied"),
-                backgroundColor: Colors.grey,
-        duration: const Duration(seconds: 1),
-              )));
-    }
-
-    SyntaxView syntaxView = SyntaxView(
+  SyntaxView syntaxViewTheme() {
+    return SyntaxView(
         code: code,
         syntax: Syntax.DART,
         syntaxTheme: SyntaxTheme.vscodeLight(),
@@ -68,15 +57,30 @@ class CodePreviewState extends State<CodePreview> {
         withZoom: true,
         withLinesCount: true,
         expanded: true);
+  }
+
+  void copyCodePreview() {
+    FlutterClipboard.copy(code)
+        .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Copied"),
+              backgroundColor: Colors.grey,
+              duration: const Duration(seconds: 1),
+            )));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SyntaxView syntaxView = syntaxViewTheme();
 
     return Scaffold(
         body: Stack(
       alignment: AlignmentDirectional.topEnd,
       children: [
         Container(
-            margin: EdgeInsets.only(bottom: 10, left: 10),
-            height: MediaQuery.of(context).size.height,
-            child: syntaxView,),
+          margin: EdgeInsets.only(bottom: 10, left: 10),
+          height: MediaQuery.of(context).size.height,
+          child: syntaxView,
+        ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: ElevatedButton(
@@ -85,7 +89,7 @@ class CodePreviewState extends State<CodePreview> {
             ),
             child: const Icon(Icons.copy),
             onPressed: () {
-             copyCodePreview();
+              copyCodePreview();
             },
           ),
         ),

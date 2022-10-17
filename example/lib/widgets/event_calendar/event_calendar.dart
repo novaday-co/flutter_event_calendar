@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import 'package:flutter_event_calendar_example/injection.dart';
 import 'package:flutter_event_calendar_example/models/calendar_event_model.dart';
-import '../../injection.dart';
+
 class EventCalendarPage extends StatefulWidget {
   const EventCalendarPage({Key? key}) : super(key: key);
 
@@ -13,15 +14,11 @@ class EventCalendarPage extends StatefulWidget {
 class _EventCalendarPageState extends State<EventCalendarPage> {
   StreamController<CalendarEventModel> streamController =
   getit<StreamController<CalendarEventModel>>();
-  late Stream stream;
-  late StreamSubscription<CalendarEventModel> streamSubscription;
   CalendarEventModel calendarEventModel = getit<CalendarEventModel>();
   @override
   void initState() {
     streamController.stream.listen((event) {
-    //  setState(() {
         calendarEventModel = event;
-   //  });
     });
     super.initState();
   }

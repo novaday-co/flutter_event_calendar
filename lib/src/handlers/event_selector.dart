@@ -1,5 +1,4 @@
 import '../../flutter_event_calendar.dart';
-import 'event_calendar.dart';
 
 class EventSelector {
   updateEvents() {

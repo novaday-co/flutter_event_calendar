@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
+
+import '../../flutter_event_calendar.dart';
 
 class Day extends StatelessWidget {
   String weekDay;
@@ -78,17 +77,14 @@ class Day extends StatelessWidget {
               curve: Curves.ease,
               padding: dayStyle!.compactMode
                   ? EdgeInsets.zero
-                  : (EdgeInsets.all(
-                      calendarOptions?.viewType == ViewType.MONTHLY
-                          ? 0
-                          : HeaderOptions.of(context).weekDayStringType ==
-                                  WeekDayStringTypes.FULL
-                              ? 4
-                              : 0)),
+                  : (EdgeInsets.all(calendarOptions?.viewType == ViewType.MONTHLY
+                      ? 0
+                      : HeaderOptions.of(context).weekDayStringType == WeekDayStringTypes.FULL
+                          ? 4
+                          : 0)),
               decoration: BoxDecoration(
-                  color: dayStyle!.selected
-                      ? dayOptions!.selectedBackgroundColor
-                      : dayOptions!.unselectedBackgroundColor,
+                  color:
+                      dayStyle!.selected ? dayOptions!.selectedBackgroundColor : dayOptions!.unselectedBackgroundColor,
                   shape: BoxShape.circle),
               constraints: BoxConstraints(
                 minWidth: double.infinity,
@@ -108,8 +104,7 @@ class Day extends StatelessWidget {
                       ),
                     ),
                   ),
-                  dayOptions!.eventCounterViewType ==
-                          DayEventCounterViewType.DOT
+                  dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
                       ? Align(
                           alignment: Alignment.bottomCenter,
                           // child: dotMaker(context),
@@ -141,10 +136,7 @@ class Day extends StatelessWidget {
         decoration: dayStyle?.decoration,
         width: dayStyle!.compactMode
             ? 45
-            : (HeaderOptions.of(context).weekDayStringType ==
-                    WeekDayStringTypes.FULL
-                ? 80
-                : 60),
+            : (HeaderOptions.of(context).weekDayStringType == WeekDayStringTypes.FULL ? 80 : 60),
         child: child,
       ),
     );
@@ -158,8 +150,7 @@ class Day extends StatelessWidget {
       widgets.add(
         Container(
           margin: EdgeInsets.only(
-              bottom: HeaderOptions.of(context).weekDayStringType ==
-                      WeekDayStringTypes.SHORT
+              bottom: HeaderOptions.of(context).weekDayStringType == WeekDayStringTypes.SHORT
                   ? (dayStyle!.compactMode ? 4 : 8)
                   : 4),
           width: 5,
@@ -208,9 +199,7 @@ class Day extends StatelessWidget {
   }
 
   _getTitleColor() {
-    return dayStyle!.selected
-        ? dayOptions!.weekDaySelectedColor
-        : dayOptions!.weekDayUnselectedColor;
+    return dayStyle!.selected ? dayOptions!.weekDaySelectedColor : dayOptions!.weekDayUnselectedColor;
   }
 
   _shouldHaveTransparentColor() {

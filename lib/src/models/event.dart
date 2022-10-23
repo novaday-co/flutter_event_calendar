@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import '../../flutter_event_calendar.dart';
 
 class Event {
   late int listIndex;

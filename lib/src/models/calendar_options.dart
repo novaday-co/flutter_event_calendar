@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import '../../flutter_event_calendar.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CalendarOptions extends Model {
@@ -20,6 +20,5 @@ class CalendarOptions extends Model {
       this.headerMonthShape,
       this.font = ''});
 
-  static CalendarOptions of(BuildContext context) =>
-      ScopedModel.of<CalendarOptions>(context);
+  static CalendarOptions of(BuildContext context) => ScopedModel.of<CalendarOptions>(context);
 }

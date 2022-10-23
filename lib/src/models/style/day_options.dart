@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import '../../../flutter_event_calendar.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class DayOptions extends Model {
@@ -37,6 +37,5 @@ class DayOptions extends Model {
     this.dayFontSize = 12,
   });
 
-  static DayOptions of(BuildContext context) =>
-      ScopedModel.of<DayOptions>(context);
+  static DayOptions of(BuildContext context) => ScopedModel.of<DayOptions>(context);
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
+
+import '../../flutter_event_calendar.dart';
+import '../handlers/calendar_utils.dart';
+import '../handlers/translator.dart';
+import '../models/style/select_month_options.dart';
 
 class SelectMonth extends StatelessWidget {
   late List months;
@@ -16,8 +16,7 @@ class SelectMonth extends StatelessWidget {
 
   late BoxDecoration selectedDecoration;
 
-  final int currentMonth =
-      CalendarUtils.getPartByInt(format: PartFormat.MONTH);
+  final int currentMonth = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +27,7 @@ class SelectMonth extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(26), topRight: Radius.circular(26)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(26), topRight: Radius.circular(26)),
         color: Colors.white,
       ),
       height: 380,
@@ -56,10 +54,8 @@ class SelectMonth extends StatelessWidget {
                   children: [
                     Table(
                       border: new TableBorder(
-                        horizontalInside:
-                            BorderSide(color: Colors.black12, width: 0.2),
-                        verticalInside:
-                            BorderSide(color: Colors.black12, width: 0.2),
+                        horizontalInside: BorderSide(color: Colors.black12, width: 0.2),
+                        verticalInside: BorderSide(color: Colors.black12, width: 0.2),
                       ),
                       children: monthsWidgetMaker(context),
                     )
@@ -93,8 +89,7 @@ class SelectMonth extends StatelessWidget {
                 }),
                 child: Container(
                   padding: EdgeInsets.all(15),
-                  decoration:
-                      mMonth == currentMonth ? selectedDecoration : null,
+                  decoration: mMonth == currentMonth ? selectedDecoration : null,
                   child: Center(
                       child: FittedBox(
                     fit: BoxFit.fitWidth,

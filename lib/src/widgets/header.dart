@@ -1,21 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
-import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
-import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
-import 'package:flutter_event_calendar/src/widgets/select_month.dart';
-import 'package:flutter_event_calendar/src/widgets/select_year.dart';
+
+import '../../flutter_event_calendar.dart';
+import '../handlers/calendar_utils.dart';
+import '../models/style/select_month_options.dart';
+import '../models/style/select_year_options.dart';
+import 'select_month.dart';
+import 'select_year.dart';
 
 class Header extends StatelessWidget {
   Function onViewTypeChanged;
   Function onDateTimeReset;
   Function onYearChanged;
   Function onMonthChanged;
-  Header({required this.onViewTypeChanged,required this.onYearChanged,required this.onMonthChanged,required this.onDateTimeReset});
+  Header(
+      {required this.onViewTypeChanged,
+      required this.onYearChanged,
+      required this.onMonthChanged,
+      required this.onDateTimeReset});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,7 @@ class Header extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Directionality(
-          textDirection: EventCalendar.calendarProvider.isRTL()
-              ? TextDirection.rtl
-              : TextDirection.ltr,
+          textDirection: EventCalendar.calendarProvider.isRTL() ? TextDirection.rtl : TextDirection.ltr,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             // Title , next and previous button
@@ -57,9 +56,7 @@ class Header extends StatelessWidget {
               Expanded(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  alignment: EventCalendar.calendarProvider.isRTL()
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
+                  alignment: EventCalendar.calendarProvider.isRTL() ? Alignment.centerRight : Alignment.centerLeft,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -73,8 +70,7 @@ class Header extends StatelessWidget {
                                 onHeaderChanged: onMonthChanged,
                                 monthStyle: MonthOptions(
                                   font: CalendarOptions.of(context).font,
-                                  selectedColor: DayOptions.of(context)
-                                      .selectedBackgroundColor,
+                                  selectedColor: DayOptions.of(context).selectedBackgroundColor,
                                 ),
                               );
                             },
@@ -107,8 +103,7 @@ class Header extends StatelessWidget {
                                 onHeaderChanged: onYearChanged,
                                 yearStyle: YearOptions(
                                   font: CalendarOptions.of(context).font,
-                                  selectedColor: DayOptions.of(context)
-                                      .selectedBackgroundColor,
+                                  selectedColor: DayOptions.of(context).selectedBackgroundColor,
                                 ),
                               );
                             },
@@ -159,8 +154,7 @@ class Header extends StatelessWidget {
   }
 
   isInTodayIndex() {
-    return EventCalendar.dateTime!
-        .isDateEqual(EventCalendar.calendarProvider.getDateTime());
+    return EventCalendar.dateTime!.isDateEqual(EventCalendar.calendarProvider.getDateTime());
   }
 
   buildRefreshView(BuildContext context) {

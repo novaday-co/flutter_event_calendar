@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import '../../../flutter_event_calendar.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class HeaderOptions extends Model {
@@ -16,6 +16,5 @@ class HeaderOptions extends Model {
       this.resetDateColor = Colors.black,
       this.navigationColor = Colors.black});
 
-  static HeaderOptions of(BuildContext context) =>
-      ScopedModel.of<HeaderOptions>(context);
+  static HeaderOptions of(BuildContext context) => ScopedModel.of<HeaderOptions>(context);
 }

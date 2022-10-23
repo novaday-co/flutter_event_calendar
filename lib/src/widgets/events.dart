@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/event_selector.dart';
-import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/event_options.dart';
-import 'package:flutter_event_calendar/src/widgets/event_card.dart';
+import '../handlers/calendar_utils.dart';
+import '../handlers/event_calendar.dart';
+import '../handlers/event_selector.dart';
+import '../handlers/translator.dart';
+import '../models/calendar_options.dart';
+import '../models/style/event_options.dart';
+import 'event_card.dart';
 
 class Events extends StatelessWidget {
   Function onEventsChanged;
@@ -79,7 +79,8 @@ class Events extends StatelessWidget {
 
     return eventCards;
   }
-  Widget emptyView(BuildContext context){
+
+  Widget emptyView(BuildContext context) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -90,8 +91,7 @@ class Events extends StatelessWidget {
             color: eventStyle.emptyIconColor,
           ),
           Text(
-            eventStyle.emptyText ??
-                Translator.getTranslation('empty'),
+            eventStyle.emptyText ?? Translator.getTranslation('empty'),
             style: TextStyle(
               color: eventStyle.emptyTextColor,
               fontSize: 25,

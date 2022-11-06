@@ -98,6 +98,7 @@ You have many option for changes in : style , locale and structure.
 | onMonthChanged	 	| When the month changes return a string of CalendarDateTime (year-month-day hour:minute:second)	|
 | onYearChanged	 	| When the year changes return a string of CalendarDateTime (year-month-day hour:minute:second)	|
 | onDateTimeReset	 	| When clicking on the reset button return a string of current CalendarDateTime (year-month-day hour:minute:second) 	|
+| onChangeViewType	 	| When clicking on the toggleViewType return ViewType 	|
 
 ## CalendarOptions :
 
@@ -110,6 +111,7 @@ You have many option for changes in : style , locale and structure.
 | headerMonthShadowColor	 	| Color 	| The shadow color of Calendar card  |
 | headerMonthElevation	 	| double 	| The elevation of shadow color Calendar card |
 | headerMonthShape	 	| ShapeBorder 	| The shape of Calendar card like(RoundedRectangleBorder) |
+| bottomSheetBackColor	 	| Color 	| The background color of select month and year bottom sheet) |
 
 ### HeaderOptions :
 
@@ -163,7 +165,7 @@ You have many option for changes in : style , locale and structure.
 
 ## Locales :
 
-**Event Calendar** supports two types of calendar now . **Gregorian** , and **Jalali** . Whenevenr you change **type** , package change **direction** and **language** automatically.
+**Event Calendar** supports two types of calendar now . **Gregorian** , and **Jalali** . Whenever you change **type** , package change **direction** and **language** automatically.
 
 
 ## Contribute :

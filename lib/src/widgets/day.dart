@@ -167,8 +167,6 @@ class Day extends StatelessWidget {
   labelMaker(BuildContext context) {
     if (dayEvents.isEmpty) return Container();
     return Container(
-      // padding:
-      //     EdgeInsets.symmetric(horizontal: dayStyle!.compactMode ? 4 : 8, vertical: 2),
       width: dayStyle!.compactMode ? 15 : 18,
       height: dayStyle!.compactMode ? 15 : 18,
       alignment: Alignment.center,

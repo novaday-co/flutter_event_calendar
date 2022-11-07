@@ -146,15 +146,10 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       day = lastMonthLastDay - (firstDayIndex - index) + 1;
 
     if (isCurrentMonthDays) {
-     // return SizedBox();
       return buildCurrentMonthDay(day);
     } else if (isNextMonthDays) {
-      // return SizedBox();
-
       return buildNextMonthDay(day);
     } else if (day > 0) {
-      // return SizedBox();
-
       return buildPrevMonthDay(day);
     }
     return SizedBox();

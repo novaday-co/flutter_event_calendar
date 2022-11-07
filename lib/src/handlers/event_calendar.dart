@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/event.dart';
-import 'package:flutter_event_calendar/src/models/style/event_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
 import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
-import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:flutter_event_calendar/src/widgets/calendar_daily.dart';
 import 'package:flutter_event_calendar/src/widgets/calendar_monthly.dart';
 import 'package:flutter_event_calendar/src/widgets/events.dart';
@@ -14,6 +9,7 @@ import 'package:flutter_event_calendar/src/widgets/header.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 typedef CalendarChangeCallback = Function(CalendarDateTime);
+typedef ViewTypeChangeCallback = Function(ViewType);
 
 class EventCalendar extends StatefulWidget {
   static late CalendarProvider calendarProvider;
@@ -24,12 +20,13 @@ class EventCalendar extends StatefulWidget {
   // static late HeaderMonthStringTypes headerMonthStringType;
   // static late HeaderWeekDayStringTypes headerWeekDayStringType;
   static late String calendarLanguage;
-  static  CalendarType? calendarType;
+  static late CalendarType calendarType;
 
   CalendarChangeCallback? onChangeDateTime;
   CalendarChangeCallback? onMonthChanged;
   CalendarChangeCallback? onYearChanged;
   CalendarChangeCallback? onDateTimeReset;
+  ViewTypeChangeCallback? onChangeViewType;
   VoidCallback? onInit;
 
   List<CalendarDateTime> specialDays;
@@ -45,6 +42,8 @@ class EventCalendar extends StatefulWidget {
   HeaderOptions? headerOptions;
 
   Widget? Function(CalendarDateTime)? middleWidget;
+
+  bool showEvents;
 
   EventCalendar({
     GlobalKey? key,
@@ -62,21 +61,23 @@ class EventCalendar extends StatefulWidget {
     this.onDateTimeReset,
     this.onInit,
     this.onYearChanged,
+    this.onChangeViewType,
     required calendarType,
     calendarLanguage,
+    this.showEvents = true
   }) : super(key: key) {
     calendarOptions ??= CalendarOptions();
     headerOptions ??= HeaderOptions();
     eventOptions ??= EventOptions();
     dayOptions ??= DayOptions();
 
-    if (calendarType != EventCalendar.calendarType) {
-      EventCalendar.calendarProvider = createInstance(calendarType);
-    }
+    EventCalendar.calendarType = calendarType ?? CalendarType.GREGORIAN;
+
+    EventCalendar.calendarProvider = createInstance(calendarType);
+
     if (key?.currentContext == null || calendarType != EventCalendar.calendarType) {
       EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
     }
-    EventCalendar.calendarType = calendarType ?? CalendarType.GREGORIAN;
     EventCalendar.calendarLanguage = calendarLanguage ?? 'en';
     EventCalendar.events = events ?? [];
   }
@@ -126,8 +127,9 @@ class _EventCalendarState extends State<EventCalendar> {
                       widget.onMonthChanged?.call(EventCalendar.dateTime!);
                       setState(() {});
                     },
-                    onViewTypeChanged: () {
+                    onViewTypeChanged: (ViewType viewType) {
                       setState(() {});
+                      widget.onChangeViewType?.call(viewType);
                     },
                     onYearChanged: () {
                       widget.onYearChanged?.call(EventCalendar.dateTime!);
@@ -154,10 +156,10 @@ class _EventCalendarState extends State<EventCalendar> {
             ),
             if (widget.middleWidget != null)
               widget.middleWidget!.call(EventCalendar.dateTime!)!,
-            Events(onEventsChanged: () {
+           widget.showEvents? Events(onEventsChanged: () {
               widget.onChangeDateTime?.call(EventCalendar.dateTime!);
               setState(() {});
-            }),
+            }):const SizedBox.shrink(),
           ],
         );
       },

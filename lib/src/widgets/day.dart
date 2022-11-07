@@ -17,16 +17,16 @@ class Day extends StatelessWidget {
 
   Day(
       {required this.day,
-        required this.weekDay,
-        required this.dayEvents,
-        this.dayOptions,
-        this.dayStyle,
-        this.onCalendarChanged,
-        this.calendarOptions})
+      required this.weekDay,
+      required this.dayEvents,
+      this.dayOptions,
+      this.dayStyle,
+      this.onCalendarChanged,
+      this.calendarOptions})
       : super() {
     dayOptions ??= DayOptions();
-    dayStyle ??= DayStyle();
-    calendarOptions??=CalendarOptions();
+    dayStyle ??= const DayStyle();
+    calendarOptions ??= CalendarOptions();
   }
 
   late Widget child;
@@ -36,15 +36,14 @@ class Day extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     dayOptions = DayOptions.of(context);
-    calendarOptions=CalendarOptions.of(context);
-
+    calendarOptions = CalendarOptions.of(context);
     opacity = _shouldHaveTransparentColor() ? 0.5 : 1;
 
     textColor = dayStyle!.useDisabledEffect
         ? dayOptions!.disabledTextColor
         : dayStyle!.selected
-        ? dayOptions!.selectedTextColor
-        : dayOptions!.unselectedTextColor;
+            ? dayOptions!.selectedTextColor
+            : dayOptions!.unselectedTextColor;
 
     child = InkWell(
       onTap: (() {
@@ -55,69 +54,62 @@ class Day extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          if (!dayStyle!.compactMode && dayOptions!.showWeekDay)
-            if(CalendarOptions.of(context).viewType==ViewType.DAILY)
-              FittedBox(
-                child: Text(
-                  '$weekDay',
-                  maxLines:2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: _getTitleColor(),
-                    fontFamily: CalendarOptions.of(context).font,
-                  ),
+          if (DayOptions.of(context).showWeekDay &&
+              CalendarOptions.of(context).viewType == ViewType.DAILY) ...[
+            FittedBox(
+              child: Text(
+                '$weekDay',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: _getTitleColor(),
+                  fontFamily: CalendarOptions.of(context).font,
                 ),
               ),
-
-          if (!dayStyle!.compactMode && dayOptions!.showWeekDay)
-            SizedBox(
-              height: 0,
             ),
-          Expanded(
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 500),
-              curve: Curves.ease,
-              padding:
-              dayStyle!.compactMode
-                  ? EdgeInsets.zero
-                  : (EdgeInsets.all(calendarOptions?.viewType==ViewType.MONTHLY?0:HeaderOptions.of(context).weekDayStringType ==
-                  WeekDayStringTypes.FULL
-                  ? 4
-                  : 0)),
-              decoration: BoxDecoration(
-                  color: dayStyle!.selected
-                      ? dayOptions!.selectedBackgroundColor
-                      : dayOptions!.unselectedBackgroundColor,
-                  shape: BoxShape.circle),
-              constraints: BoxConstraints(
-                minWidth: double.infinity, minHeight: dayStyle!.compactMode ? 35 : 20, ),
-              child: Stack(
-                fit: StackFit.passthrough,
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$day',
-                      style: TextStyle(
-                        color: textColor,
-                        fontFamily: CalendarOptions.of(context).font,
-                      ),
+          ],
+          AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            curve: Curves.ease,
+            padding: dayStyle!.compactMode
+                ? EdgeInsets.zero
+                : (EdgeInsets.all(HeaderOptions.of(context).weekDayStringType ==
+                        WeekDayStringTypes.FULL
+                    ? 4
+                    : 0)),
+            decoration: BoxDecoration(
+                color: dayStyle!.selected
+                    ? dayOptions!.selectedBackgroundColor
+                    : dayOptions!.unselectedBackgroundColor,
+                shape: BoxShape.circle),
+            constraints: BoxConstraints(
+                minWidth: double.infinity, minHeight: dayStyle!.compactMode ? 35 : 40),
+            child: Stack(
+              fit: StackFit.passthrough,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    '$day',
+                    style: TextStyle(
+                      color: textColor,
+                      fontFamily: CalendarOptions.of(context).font,
                     ),
                   ),
-                  dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
-                      ? Align(
-                    alignment: Alignment.bottomCenter,
-                    // child: dotMaker(context),
-                  )
-                      : Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: labelMaker(context),
-                  ),
-                ],
-              ),
+                ),
+                dayOptions!.eventCounterViewType == DayEventCounterViewType.DOT
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: dotMaker(context),
+                      )
+                    : Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: labelMaker(context),
+                      ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -125,16 +117,14 @@ class Day extends StatelessWidget {
     return Opacity(
       opacity: opacity,
       child: Container(
-        padding: EdgeInsets.only(bottom:calendarOptions?.viewType==ViewType.MONTHLY?0:dayStyle!.compactMode ? 5 : 10 ),
-        //   padding: EdgeInsets.all(dayStyle!.compactMode ? 0 : 10),
-
+        padding: EdgeInsets.all(dayStyle!.compactMode ? 0 : CalendarOptions.of(context).viewType==ViewType.DAILY?10:0),
         decoration: dayStyle?.decoration,
         width: dayStyle!.compactMode
             ? 45
             : (HeaderOptions.of(context).weekDayStringType ==
-            WeekDayStringTypes.FULL
-            ? 80
-            : 60),
+                    WeekDayStringTypes.FULL
+                ? 80
+                : 60),
         child: child,
       ),
     );
@@ -149,7 +139,7 @@ class Day extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(
               bottom: HeaderOptions.of(context).weekDayStringType ==
-                  WeekDayStringTypes.SHORT
+                      WeekDayStringTypes.SHORT
                   ? (dayStyle!.compactMode ? 4 : 8)
                   : 4),
           width: 5,
@@ -160,12 +150,13 @@ class Day extends StatelessWidget {
           ),
         ),
       );
-      if (i != maxDot - 1)
+      if (i != maxDot - 1) {
         widgets.add(
-          SizedBox(
+          const SizedBox(
             width: 2,
           ),
         );
+      }
     }
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -176,8 +167,6 @@ class Day extends StatelessWidget {
   labelMaker(BuildContext context) {
     if (dayEvents.isEmpty) return Container();
     return Container(
-      // padding:
-      //     EdgeInsets.symmetric(horizontal: dayStyle!.mini ? 4 : 8, vertical: 2),
       width: dayStyle!.compactMode ? 15 : 18,
       height: dayStyle!.compactMode ? 15 : 18,
       alignment: Alignment.center,

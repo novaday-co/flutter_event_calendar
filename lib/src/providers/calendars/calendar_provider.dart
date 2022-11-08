@@ -18,7 +18,7 @@ abstract class CalendarProvider {
 
   CalendarDateTime getDateTime();
 
-  String getFormattedDate({DateTime? customDate});
+  String getFormattedDate({DateTime? customDate, bool compactDate = false});
 
   CalendarDateTime goToMonth(index);
 

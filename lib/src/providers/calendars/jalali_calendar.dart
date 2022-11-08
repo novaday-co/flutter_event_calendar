@@ -165,14 +165,14 @@ class JalaliCalendar extends CalendarProvider {
   }
 
   @override
-  String getFormattedDate({DateTime? customDate}) {
+  String getFormattedDate({DateTime? customDate, bool compactDate = false}) {
     Jalali? dateTime;
     if (customDate != null) {
       dateTime = Jalali.fromDateTime(customDate);
     } else {
       dateTime = _getSelectedDate();
     }
-    return "${dateTime.day} ${Translator.getFullMonthNames()[dateTime.month - 1]} ${dateTime.year}";
+    return "${dateTime.day} ${Translator.getFullMonthNames()[dateTime.month - 1]} ${compactDate ? "" : dateTime.year}";
   }
 
   @override

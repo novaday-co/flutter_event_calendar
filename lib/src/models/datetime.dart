@@ -158,8 +158,8 @@ extension DateFormatter on CalendarDateTime {
             year: jalali.year,
             month: jalali.month,
             day: jalali.day,
-            // hour: jalali.hour,
-            // minute: jalali.minute,
+            hour: jalali.hour,
+            minute: jalali.minute,
             calendarType: CalendarType.JALALI);
       case CalendarType.GREGORIAN:
         Jalali jalali = Jalali(year, month, day);

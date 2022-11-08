@@ -14,16 +14,14 @@ class GregorianCalendar extends CalendarProvider {
   CalendarDateTime getNextMonthDateTime() {
     final date = _getSelectedDate();
     return CalendarDateTime.parseDateTime(
-        DateTime(date.year, date.month + 1, 1).toString(),
-        getCalendarType())!;
+        DateTime(date.year, date.month + 1, 1).toString(), getCalendarType())!;
   }
 
   @override
   CalendarDateTime getPreviousMonthDateTime() {
     final date = _getSelectedDate();
     return CalendarDateTime.parseDateTime(
-        DateTime(date.year, date.month - 1, 1).toString(),
-        getCalendarType())!;
+        DateTime(date.year, date.month - 1, 1).toString(), getCalendarType())!;
   }
 
   @override
@@ -114,10 +112,7 @@ class GregorianCalendar extends CalendarProvider {
   CalendarDateTime goToMonth(index) {
     dynamic date = _getSelectedDate();
     return CalendarDateTime(
-        year: date.year,
-        month: index,
-        day: 1,
-        calendarType: getCalendarType());
+        year: date.year, month: index, day: 1, calendarType: getCalendarType());
   }
 
   @override
@@ -144,7 +139,7 @@ class GregorianCalendar extends CalendarProvider {
   }
 
   @override
-  String getFormattedDate({DateTime? customDate}) {
+  String getFormattedDate({DateTime? customDate, bool compactDate = false}) {
     CalendarDateTime? dateTime;
     if (customDate != null) {
       dateTime = CalendarDateTime.parseDateTime(
@@ -152,7 +147,7 @@ class GregorianCalendar extends CalendarProvider {
     } else {
       dateTime = _getSelectedDate();
     }
-    return "${dateTime!.day} ${Translator.getFullMonthNames()[dateTime.month - 1]} ${dateTime.year}";
+    return "${dateTime!.day} ${Translator.getFullMonthNames()[dateTime.month - 1]} ${compactDate ? "" : dateTime.year}";
   }
 
   @override

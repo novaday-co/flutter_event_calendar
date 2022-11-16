@@ -32,20 +32,19 @@ class CalendarDaily extends StatelessWidget {
     executeAsync(context);
     // Yearly , Monthly , Weekly and Daily calendar
     return Container(
-      height: 80,
+      height: DayOptions.of(context).showWeekDay
+          ? DayOptions.of(context).compactMode
+              ? 70
+              : 100
+          : 70,
       child: Stack(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: ListView(
-                  reverse: EventCalendar.calendarProvider.isRTL(),
-                  controller: animatedTo,
-                  scrollDirection: Axis.horizontal,
-                  children: daysMaker(context),
-                ),
-              )
-            ],
+          ListView(
+            shrinkWrap: true,
+            reverse: EventCalendar.calendarProvider.isRTL(),
+            controller: animatedTo,
+            scrollDirection: Axis.horizontal,
+            children: daysMaker(context),
           ),
           DayOptions.of(context).disableFadeEffect
               ? const SizedBox()
@@ -120,7 +119,11 @@ class CalendarDaily extends StatelessWidget {
       days.add(Day(
         day: index,
         dayEvents: selector.getEventsByDayMonthYear(
-          CalendarDateTime(year: currentYear, month: currentMonth, day: index, calendarType: CalendarUtils.getCalendarType()),
+          CalendarDateTime(
+              year: currentYear,
+              month: currentMonth,
+              day: index,
+              calendarType: CalendarUtils.getCalendarType()),
         ),
         dayStyle: DayStyle(
           compactMode: DayOptions.of(context).compactMode,
@@ -183,7 +186,7 @@ class CalendarDaily extends StatelessWidget {
   }
 
   void executeAsync(context) async {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (animatedTo.hasClients) {
         final animateOffset = (DayOptions.of(context).compactMode
                 ? 40.0

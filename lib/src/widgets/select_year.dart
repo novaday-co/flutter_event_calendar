@@ -34,13 +34,13 @@ class SelectYear extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(26), topRight: Radius.circular(26)),
-        color: Colors.white,
+        color: yearStyle?.backgroundColor,
       ),
       height: 380,
       child: Padding(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -52,7 +52,7 @@ class SelectYear extends StatelessWidget {
                 fontFamily: yearStyle?.font,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -61,7 +61,7 @@ class SelectYear extends StatelessWidget {
                 child: GridView.builder(
                     controller: _scrollController,
                     itemCount: years.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, mainAxisExtent: 50),
                     itemBuilder: (context, index) =>
                         yearWidgetMaker(years[index], context)),
@@ -103,7 +103,7 @@ class SelectYear extends StatelessWidget {
   }
 
   void animateToCurrentYear() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (_scrollController.hasClients)
         _scrollController.animateTo(findSelectedYearOffset(),
             duration: Duration(milliseconds: 500), curve: Curves.ease);

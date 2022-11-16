@@ -1,8 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
-import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
+
 
 import 'translator.dart';
 

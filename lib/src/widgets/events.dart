@@ -80,25 +80,30 @@ class Events extends StatelessWidget {
     return eventCards;
   }
   Widget emptyView(BuildContext context){
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            eventStyle.emptyIcon,
-            size: 75,
-            color: eventStyle.emptyIconColor,
-          ),
-          Text(
-            eventStyle.emptyText ??
-                Translator.getTranslation('empty'),
-            style: TextStyle(
-              color: eventStyle.emptyTextColor,
-              fontSize: 25,
-              fontFamily: CalendarOptions.of(context).font,
+    return Container(
+      color: Colors.transparent,
+      width: double.infinity,
+      height: double.infinity,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              eventStyle.emptyIcon,
+              size: 95,
+              color: eventStyle.emptyIconColor,
             ),
-          ),
-        ],
+            Text(
+              eventStyle.emptyText ??
+                  Translator.getTranslation('empty'),
+              style: TextStyle(
+                color: eventStyle.emptyTextColor,
+                fontSize: 25,
+                fontFamily: CalendarOptions.of(context).font,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

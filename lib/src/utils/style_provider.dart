@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
+import 'package:flutter_event_calendar/src/models/datetime.dart';
 
 class StyleProvider {
   static BoxDecoration? getSpecialDayDecoration(

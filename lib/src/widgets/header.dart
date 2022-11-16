@@ -1,17 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/event_calendar.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
 import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
 import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
 import 'package:flutter_event_calendar/src/widgets/select_month.dart';
 import 'package:flutter_event_calendar/src/widgets/select_year.dart';
+typedef ViewTypeChangeCallback = Function(ViewType);
 
 class Header extends StatelessWidget {
-  Function onViewTypeChanged;
+  ViewTypeChangeCallback? onViewTypeChanged;
   Function onDateTimeReset;
   Function(int selectedYear) onYearChanged;
   Function(int selectedMonth) onMonthChanged;
@@ -22,7 +19,7 @@ class Header extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Directionality(
           textDirection: EventCalendar.calendarProvider.isRTL()
               ? TextDirection.rtl
@@ -75,6 +72,7 @@ class Header extends StatelessWidget {
                                   font: CalendarOptions.of(context).font,
                                   selectedColor: DayOptions.of(context)
                                       .selectedBackgroundColor,
+                                  backgroundColor: CalendarOptions.of(context).bottomSheetBackColor
                                 ),
                               );
                             },
@@ -96,7 +94,6 @@ class Header extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(' , '),
                       GestureDetector(
                         onTap: () {
                           showModalBottomSheet(
@@ -109,6 +106,7 @@ class Header extends StatelessWidget {
                                   font: CalendarOptions.of(context).font,
                                   selectedColor: DayOptions.of(context)
                                       .selectedBackgroundColor,
+                                    backgroundColor: CalendarOptions.of(context).bottomSheetBackColor
                                 ),
                               );
                             },
@@ -196,15 +194,16 @@ class Header extends StatelessWidget {
           } else {
             CalendarOptions.of(context).viewType = ViewType.MONTHLY;
           }
-          onViewTypeChanged.call();
+          onViewTypeChanged?.call(CalendarOptions.of(context).viewType);
         },
         child: Padding(
           padding: const EdgeInsets.all(5),
           child: Icon(
             CalendarOptions.of(context).viewType == ViewType.MONTHLY
-                ? Icons.calendar_view_month_outlined
-                : Icons.calendar_view_day_outlined,
-            size: 24,
+                ? Icons.calendar_today_outlined
+                : Icons.calendar_today_outlined,
+            size: 18,
+            color: HeaderOptions.of(context).calendarIconColor,
           ),
         ),
       );

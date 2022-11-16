@@ -27,13 +27,13 @@ class SelectMonth extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(26), topRight: Radius.circular(26)),
-        color: Colors.white,
+        color: monthStyle?.backgroundColor,
       ),
       height: 380,
       child: Padding(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -45,7 +45,7 @@ class SelectMonth extends StatelessWidget {
                 fontFamily: monthStyle?.font,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -54,7 +54,7 @@ class SelectMonth extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Table(
-                      border: new TableBorder(
+                      border: const TableBorder(
                         horizontalInside:
                             BorderSide(color: Colors.black12, width: 0.2),
                         verticalInside:

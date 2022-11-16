@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/event.dart';
-import 'package:flutter_event_calendar/src/models/style/event_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
 import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
 import 'package:flutter_event_calendar/src/providers/instance_provider.dart';
-import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:flutter_event_calendar/src/widgets/calendar_daily.dart';
 import 'package:flutter_event_calendar/src/widgets/calendar_monthly.dart';
 import 'package:flutter_event_calendar/src/widgets/events.dart';
@@ -26,12 +21,13 @@ class EventCalendar extends StatefulWidget {
   // static late HeaderMonthStringTypes headerMonthStringType;
   // static late HeaderWeekDayStringTypes headerWeekDayStringType;
   static late String calendarLanguage;
-  static  CalendarType? calendarType;
+  static late CalendarType calendarType;
 
   CalendarChangeCallback? onChangeDateTime;
   CalendarChangeCallback? onMonthChanged;
   CalendarChangeCallback? onYearChanged;
   CalendarChangeCallback? onDateTimeReset;
+  ViewTypeChangeCallback? onChangeViewType;
   VoidCallback? onInit;
 
   List<CalendarDateTime> specialDays;
@@ -47,6 +43,8 @@ class EventCalendar extends StatefulWidget {
   HeaderOptions? headerOptions;
 
   Widget? Function(CalendarDateTime)? middleWidget;
+
+  bool showEvents;
 
   EventCalendar({
     GlobalKey? key,
@@ -64,17 +62,20 @@ class EventCalendar extends StatefulWidget {
     this.onDateTimeReset,
     this.onInit,
     this.onYearChanged,
+    this.onChangeViewType,
     required calendarType,
     calendarLanguage,
+    this.showEvents = true
   }) : super(key: key) {
     calendarOptions ??= CalendarOptions();
     headerOptions ??= HeaderOptions();
     eventOptions ??= EventOptions();
     dayOptions ??= DayOptions();
 
-    if (calendarType != EventCalendar.calendarType) {
-      EventCalendar.calendarProvider = createInstance(calendarType);
-    }
+    EventCalendar.calendarType = calendarType ?? CalendarType.GREGORIAN;
+
+    EventCalendar.calendarProvider = createInstance(calendarType);
+
     if (key?.currentContext == null || calendarType != EventCalendar.calendarType) {
       EventCalendar.dateTime = dateTime ?? calendarProvider.getDateTime();
     }
@@ -114,7 +115,7 @@ class _EventCalendarState extends State<EventCalendar> {
           child: Container(
             height: MediaQuery.of(context).size.height,
             child: Column(
-              
+
              mainAxisSize: MainAxisSize.max,
               children: [
                 Card(
@@ -134,8 +135,9 @@ class _EventCalendarState extends State<EventCalendar> {
                           CalendarUtils.goToMonth(selectedMonth);
                           setState(() {});
                         },
-                        onViewTypeChanged: () {
+                        onViewTypeChanged: (ViewType viewType) {
                           setState(() {});
+                          widget.onChangeViewType?.call(viewType);
                         },
                         onYearChanged: (int selectedYear) {
                           widget.onYearChanged?.call(EventCalendar.dateTime!);

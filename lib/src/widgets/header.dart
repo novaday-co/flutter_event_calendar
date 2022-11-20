@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
@@ -21,9 +22,7 @@ class Header extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Directionality(
-          textDirection: EventCalendar.calendarProvider.isRTL()
-              ? TextDirection.rtl
-              : TextDirection.ltr,
+          textDirection: EventCalendar.calendarProvider.isRTL() ? TextDirection.rtl : TextDirection.ltr,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             // Title , next and previous button
@@ -54,9 +53,7 @@ class Header extends StatelessWidget {
               Expanded(
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  alignment: EventCalendar.calendarProvider.isRTL()
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
+                  alignment: EventCalendar.calendarProvider.isRTL() ? Alignment.centerRight : Alignment.centerLeft,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -157,8 +154,7 @@ class Header extends StatelessWidget {
   }
 
   isInTodayIndex() {
-    return EventCalendar.dateTime!
-        .isDateEqual(EventCalendar.calendarProvider.getDateTime());
+    return EventCalendar.dateTime!.isDateEqual(EventCalendar.calendarProvider.getDateTime());
   }
 
   buildRefreshView(BuildContext context) {

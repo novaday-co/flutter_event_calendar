@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/models/style/select_year_options.dart';
+import '../../flutter_event_calendar.dart';
+import '../handlers/calendar_utils.dart';
+import '../handlers/translator.dart';
+import '../models/style/select_year_options.dart';
 
 class SelectYear extends StatelessWidget {
   late List years;
@@ -97,8 +97,7 @@ class SelectYear extends StatelessWidget {
   }
 
   double findSelectedYearOffset() {
-    final size =
-        _scrollController.position.maxScrollExtent / (years.length / 3);
+    final size = _scrollController.position.maxScrollExtent / (years.length / 3);
     return size * (years.indexOf(selectedYear)) / 3;
   }
 

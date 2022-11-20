@@ -1,10 +1,9 @@
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
+import '../../../flutter_event_calendar.dart';
 
 abstract class CalendarProvider {
   bool isRTL();
 
-  Map getMonthDays(WeekDayStringTypes type,int index);
+  Map getMonthDays(WeekDayStringTypes type, int index);
 
   Map getMonthDaysShort(int index);
 

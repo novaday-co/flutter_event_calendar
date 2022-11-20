@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/models/calendar_options.dart';
-import 'package:flutter_event_calendar/src/models/style/headers_options.dart';
+
+import '../../flutter_event_calendar.dart';
 
 class Day extends StatelessWidget {
   String weekDay;
@@ -187,9 +186,7 @@ class Day extends StatelessWidget {
   }
 
   _getTitleColor() {
-    return dayStyle!.selected
-        ? dayOptions!.weekDaySelectedColor
-        : dayOptions!.weekDayUnselectedColor;
+    return dayStyle!.selected ? dayOptions!.weekDaySelectedColor : dayOptions!.weekDayUnselectedColor;
   }
 
   _shouldHaveTransparentColor() {

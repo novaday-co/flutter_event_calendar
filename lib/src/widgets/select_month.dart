@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/calendar_utils.dart';
-import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/models/style/select_month_options.dart';
+
+import '../../flutter_event_calendar.dart';
+import '../handlers/calendar_utils.dart';
+import '../handlers/translator.dart';
+import '../models/style/select_month_options.dart';
 
 class SelectMonth extends StatelessWidget {
   late List months;
@@ -15,8 +16,7 @@ class SelectMonth extends StatelessWidget {
 
   late BoxDecoration selectedDecoration;
 
-  final int currentMonth =
-      CalendarUtils.getPartByInt(format: PartFormat.MONTH);
+  final int currentMonth = CalendarUtils.getPartByInt(format: PartFormat.MONTH);
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +91,7 @@ class SelectMonth extends StatelessWidget {
                 }),
                 child: Container(
                   padding: EdgeInsets.all(15),
-                  decoration:
-                      mMonth == currentMonth ? selectedDecoration : null,
+                  decoration: mMonth == currentMonth ? selectedDecoration : null,
                   child: Center(
                       child: FittedBox(
                     fit: BoxFit.fitWidth,

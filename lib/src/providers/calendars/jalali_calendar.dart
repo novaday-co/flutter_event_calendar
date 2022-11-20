@@ -1,8 +1,8 @@
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/handlers/translator.dart';
-import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
-import 'package:flutter_event_calendar/src/utils/calendar_types.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+
+import '../../../flutter_event_calendar.dart';
+import '../../handlers/translator.dart';
+import 'calendar_provider.dart';
 
 class JalaliCalendar extends CalendarProvider {
   @override
@@ -10,10 +10,7 @@ class JalaliCalendar extends CalendarProvider {
     final f = Jalali.now().formatter;
 
     return CalendarDateTime(
-        year: int.parse(f.yyyy),
-        month: int.parse(f.mm),
-        day: int.parse(f.dd),
-        calendarType: getCalendarType());
+        year: int.parse(f.yyyy), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType());
   }
 
   @override
@@ -21,11 +18,7 @@ class JalaliCalendar extends CalendarProvider {
     final date = _getSelectedDate();
     final newDate = date.withDay(1).addMonths(1);
     final f = newDate.formatter;
-    return CalendarDateTime(
-        year: int.parse(f.y),
-        month: int.parse(f.mm),
-        day: 01,
-        calendarType: getCalendarType());
+    return CalendarDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01, calendarType: getCalendarType());
   }
 
   @override
@@ -33,11 +26,7 @@ class JalaliCalendar extends CalendarProvider {
     final date = _getSelectedDate();
     dynamic newDate = date.withDay(1).addMonths(-1);
     final f = newDate.formatter;
-    return CalendarDateTime(
-        year: int.parse(f.y),
-        month: int.parse(f.mm),
-        day: 01,
-        calendarType: getCalendarType());
+    return CalendarDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: 01, calendarType: getCalendarType());
   }
 
   @override
@@ -46,10 +35,7 @@ class JalaliCalendar extends CalendarProvider {
     dynamic newDate = date.addDays(-1);
     final f = newDate.formatter;
     return CalendarDateTime(
-        year: int.parse(f.y),
-        month: int.parse(f.mm),
-        day: int.parse(f.dd),
-        calendarType: getCalendarType());
+        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType());
   }
 
   @override
@@ -58,10 +44,7 @@ class JalaliCalendar extends CalendarProvider {
     dynamic newDate = date.addDays(1);
     final f = newDate.formatter;
     return CalendarDateTime(
-        year: int.parse(f.y),
-        month: int.parse(f.mm),
-        day: int.parse(f.dd),
-        calendarType: getCalendarType());
+        year: int.parse(f.y), month: int.parse(f.mm), day: int.parse(f.dd), calendarType: getCalendarType());
   }
 
   @override
@@ -117,33 +100,21 @@ class JalaliCalendar extends CalendarProvider {
   CalendarDateTime goToDay(index) {
     dynamic date = _getSelectedDate();
     final f = date.formatter;
-    return CalendarDateTime(
-        year: int.parse(f.y),
-        month: int.parse(f.mm),
-        day: index,
-        calendarType: getCalendarType());
+    return CalendarDateTime(year: int.parse(f.y), month: int.parse(f.mm), day: index, calendarType: getCalendarType());
   }
 
   @override
   CalendarDateTime goToMonth(index) {
     dynamic date = _getSelectedDate();
     final f = date.formatter;
-    return CalendarDateTime(
-        year: int.parse(f.y),
-        month: index,
-        day: 01,
-        calendarType: getCalendarType());
+    return CalendarDateTime(year: int.parse(f.y), month: index, day: 01, calendarType: getCalendarType());
   }
 
   @override
   CalendarDateTime goToYear(index) {
     dynamic date = _getSelectedDate();
     final f = date.formatter;
-    return CalendarDateTime(
-        year: index,
-        month: int.parse(f.mm),
-        day: 01,
-        calendarType: getCalendarType());
+    return CalendarDateTime(year: index, month: int.parse(f.mm), day: 01, calendarType: getCalendarType());
   }
 
   @override

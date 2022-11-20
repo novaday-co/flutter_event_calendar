@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
 
-
+import '../../flutter_event_calendar.dart';
 import 'translator.dart';
 
 class CalendarUtils {

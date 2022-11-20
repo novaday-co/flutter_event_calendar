@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
+import '../../flutter_event_calendar.dart';
 
 class CalendarDateTime {
   int year;
@@ -28,21 +28,20 @@ class CalendarDateTime {
       this.color});
 
   //supported format 1400-9-12 20:00(:50)
-  static CalendarDateTime?  parseDateTime(String dateTime,CalendarType calendarType) {
+  static CalendarDateTime? parseDateTime(String dateTime, CalendarType calendarType) {
     final splitter = dateTime.split(" ");
     final datePart = splitter[0].split("-");
     final timePart = splitter[1].split(":");
 
     try {
       return CalendarDateTime(
-        year: int.parse(datePart[0]),
-        month: int.parse(datePart[1]),
-        day: int.parse(datePart[2]),
-        hour: int.parse(timePart[0]),
-        minute: int.parse(timePart[1]),
-        second: timePart.length == 3 ? double.parse(timePart[2]).toInt() : 0,
-        calendarType: calendarType
-      );
+          year: int.parse(datePart[0]),
+          month: int.parse(datePart[1]),
+          day: int.parse(datePart[2]),
+          hour: int.parse(timePart[0]),
+          minute: int.parse(timePart[1]),
+          second: timePart.length == 3 ? double.parse(timePart[2]).toInt() : 0,
+          calendarType: calendarType);
     } on Exception catch (e) {
       print("${e.toString()}");
       return null;
@@ -50,16 +49,15 @@ class CalendarDateTime {
   }
 
   //supported format 1400-9-12
-  static CalendarDateTime? parseDate(String date,CalendarType calendarType) {
+  static CalendarDateTime? parseDate(String date, CalendarType calendarType) {
     final datePart = date.split("-");
 
     try {
       return CalendarDateTime(
-        year: int.parse(datePart[0]),
-        month: int.parse(datePart[1]),
-        day: int.parse(datePart[2]),
-        calendarType: calendarType
-      );
+          year: int.parse(datePart[0]),
+          month: int.parse(datePart[1]),
+          day: int.parse(datePart[2]),
+          calendarType: calendarType);
     } on Exception catch (e) {
       print("${e.toString()}");
       return null;
@@ -67,9 +65,7 @@ class CalendarDateTime {
   }
 
   bool isDateEqual(CalendarDateTime dateTime) {
-    return year == dateTime.year &&
-        month == dateTime.month &&
-        day == dateTime.day;
+    return year == dateTime.year && month == dateTime.month && day == dateTime.day;
   }
 
   bool isDateEqualByInt(int year, int month, int day) {

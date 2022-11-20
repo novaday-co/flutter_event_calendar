@@ -1,7 +1,7 @@
-import 'package:flutter_event_calendar/flutter_event_calendar.dart';
-import 'package:flutter_event_calendar/src/providers/calendars/calendar_provider.dart';
-import 'package:flutter_event_calendar/src/providers/calendars/gregorian_calendar.dart';
-import 'package:flutter_event_calendar/src/providers/calendars/jalali_calendar.dart';
+import '../../flutter_event_calendar.dart';
+import 'calendars/calendar_provider.dart';
+import 'calendars/gregorian_calendar.dart';
+import 'calendars/jalali_calendar.dart';
 
 CalendarProvider createInstance(CalendarType cType) {
   final Map<CalendarType, CalendarProvider> _factories = {

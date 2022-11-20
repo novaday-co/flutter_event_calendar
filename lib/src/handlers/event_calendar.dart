@@ -7,7 +7,6 @@ import 'package:flutter_event_calendar/src/widgets/calendar_monthly.dart';
 import 'package:flutter_event_calendar/src/widgets/events.dart';
 import 'package:flutter_event_calendar/src/widgets/header.dart';
 import 'package:scoped_model/scoped_model.dart';
-
 import 'calendar_utils.dart';
 
 typedef CalendarChangeCallback = Function(CalendarDateTime);

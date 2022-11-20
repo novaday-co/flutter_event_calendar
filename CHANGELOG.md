@@ -1,1 +1,1 @@
-## [0.0.8] - Better Readme
+## [1.0.0] - Version 1.0.0 released

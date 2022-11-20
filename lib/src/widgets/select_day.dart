@@ -105,7 +105,7 @@ class SelectDay extends StatelessWidget {
   }
 
   void animateToCurrentDay() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (_scrollController.hasClients)
         _scrollController.animateTo(findSelectedDayOffset(),
             duration: Duration(milliseconds: 500), curve: Curves.ease);

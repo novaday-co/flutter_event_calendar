@@ -28,7 +28,11 @@ class _SettingState extends State<Setting> {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
-              children: [Options(), CalendarOptions(), HeaderOptions()],
+              children: [
+                Options(),
+                CalendarOptions(),
+                HeaderOptions(),
+              ],
             ),
           ),
         ),

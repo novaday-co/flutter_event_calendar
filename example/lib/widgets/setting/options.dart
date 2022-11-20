@@ -30,7 +30,7 @@ class _OptionsState extends State<Options> {
     streamController = getit<StreamController<CalendarEventModel>>();
     calendarEventModel = getit<CalendarEventModel>();
     calendarTypeList = [CalendarType.JALALI.name, CalendarType.GREGORIAN.name];
-    languageList = ['fa', 'en'];
+    languageList = ['fa', 'en','pt'];
     OptionsList = [
       ExpandedItemModel(
           icon: 'assets/language_icon.svg',

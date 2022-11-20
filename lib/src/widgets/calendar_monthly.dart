@@ -22,18 +22,18 @@ class CalendarMonthly extends StatefulWidget {
 
 class _CalendarMonthlyState extends State<CalendarMonthly> {
   EventSelector eventSelector = EventSelector();
-  late DayOptions dayOptions;
-
   late List<String> dayNames;
   late HeaderOptions headersStyle;
+  late DayOptions dayOptions;
+
   int currDay = -1;
   int currMonth = -1;
 
   @override
   void initState() {
     headersStyle = HeaderOptions.of(context);
-    dayOptions = DayOptions.of(context);
     dayNames = Translator.getNameOfDay(headersStyle.weekDayStringType);
+    dayOptions = DayOptions.of(context);
     super.initState();
   }
 
@@ -59,7 +59,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (!dayOptions.compactMode) ...[
+          if (dayOptions.showWeekDay) ...[
             _buildDayName(),
           ],
           SizedBox(
@@ -91,7 +91,9 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
               child: Text(
                 dayNames[index],
                 style: TextStyle(
-                    color: dayNames[index] == dayName ? Colors.red : null,
+                    color: dayNames[index] == dayName
+                        ? DayOptions.of(context).selectedBackgroundColor
+                        : null,
                     fontSize: 15,
                     fontFamily: CalendarOptions.of(context).font),
               ),
@@ -120,7 +122,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
             physics: NeverScrollableScrollPhysics(),
             itemCount: 42,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7, mainAxisExtent: 45, mainAxisSpacing: 5),
+                crossAxisCount: 7, mainAxisExtent: 40, mainAxisSpacing: 5),
             itemBuilder: (context, index) => _buildItem(
                 index, firstDayIndex, lastDayIndex, lastMonthLastDay)),
       ),
@@ -159,6 +161,8 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
     BoxDecoration? decoration = StyleProvider.getSpecialDayDecoration(
         specialDay, curYear, currMonth, day);
+    bool isBeforeToday =
+        CalendarUtils.isBeforeThanToday(curYear, currMonth, day);
 
     return Day(
       dayEvents: eventSelector.getEventsByDayMonthYear(
@@ -173,9 +177,14 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       weekDay: '',
       dayStyle: DayStyle(
           compactMode: DayOptions.of(context).compactMode,
-          enabled: specialDay?.isEnableDay ?? true,
+          enabled: DayOptions.of(context).disableDaysBeforeNow
+              ? !isBeforeToday
+              : specialDay?.isEnableDay ?? true,
           selected: day == currDay,
           useUnselectedEffect: false,
+          useDisabledEffect: DayOptions.of(context).disableDaysBeforeNow
+              ? isBeforeToday
+              : false,
           decoration: decoration),
       onCalendarChanged: () {
         CalendarUtils.goToDay(day);
@@ -226,7 +235,7 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
 
     final CalendarDateTime? specialDay =
         CalendarUtils.getFromSpecialDay(widget.specialDays, year, month, day);
-
+    bool isBeforeToday = CalendarUtils.isBeforeThanToday(year, month, day);
     BoxDecoration? decoration =
         StyleProvider.getSpecialDayDecoration(specialDay, year, month, day);
 
@@ -240,7 +249,9 @@ class _CalendarMonthlyState extends State<CalendarMonthly> {
       weekDay: '',
       dayStyle: DayStyle(
         compactMode: true,
-        enabled: specialDay?.isEnableDay ?? true,
+        enabled: DayOptions.of(context).disableDaysBeforeNow
+            ? !isBeforeToday
+            : specialDay?.isEnableDay ?? true,
         selected: false,
         decoration: decoration,
         useUnselectedEffect: true,

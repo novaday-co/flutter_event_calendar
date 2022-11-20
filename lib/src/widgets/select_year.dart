@@ -7,7 +7,7 @@ import '../models/style/select_year_options.dart';
 class SelectYear extends StatelessWidget {
   late List years;
 
-  Function onHeaderChanged;
+  Function(int year) onHeaderChanged;
 
   YearOptions? yearStyle;
 
@@ -34,12 +34,13 @@ class SelectYear extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(26), topRight: Radius.circular(26)),
-        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(26), topRight: Radius.circular(26)),
+        color: yearStyle?.backgroundColor,
       ),
       height: 380,
       child: Padding(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -51,7 +52,7 @@ class SelectYear extends StatelessWidget {
                 fontFamily: yearStyle?.font,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -60,8 +61,10 @@ class SelectYear extends StatelessWidget {
                 child: GridView.builder(
                     controller: _scrollController,
                     itemCount: years.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, mainAxisExtent: 50),
-                    itemBuilder: (context, index) => yearWidgetMaker(years[index], context)),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, mainAxisExtent: 50),
+                    itemBuilder: (context, index) =>
+                        yearWidgetMaker(years[index], context)),
               ),
             ),
           ],
@@ -74,8 +77,7 @@ class SelectYear extends StatelessWidget {
     return InkWell(
       onTap: (() {
         Navigator.pop(context);
-        CalendarUtils.goToYear(year);
-        onHeaderChanged.call();
+        onHeaderChanged.call(year);
       }),
       child: Center(
         child: Container(

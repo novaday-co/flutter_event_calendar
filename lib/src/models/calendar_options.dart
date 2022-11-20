@@ -10,6 +10,7 @@ class CalendarOptions extends Model {
   Color? headerMonthShadowColor;
   double? headerMonthElevation;
   ShapeBorder? headerMonthShape;
+  Color? bottomSheetBackColor;
 
   CalendarOptions(
       {this.toggleViewType = false,
@@ -18,7 +19,8 @@ class CalendarOptions extends Model {
       this.headerMonthShadowColor,
       this.headerMonthElevation,
       this.headerMonthShape,
-      this.font = ''});
+      this.font = '',
+      this.bottomSheetBackColor=Colors.white});
 
   static CalendarOptions of(BuildContext context) => ScopedModel.of<CalendarOptions>(context);
 }

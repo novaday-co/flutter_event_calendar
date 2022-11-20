@@ -28,6 +28,6 @@ abstract class CalendarProvider {
   int getDateTimePart(PartFormat format);
 
   List<int> getYears();
-
+  List<int> getDayAmount();
   CalendarType getCalendarType();
 }

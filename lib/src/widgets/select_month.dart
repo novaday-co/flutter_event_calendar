@@ -8,7 +8,7 @@ import '../models/style/select_month_options.dart';
 class SelectMonth extends StatelessWidget {
   late List months;
 
-  Function onHeaderChanged;
+  Function(int selectedMonth) onHeaderChanged;
 
   MonthOptions? monthStyle;
 
@@ -27,12 +27,13 @@ class SelectMonth extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(26), topRight: Radius.circular(26)),
-        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(26), topRight: Radius.circular(26)),
+        color: monthStyle?.backgroundColor,
       ),
       height: 380,
       child: Padding(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -44,7 +45,7 @@ class SelectMonth extends StatelessWidget {
                 fontFamily: monthStyle?.font,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -53,9 +54,11 @@ class SelectMonth extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Table(
-                      border: new TableBorder(
-                        horizontalInside: BorderSide(color: Colors.black12, width: 0.2),
-                        verticalInside: BorderSide(color: Colors.black12, width: 0.2),
+                      border: const TableBorder(
+                        horizontalInside:
+                            BorderSide(color: Colors.black12, width: 0.2),
+                        verticalInside:
+                            BorderSide(color: Colors.black12, width: 0.2),
                       ),
                       children: monthsWidgetMaker(context),
                     )
@@ -75,7 +78,7 @@ class SelectMonth extends StatelessWidget {
     List<Widget> _buildRowCells(int rowIndex) {
       List<TableCell> widgets = [];
       for (var j = 0; j < 3; j++) {
-        final mMonth = (rowIndex * 3) + j + 1;
+        final int mMonth = (rowIndex * 3) + j + 1;
         widgets.add(
           TableCell(
             verticalAlignment: TableCellVerticalAlignment.middle,
@@ -84,8 +87,7 @@ class SelectMonth extends StatelessWidget {
               child: InkWell(
                 onTap: (() {
                   Navigator.pop(context);
-                  CalendarUtils.goToMonth(mMonth);
-                  onHeaderChanged.call();
+                  onHeaderChanged.call(mMonth);
                 }),
                 child: Container(
                   padding: EdgeInsets.all(15),

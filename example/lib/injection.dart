@@ -17,7 +17,7 @@ setUp() {
   getit.registerLazySingleton(
     () => CalendarEventModel(
       calendarLanguage: "en",
-      calendarType: CalendarType.JALALI,
+      calendarType: CalendarType.GREGORIAN,
       headerOptions: getit(),
       calendarOptions: getit(),
       dayOptions: getit(),

@@ -10,8 +10,8 @@ typedef ViewTypeChangeCallback = Function(ViewType);
 class Header extends StatelessWidget {
   ViewTypeChangeCallback? onViewTypeChanged;
   Function onDateTimeReset;
-  Function onYearChanged;
-  Function onMonthChanged;
+  Function(int selectedYear) onYearChanged;
+  Function(int selectedMonth) onMonthChanged;
   Header({required this.onViewTypeChanged,required this.onYearChanged,required this.onMonthChanged,required this.onDateTimeReset});
 
   @override
@@ -34,7 +34,7 @@ class Header extends StatelessWidget {
                     onTap: () {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.previousMonth();
-                      onMonthChanged.call();
+                      onMonthChanged.call(CalendarUtils.getPartByInt(format:PartFormat.MONTH));
                     },
                     customBorder: CircleBorder(),
                     child: Padding(
@@ -136,7 +136,7 @@ class Header extends StatelessWidget {
                     onTap: () {
                       CalendarUtils.goToDay(1);
                       CalendarUtils.nextMonth();
-                      onMonthChanged.call();
+                      onMonthChanged.call(CalendarUtils.getPartByInt(format:PartFormat.MONTH));
                     },
                     child: Padding(
                       padding: EdgeInsets.all(8),

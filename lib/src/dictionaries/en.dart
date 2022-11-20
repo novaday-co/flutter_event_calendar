@@ -99,6 +99,7 @@ class En{
       'empty': 'Empty',
       'month_selector': 'Choose a month',
       'year_selector': 'Choose a year',
+      'day_selector':'choose a day'
     }
   };
 

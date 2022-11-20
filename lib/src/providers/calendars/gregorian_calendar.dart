@@ -95,7 +95,14 @@ class GregorianCalendar extends CalendarProvider {
     for (var i = -100; i <= 50; i++) years.add(year + i);
     return years;
   }
-
+  @override
+  List<int> getDayAmount() {
+    int month=_getSelectedDate().month;
+    int daysinCurrentMonth=getMonthDays(WeekDayStringTypes.FULL, month).length;
+    List<int> days=[];
+    for (var i = 1; i <= daysinCurrentMonth; i++) days.add(i);
+    return days;
+  }
   CalendarDateTime _getSelectedDate() {
     return EventCalendar.dateTime!;
   }
@@ -159,4 +166,6 @@ class GregorianCalendar extends CalendarProvider {
   CalendarType getCalendarType() {
     return CalendarType.GREGORIAN;
   }
+
+
 }

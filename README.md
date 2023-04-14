@@ -87,7 +87,7 @@ You have many option for changes in : style , locale and structure.
 | dayOptions	 	          | DayOptions 	                          |
 | showLoadingForEvent	 	 | bool 	                                |
 | specialDays	 	         | List<CalendarDateTime> 	              |
-| calendarLanguage	 	    | String(fa,en,pt) 	                    |
+| calendarLanguage	 	    | String(fa,en,pt,de) 	                    |
 
 ### Events
 
